@@ -1,3 +1,5 @@
+import Footer from "./components/Footer";
+import NavBar from "./components/NavBar";
 import "./globals.css";
 import { Open_Sans } from "next/font/google";
 
@@ -15,7 +17,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={openSans.className}>{children}</body>
+      <body className={openSans.className} suppressHydrationWarning={true}>
+        <NavBar />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }
