@@ -1,9 +1,9 @@
 import Link from "next/link";
 
-type Props = {
+interface Props {
   link: string;
   label: string;
-};
+}
 const MenuItem = ({ link, label }: Props) => {
   return (
     <Link

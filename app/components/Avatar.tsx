@@ -3,9 +3,9 @@
 import ava from "../../public/images/placeholder.jpg";
 import Image from "next/image";
 
-type Props = {
+interface Props {
   src: string | null | undefined;
-};
+}
 const Avatar = ({ src }: Props) => {
   return (
     <Image

@@ -4,8 +4,8 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
 import Avatar from "../Avatar";
-type Props = {};
-const UserMenu = (props: Props) => {
+
+const UserMenu = () => {
   const [open, setOpen] = useState(false);
 
   const toggleOpen = useCallback(() => {
