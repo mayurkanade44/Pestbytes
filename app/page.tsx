@@ -1,3 +1,3 @@
 export default function Home() {
-  return <main>Pest Bytes Blogs</main>;
+  return <div>Pest Bytes</div>;
 }
