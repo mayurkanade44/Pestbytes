@@ -31,7 +31,7 @@ const Navbar = () => {
     });
   };
   return (
-    <section className="fixed w-full bg-white z-10 shadow-sm border-b-[1px]">
+    <section className="sticky top-0 left-0 right-0 z-50 bg-white shadow-sm border-b-[1px]">
       <header className="container mx-auto px-5 flex justify-between py-4 items-center">
         <div>
           <img src={logo} className="w-32" alt="logo" />
