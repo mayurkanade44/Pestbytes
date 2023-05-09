@@ -1,4 +1,5 @@
 import BlogCard from "./BlogCard";
+import { FaArrowRight } from "react-icons/fa";
 
 const Blogs = () => {
   return (
@@ -7,6 +8,10 @@ const Blogs = () => {
         <BlogCard className="w-full md:w-[calc(50%-20px)] lg:w-[calc(33.33%-21px)]" />
         <BlogCard className="w-full md:w-[calc(50%-20px)] lg:w-[calc(33.33%-21px)]" />
       </div>
+      <button className="mx-auto flex items-center gap-x-2 font-bold text-primary border-2 border-primary px-5 py-2 rounded-lg">
+        <span>More blogs</span>
+        <FaArrowRight className="w-3 h-3" />
+      </button>
     </section>
   );
 };
