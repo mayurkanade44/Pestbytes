@@ -1,13 +1,19 @@
 import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Footer, Navbar } from "./components";
-import { Home } from "./pages";
+import { Home, SingleBlog } from "./pages";
 
 function App() {
   return (
     <div className="App font-opensans">
-      <Navbar />
-      <Home />
-      <Footer />
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/blog/:id" element={<SingleBlog />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
     </div>
   );
 }

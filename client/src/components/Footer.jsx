@@ -145,7 +145,7 @@ const Footer = () => {
         </footer>
       </section>
       <div className="bg-neutral-900 text-center text-white">
-        <div class="p-1 text-center">
+        <div className="p-1 text-center">
           © 2023 All Rights Reserved Pestbytes
         </div>
       </div>
