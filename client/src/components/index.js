@@ -3,5 +3,6 @@ import Navbar from "./Navbar";
 import Hero from "./Hero";
 import Blogs from "./Blogs";
 import BreadCrumbs from "./BreadCrumbs";
+import SuggestedBlogs from "./SuggestedBlogs";
 
-export { Navbar, Footer, Hero, Blogs, BreadCrumbs };
+export { Navbar, Footer, Hero, Blogs, BreadCrumbs, SuggestedBlogs };

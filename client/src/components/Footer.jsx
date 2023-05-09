@@ -146,7 +146,7 @@ const Footer = () => {
       </section>
       <div className="bg-neutral-900 text-center text-white">
         <div className="p-1 text-center">
-          © 2023 All Rights Reserved Pestbytes
+          © {new Date().getFullYear()} All Rights Reserved By Pestbytes
         </div>
       </div>
     </div>

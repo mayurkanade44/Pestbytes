@@ -1,6 +1,7 @@
 import { useState } from "react";
 import logo from "../assets/logo.png";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 
 const navItemsInfo = [
@@ -34,7 +35,9 @@ const Navbar = () => {
     <section className="sticky top-0 left-0 right-0 z-50 bg-white shadow-sm border-b-[1px]">
       <header className="container mx-auto px-5 flex justify-between py-4 items-center">
         <div>
-          <img src={logo} className="w-32" alt="logo" />
+          <Link to='/'>
+            <img src={logo} className="w-32" alt="logo" />
+          </Link>
         </div>
         <div className="lg:hidden z-50">
           {navIsVisible ? (
