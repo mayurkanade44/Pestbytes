@@ -1,4 +1,4 @@
-import { BreadCrumbs, SuggestedBlogs } from "../components";
+import { BreadCrumbs, Comments, SuggestedBlogs } from "../components";
 import post from "../assets/post.jpg";
 import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
@@ -55,6 +55,7 @@ const SingleBlog = () => {
             non possimus praesentium, neque voluptate similique expedita nobis
             est vel aut?
           </div>
+          <Comments />
         </article>
         <SuggestedBlogs
           header="Latest Article"

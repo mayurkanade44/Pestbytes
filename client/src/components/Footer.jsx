@@ -9,6 +9,7 @@ import {
 } from "react-icons/ai";
 import { FaFacebook } from "react-icons/fa";
 import { BsTelegram } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -76,7 +77,9 @@ const Footer = () => {
         </div> */}
         <footer className="container mx-auto grid grid-cols-1 px-2 pb-5 gap-y-5 gap-x-5 md:grid-cols-2 lg:grid-cols-2 lg:gap-x-10">
           <div className="md:order-first">
-            <h3 className="text-dark-light font-bold md:text-lg">About Pestbytes</h3>
+            <h3 className="text-dark-light font-bold md:text-lg">
+              About Pestbytes
+            </h3>
             <p className="text-sm text-dark-light text-center mt-4 md:text-left md:text-base lg:text-sm">
               Build a modern and creative website with crealand
             </p>
@@ -115,13 +118,13 @@ const Footer = () => {
               </h3>
               <ul className="text-[#959EAD] text-sm mt-5 space-y-4 md:text-base">
                 <li>
-                  <a href="/">Home</a>
+                  <Link to="/">Home</Link>
                 </li>
                 <li>
-                  <a href="/">About Us</a>
+                  <Link to="/">About Us</Link>
                 </li>
                 <li>
-                  <a href="/">Contact Us</a>
+                  <Link to="/">Contact Us</Link>
                 </li>
               </ul>
             </div>

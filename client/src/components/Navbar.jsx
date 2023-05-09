@@ -13,9 +13,9 @@ const navItemsInfo = [
 const NavItems = ({ name, href }) => {
   return (
     <li className="relative group">
-      <a href={href} className="px-4 py-2">
+      <Link to={href} className="px-4 py-2">
         {name}
-      </a>
+      </Link>
       <span className="cursor-pointer text-blue-500 absolute transition-all duration-500 font-bold right-0 top-0 group-hover:right-[90%] opacity-0 group-hover:opacity-100">
         /
       </span>
