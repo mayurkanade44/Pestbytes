@@ -60,7 +60,7 @@ const Comments = () => {
       <CommentForm btnLabel="Post" formSubmitHandler={() => {}} />
       <div className="space-y-4 mt-8">
         {comments.map((comment) => (
-          <div className="flex flex-nowrap items-start gap-x-3 bg-[#F2F4F5] p-3 rounded-lg">
+          <div key={comment._id} className="flex flex-nowrap items-start gap-x-3 bg-[#F2F4F5] p-3 rounded-lg">
             <img
               src={profile}
               alt="profile-pic"

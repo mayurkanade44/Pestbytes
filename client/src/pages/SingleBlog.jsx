@@ -1,4 +1,4 @@
-import { BreadCrumbs, Comments, SuggestedBlogs } from "../components";
+import { BreadCrumbs, Comments, SocialShare, SuggestedBlogs } from "../components";
 import post from "../assets/post.jpg";
 import logo from "../assets/logo.png";
 import profile from "../assets/profile.svg";
@@ -70,7 +70,6 @@ const SingleBlog = () => {
               Cockroach
             </Link>
           </div>
-
           <div className="mt-4 prose prose-sm sm:prose-base">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus
             repellat tenetur a tempora asperiores soluta quaerat vero nemo unde
@@ -79,12 +78,27 @@ const SingleBlog = () => {
           </div>
           <Comments />
         </article>
-        <SuggestedBlogs
-          header="Latest Article"
-          posts={postsData}
-          tags={tagsData}
-          className="mt-8 lg:mt-0 lg:max-w-xs"
-        />
+        <div>
+          <SuggestedBlogs
+            header="Latest Article"
+            posts={postsData}
+            tags={tagsData}
+            className="mt-8 lg:mt-0 lg:max-w-xs"
+          />
+          <div className="mt-7">
+            <h2 className="font-roboto font-medium text-dark-hard mb-4 md:text-xl">
+              Share on:
+            </h2>
+            <SocialShare
+              url={encodeURI(
+                "https://moonfo.com/post/client-side-and-server-side-explanation"
+              )}
+              title={encodeURIComponent(
+                "Client-side and Server-side explanation"
+              )}
+            />
+          </div>
+        </div>
       </section>
     </div>
   );

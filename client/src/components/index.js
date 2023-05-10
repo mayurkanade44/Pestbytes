@@ -5,5 +5,15 @@ import Blogs from "./Blogs";
 import BreadCrumbs from "./BreadCrumbs";
 import SuggestedBlogs from "./SuggestedBlogs";
 import Comments from "./Comments";
+import SocialShare from "./SocialShare";
 
-export { Navbar, Footer, Hero, Blogs, BreadCrumbs, SuggestedBlogs, Comments };
+export {
+  Navbar,
+  Footer,
+  Hero,
+  Blogs,
+  BreadCrumbs,
+  SuggestedBlogs,
+  Comments,
+  SocialShare,
+};
