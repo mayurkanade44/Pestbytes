@@ -7,7 +7,11 @@ const UserSchema = new mongoose.Schema(
     name: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    avatar: { type: String, default: "" },
+    avatar: {
+      type: String,
+      default:
+        "https://res.cloudinary.com/djc8opvcg/image/upload/v1683786516/Pestbytes/Avatar/profile_lqcjqg.png",
+    },
     verificationCode: { type: String },
     admin: { type: Boolean, default: false },
   },

@@ -109,10 +109,18 @@ export const updateAvatar = async (req, res) => {
     );
     fs.unlinkSync(req.files.image.tempFilePath);
 
-    return res.status(201).json({
-      msg: "Profile picture updated",
-      link: result.secure_url,
-    });
+    await User.findByIdAndUpdate(
+      { _id: req.user.userId },
+      { avatar: result.secure_url },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    return res
+      .status(200)
+      .json({ msg: "Profile picture updated", link: result.secure_url });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Server error, try again later." });
