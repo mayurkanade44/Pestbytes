@@ -9,7 +9,7 @@ const Comments = () => {
       _id: "10",
       user: {
         _id: "a",
-        name: "Mohammad Rezaii",
+        name: "Jon Doe",
       },
       desc: "it was a nice post, Thank you!",
       post: "1",
@@ -23,7 +23,7 @@ const Comments = () => {
         _id: "b",
         name: "Paul M. Williams",
       },
-      desc: "a reply for Mohammad",
+      desc: "good post",
       post: "1",
       parent: "10",
       replyOnUser: "a",

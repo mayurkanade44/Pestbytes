@@ -158,15 +158,9 @@ const Register = () => {
           <button
             type="submit"
             disabled={!isValid}
-            className="bg-primary text-white font-bold text-lg py-2 px-5 w-full rounded-lg mb-4 disabled:opacity-70 disabled:cursor-not-allowed"
+            className="bg-primary text-white font-bold mb-2 text-lg py-2 px-5 w-full rounded-lg disabled:opacity-70 disabled:cursor-not-allowed"
           >
             Register
-          </button>
-          <button
-            type="button"
-            className=" text-black font-bold py-2 px-5 w-full rounded-lg mb-4 border-black border-[1px]"
-          >
-            <FcGoogle className="absolute" size={24}  /> Log In With Google
           </button>
           <p className="text-sm font-semibold text-[#5a7184]">
             You have an account?{" "}
@@ -174,6 +168,18 @@ const Register = () => {
               Login now
             </Link>
           </p>
+          <div className="inline-flex items-center justify-center w-full">
+            <hr className="w-2/3 h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+            <span className="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2">
+              OR
+            </span>
+          </div>
+          <button
+            type="button"
+            className=" text-black font-bold py-2 px-5 w-full rounded-lg mb-4 border-black border-[1px]"
+          >
+            <FcGoogle className="absolute" size={24} /> Login With Google
+          </button>
         </form>
       </div>
     </section>

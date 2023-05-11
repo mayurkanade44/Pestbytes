@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcryptjs from "bcryptjs";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 const UserSchema = new mongoose.Schema(
@@ -12,19 +12,21 @@ const UserSchema = new mongoose.Schema(
       default:
         "https://res.cloudinary.com/djc8opvcg/image/upload/v1683786516/Pestbytes/Avatar/profile_lqcjqg.png",
     },
-    verificationCode: { type: String },
+    verificationToken: { type: String },
+    isVerified: { type: Boolean, default: false },
     admin: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
 
 UserSchema.pre("save", async function () {
-  const salt = await bcryptjs.genSalt(10);
-  this.password = await bcryptjs.hash(this.password, salt);
+  if (!this.isModified("password")) return;
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
 });
 
 UserSchema.methods.comparePassword = async function (password) {
-  return await bcryptjs.compare(password, this.password);
+  return await bcrypt.compare(password, this.password);
 };
 
 UserSchema.methods.createJWT = async function () {

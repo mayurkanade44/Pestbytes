@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
+import crypto from "crypto";
 
 export const registerUser = async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -11,7 +12,9 @@ export const registerUser = async (req, res, next) => {
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ msg: "User already exists" });
 
-    user = await User.create({ name, email, password });
+    const verificationToken = crypto.randomBytes(40).toString("hex");
+
+    user = await User.create({ name, email, password, verificationToken });
 
     return res.status(201).json({
       user: {
@@ -30,7 +33,31 @@ export const registerUser = async (req, res, next) => {
   }
 };
 
-export const loginUser = async (req, res, next) => {
+export const verifyUser = async (req, res) => {
+  const { verificationToken, email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) return res.status(401).json({ msg: "Verification Failed" });
+
+    if (verificationToken !== user.verificationToken)
+      return res.status(401).json({ msg: "Verification Failed" });
+
+    user.isVerified = true;
+    user.verificationToken = "";
+
+    await user.save();
+
+    return res
+      .status(200)
+      .json({ msg: "Email has been successfully verified, please login." });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Server error, try again later." });
+  }
+};
+
+export const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
     if (!password || !email)
@@ -39,7 +66,12 @@ export const loginUser = async (req, res, next) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ msg: "Invalid credentials" });
 
-    if (!(await user.comparePassword(password)))
+    if (!user.isVerified)
+      return res.status(401).json({ msg: "Email verification still pending" });
+
+    const passwordCheck = await user.comparePassword(password);
+
+    if (!passwordCheck)
       return res.status(400).json({ msg: "Invalid credentials" });
 
     return res.status(200).json({
