@@ -4,6 +4,7 @@ import {
   getUser,
   loginUser,
   registerUser,
+  updateAvatar,
   updateUser,
 } from "../controllers/userController.js";
 
@@ -14,6 +15,7 @@ router.route("/login").post(loginUser);
 router
   .route("/profile")
   .get(authenticateUser, getUser)
-  .patch(authenticateUser, updateUser);
+  .patch(authenticateUser, updateUser)
+  .post(authenticateUser, updateAvatar);
 
 export default router;

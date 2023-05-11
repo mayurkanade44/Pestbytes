@@ -1,13 +1,15 @@
 import User from "../models/User.js";
+import { v2 as cloudinary } from "cloudinary";
+import fs from "fs";
 
 export const registerUser = async (req, res, next) => {
   const { name, email, password } = req.body;
   try {
     if (!password || !email || !name)
-      throw new Error("Please provide all values");
+      return res.status(400).json({ msg: "Please provide all values" });
 
     let user = await User.findOne({ email });
-    if (user) throw new Error("User already exist");
+    if (user) return res.status(400).json({ msg: "User already exists" });
 
     user = await User.create({ name, email, password });
 
@@ -24,20 +26,21 @@ export const registerUser = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    next(error);
+    return res.status(500).json({ msg: "Server error, try again later." });
   }
 };
 
 export const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
   try {
-    if (!password || !email) throw new Error("Please provide all values");
+    if (!password || !email)
+      return res.status(400).json({ msg: "Please provide all values" });
 
     const user = await User.findOne({ email });
-    if (!user) throw new Error("Invalid credentials");
+    if (!user) return res.status(400).json({ msg: "Invalid credentials" });
 
     if (!(await user.comparePassword(password)))
-      throw new Error("Invalid credentials");
+      return res.status(400).json({ msg: "Invalid credentials" });
 
     return res.status(200).json({
       user: {
@@ -52,7 +55,7 @@ export const loginUser = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    next(error);
+    return res.status(500).json({ msg: "Server error, try again later." });
   }
 };
 
@@ -60,14 +63,12 @@ export const getUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.userId);
 
-    if (user) return res.status(200).json({ user });
+    if (!user) return res.status(404).json({ msg: "User not found" });
 
-    let error = new Error("User Not Found");
-    error.statusCode = 404;
-    next(error);
+    return res.status(200).json({ user });
   } catch (error) {
     console.log(error);
-    next(error);
+    return res.status(500).json({ msg: "Server error, try again later." });
   }
 };
 
@@ -76,11 +77,12 @@ export const updateUser = async (req, res, next) => {
   try {
     let user = await User.findById(req.user.userId);
 
-    if (!user) throw new Error("User does not exists");
+    if (!user) return res.status(404).json({ msg: "User not found" });
 
     if (email !== user.email) {
       const alreadyExists = await User.findOne({ email });
-      if (alreadyExists) throw new Error("Email id already exists");
+      if (alreadyExists)
+        return res.status(400).json({ msg: "Email id already exists" });
     }
 
     user.name = name;
@@ -91,6 +93,28 @@ export const updateUser = async (req, res, next) => {
     return res.status(200).json({ user, msg: "Profile successfully updated" });
   } catch (error) {
     console.log(error);
-    next(error);
+    return res.status(500).json({ msg: "Server error, try again later." });
+  }
+};
+
+export const updateAvatar = async (req, res) => {
+  try {
+    const result = await cloudinary.uploader.upload(
+      req.files.image.tempFilePath,
+      {
+        use_filename: true,
+        folder: "Pestbytes/Avatar",
+        quality: 50,
+      }
+    );
+    fs.unlinkSync(req.files.image.tempFilePath);
+
+    return res.status(201).json({
+      msg: "Profile picture updated",
+      link: result.secure_url,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Server error, try again later." });
   }
 };
