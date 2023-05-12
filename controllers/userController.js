@@ -1,7 +1,8 @@
 import User from "../models/User.js";
 import { v2 as cloudinary } from "cloudinary";
-import fs from "fs";
+import fs, { link } from "fs";
 import crypto from "crypto";
+import sgMail from "@sendgrid/mail";
 
 export const registerUser = async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -16,20 +17,38 @@ export const registerUser = async (req, res, next) => {
 
     user = await User.create({ name, email, password, verificationToken });
 
+    const link = `http://localhost:5173/verify-account?email=${email}&token=${verificationToken}`;
+    const mail = await sendEmail({ name, email, link });
+    if (!mail)
+      return res.status(500).json({ msg: "Server error, try again later." });
+
     return res.status(201).json({
-      user: {
-        userId: user._id,
-        name: user.name,
-        email: user.email,
-        avatar: user.avatar,
-        admin: user.admin,
-        token: await user.createJWT(),
-      },
-      msg: `Welcome ${user.name}`,
+      msg: `Verification email has been sent to your registered email id`,
     });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Server error, try again later." });
+  }
+};
+
+const sendEmail = async ({ name, email, link }) => {
+  try {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+    const msg = {
+      to: email,
+      from: { email: "noreply.epcorn@gmail.com", name: "PestBytes" },
+      dynamic_template_data: {
+        name: name,
+        link: link,
+      },
+      template_id: "d-7949d5cffefe46a7b6a0eab95b71076e",
+    };
+
+    return sgMail.send(msg);
+  } catch (error) {
+    console.log(error);
+    return false;
   }
 };
 
@@ -56,6 +75,8 @@ export const verifyUser = async (req, res) => {
     return res.status(500).json({ msg: "Server error, try again later." });
   }
 };
+
+
 
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
