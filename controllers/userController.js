@@ -63,7 +63,7 @@ export const verifyUser = async (req, res) => {
       return res.status(401).json({ msg: "Verification Failed" });
 
     user.isVerified = true;
-    user.verificationToken = "";
+    user.verificationToken = null;
 
     await user.save();
 
@@ -75,8 +75,6 @@ export const verifyUser = async (req, res) => {
     return res.status(500).json({ msg: "Server error, try again later." });
   }
 };
-
-
 
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -106,6 +104,79 @@ export const loginUser = async (req, res) => {
       },
       msg: `Welcome ${user.name}`,
     });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Server error, try again later." });
+  }
+};
+
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  try {
+    if (!email)
+      return res.status(400).json({ msg: "Please provide valid email" });
+
+    const user = await User.findOne({ email });
+    if (user) {
+      const passwordToken = crypto.randomBytes(70).toString("hex");
+
+      const tenMin = 1000 * 60 * 10;
+      const resetPasswordExpiry = new Date(Date.now() + tenMin);
+
+      user.passwordToken = passwordToken;
+      user.resetPasswordExpiry = resetPasswordExpiry;
+
+      await user.save();
+
+      const link = `http://localhost:5173/reset-password?email=${email}&token=${passwordToken}`;
+
+      const mail = await sendEmail({ name: user.name, email, link });
+
+      if (!mail)
+        return res
+          .status(400)
+          .json({ msg: "There was some error, try again later." });
+    }
+
+    return res
+      .status(200)
+      .json({ msg: "Please check your email for reset password link" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Server error, try again later." });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  const { email, password, token } = req.body;
+  try {
+    if (!email || !password || !token)
+      return res.status(400).json({ msg: "Please provide values" });
+
+    const user = await User.findOne({ email });
+
+    if (user) {
+      const currentDate = new Date().toISOString;
+
+      console.log(currentDate);
+      console.log(user.resetPasswordExpiry > currentDate);
+
+      if (
+        user.passwordToken === token &&
+        user.resetPasswordExpiry > currentDate
+      ) {
+        user.password = password;
+        user.passwordToken = null;
+        user.resetPasswordExpiry = null;
+
+        await user.save();
+        console.log('ok');
+      }
+    }
+
+    return res
+      .status(200)
+      .json({ msg: "Successfully updated, redirecting to login page" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Server error, try again later." });
