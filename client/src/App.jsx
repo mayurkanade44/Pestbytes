@@ -1,7 +1,14 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Footer, Navbar } from "./components";
-import { Home, Register, SingleBlog } from "./pages";
+import {
+  ForgotPassword,
+  Home,
+  Register,
+  ResetPassword,
+  SingleBlog,
+  VerifyAccount,
+} from "./pages";
 
 function App() {
   return (
@@ -10,8 +17,11 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/blog/:id" element={<SingleBlog />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/verify-account" element={<VerifyAccount />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/blog/:id" element={<SingleBlog />} />
         </Routes>
         <Footer />
       </BrowserRouter>

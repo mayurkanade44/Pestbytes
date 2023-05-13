@@ -163,9 +163,9 @@ const Register = () => {
             Register
           </button>
           <p className="text-sm font-semibold text-[#5a7184]">
-            You have an account?{" "}
+            Already have an account?{" "}
             <Link to="/login" className="text-primary">
-              Login now
+              Log In
             </Link>
           </p>
           <div className="inline-flex items-center justify-center w-full">
