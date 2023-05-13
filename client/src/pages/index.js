@@ -4,7 +4,7 @@ import Register from "./Register";
 import VerifyAccount from "./VerifyAccount";
 import ForgotPassword from "./ForgotPassword";
 import ResetPassword from "./ResetPassword";
-
+import Login from "./Login";
 
 export {
   Home,
@@ -13,4 +13,5 @@ export {
   VerifyAccount,
   ForgotPassword,
   ResetPassword,
+  Login,
 };

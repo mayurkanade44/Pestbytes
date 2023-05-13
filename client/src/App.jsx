@@ -4,6 +4,7 @@ import { Footer, Navbar } from "./components";
 import {
   ForgotPassword,
   Home,
+  Login,
   Register,
   ResetPassword,
   SingleBlog,
@@ -18,6 +19,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/verify-account" element={<VerifyAccount />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />

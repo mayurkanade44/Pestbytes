@@ -18,7 +18,7 @@ const Register = () => {
     mode: "onChange",
   });
 
-  const password = watch("password");
+  const password = watch("password"); // to compare password
 
   const submitHandler = () => {};
 
@@ -26,7 +26,7 @@ const Register = () => {
     <section className="container mx-auto px-5 py-10">
       <div className="w-full max-w-xl mx-auto">
         <h1 className="font-roboto text-2xl font-bold text-center text-dark-hard mb-4">
-          Sign Up
+          Register
         </h1>
         <form onSubmit={handleSubmit(submitHandler)}>
           <div className="grid md:grid-cols-2 gap-x-3">

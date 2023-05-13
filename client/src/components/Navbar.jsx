@@ -59,9 +59,9 @@ const Navbar = () => {
               <NavItems key={item.name} name={item.name} href={item.href} />
             ))}
           </ul>
-          <button className="mt-8 lg:mt-0 border-2 border-blue-500 px-4 py-1 rounded-full text-blue-500 font-semibold hover:bg-blue-500 hover:text-white transition-all duration-300">
-            Sign In
-          </button>
+          <Link to='/login' className="mt-8 lg:mt-0 border-2 border-blue-500 px-4 py-1 rounded-full text-blue-500 font-semibold hover:bg-blue-500 hover:text-white transition-all duration-300">
+            Log In
+          </Link>
         </div>
       </header>
     </section>
