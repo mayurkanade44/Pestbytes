@@ -6,7 +6,12 @@ const ForgotPassword = () => {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm({ defaultValues: { email: "" } }, { mode: "onChange" });
+  } = useForm({
+    defaultValues: {
+      email: "",
+    },
+    mode: "onChange",
+  });
 
   const submitHandler = () => {};
 
@@ -38,7 +43,7 @@ const ForgotPassword = () => {
                   message: "Email is required",
                 },
               })}
-              placeholder="Enter Email Id"
+              placeholder="Enter Registered Email Id"
               className={`placeholder:text-[#959ead] text-dark-hard mt-1 rounded-lg px-3 py-2 font-semibold block outline-none border ${
                 errors.email ? "border-red-500" : "border-[#c3cad9]"
               }`}

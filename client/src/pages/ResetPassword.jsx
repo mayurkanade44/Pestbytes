@@ -6,7 +6,12 @@ const ForgotPassword = () => {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm({ defaultValues: { password: "" } }, { mode: "onChange" });
+  } = useForm({
+    defaultValues: {
+      password: "",
+    },
+    mode: "onChange",
+  });
 
   const submitHandler = () => {};
 
