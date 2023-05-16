@@ -1,5 +1,11 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  Outlet,
+  Route,
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider,
+} from "react-router-dom";
 import { Footer, Navbar } from "./components";
 import {
   ForgotPassword,
@@ -14,25 +20,33 @@ import {
 } from "./pages";
 
 function App() {
-  return (
-    <div className="App font-opensans">
-      <BrowserRouter>
+  const Layout = () => {
+    return (
+      <div className="App font-opensans">
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/profile" element={<UserProfile />} />
-          <Route path="/verify-account" element={<VerifyAccount />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/add-blog" element={<AddBlog />} />
-          <Route path="/blog/:id" element={<SingleBlog />} />
-        </Routes>
+        <Outlet />
         <Footer />
-      </BrowserRouter>
-    </div>
+      </div>
+    );
+  };
+
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<Layout />}>
+        <Route index={true} path="/" element={<Home />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<UserProfile />} />
+        <Route path="/verify-account" element={<VerifyAccount />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/add-blog" element={<AddBlog />} />
+        <Route path="/blog/:id" element={<SingleBlog />} />
+      </Route>
+    )
   );
+
+  return <RouterProvider router={router} />;
 }
 
 export default App;
