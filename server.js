@@ -4,8 +4,8 @@ import dotenv from "dotenv";
 import { v2 as cloudinary } from "cloudinary";
 import fileUpload from "express-fileupload";
 
-import { invalidRoute } from "./middleware/errorHandler.js";
 import userRouter from "./routes/userRoute.js";
+import { notFound } from "./middleware/errorMiddleware.js";
 
 const app = express();
 dotenv.config();
@@ -22,7 +22,7 @@ app.use(fileUpload({ useTempFiles: true }));
 
 app.use("/api/user", userRouter);
 
-app.use(invalidRoute);
+app.use(notFound);
 
 const port = process.env.PORT || 5000;
 const start = async () => {
