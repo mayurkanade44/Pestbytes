@@ -102,7 +102,7 @@ const Login = () => {
             Log In
           </button>
           <p className="text-sm font-semibold text-[#5a7184]">
-            Do not have an account?{" "}
+            Don't have an account?{" "}
             <Link to="/register" className="text-primary">
               Register Now
             </Link>

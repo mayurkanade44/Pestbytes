@@ -5,6 +5,10 @@ import VerifyAccount from "./VerifyAccount";
 import ForgotPassword from "./ForgotPassword";
 import ResetPassword from "./ResetPassword";
 import Login from "./Login";
+import UserProfile from "./UserProfile";
+import AddBlog from "./AddBlog";
+
+
 
 export {
   Home,
@@ -14,4 +18,6 @@ export {
   ForgotPassword,
   ResetPassword,
   Login,
+  UserProfile,
+  AddBlog,
 };

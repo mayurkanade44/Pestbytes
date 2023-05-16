@@ -1,8 +1,9 @@
 import { useState } from "react";
 import logo from "../assets/logo.png";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { MdKeyboardArrowDown } from "react-icons/md";
 import { Link } from "react-router-dom";
-
+import profile from "../assets/profile.svg";
 
 const navItemsInfo = [
   { name: "Home", type: "link", href: "/" },
@@ -25,6 +26,7 @@ const NavItems = ({ name, href }) => {
 
 const Navbar = () => {
   const [navIsVisible, setNavIsVisible] = useState(false);
+  const [profileDropdown, setProfileDropdown] = useState(false);
 
   const navVisibilityHandler = () => {
     setNavIsVisible((curState) => {
@@ -35,7 +37,7 @@ const Navbar = () => {
     <section className="sticky top-0 left-0 right-0 z-50 bg-white shadow-sm border-b-[1px]">
       <header className="container mx-auto px-5 flex justify-between py-4 items-center">
         <div>
-          <Link to='/'>
+          <Link to="/">
             <img src={logo} className="w-32" alt="logo" />
           </Link>
         </div>
@@ -59,9 +61,62 @@ const Navbar = () => {
               <NavItems key={item.name} name={item.name} href={item.href} />
             ))}
           </ul>
-          <Link to='/login' className="mt-8 lg:mt-0 border-2 border-blue-500 px-4 py-1 rounded-full text-blue-500 font-semibold hover:bg-blue-500 hover:text-white transition-all duration-300">
+          <Link
+            to="/login"
+            className="mt-8 lg:mt-0 border-2 border-blue-500 px-4 py-1 rounded-full text-blue-500 font-semibold hover:bg-blue-500 hover:text-white transition-all duration-300"
+          >
             Log In
           </Link>
+          <div className="text-white items-center gap-y-5 lg:text-dark-soft flex flex-col lg:flex-row gap-x-2 font-semibold">
+            <div className="relative group">
+              <div className="flex flex-col items-center">
+                <button
+                  className="flex gap-x-1 items-center mt-4 lg:mt-0 px-4 py-1 rounded-full text-dark font-semibold"
+                  onClick={() => setProfileDropdown(!profileDropdown)}
+                >
+                  <img
+                    src={profile}
+                    alt="user-profile"
+                    className="w-6 rounded-full mr-2"
+                  />
+                  <span>Mayur</span>
+                  <MdKeyboardArrowDown />
+                </button>
+                <div
+                  className={`${
+                    profileDropdown ? "block" : "hidden"
+                  } lg:hidden transition-all duration-500 pt-1 lg:absolute lg:bottom-0 lg:right-0 lg:transform lg:translate-y-full lg:group-hover:block w-[120px]`}
+                >
+                  <ul className="bg-dark-soft lg:bg-white text-center flex flex-col shadow-lg rounded-lg overflow-hidden">
+                    <Link
+                      to="/add-blog"
+                      className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft"
+                    >
+                      Add Blog
+                    </Link>
+                    <Link
+                      to="/profile"
+                      className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft"
+                    >
+                      Favorites
+                    </Link>
+                    <Link
+                      to="/profile"
+                      className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft"
+                    >
+                      Profile
+                    </Link>
+                    <button
+                      type="button"
+                      className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft"
+                    >
+                      Logout
+                    </button>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </header>
     </section>

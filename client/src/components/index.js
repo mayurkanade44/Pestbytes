@@ -6,6 +6,7 @@ import BreadCrumbs from "./BreadCrumbs";
 import SuggestedBlogs from "./SuggestedBlogs";
 import Comments from "./Comments";
 import SocialShare from "./SocialShare";
+import BlogRow from "./BlogRow";
 
 export {
   Navbar,
@@ -16,4 +17,5 @@ export {
   SuggestedBlogs,
   Comments,
   SocialShare,
+  BlogRow,
 };

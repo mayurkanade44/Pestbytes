@@ -9,6 +9,8 @@ import {
   ResetPassword,
   SingleBlog,
   VerifyAccount,
+  UserProfile,
+  AddBlog,
 } from "./pages";
 
 function App() {
@@ -20,9 +22,11 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<UserProfile />} />
           <Route path="/verify-account" element={<VerifyAccount />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/add-blog" element={<AddBlog />} />
           <Route path="/blog/:id" element={<SingleBlog />} />
         </Routes>
         <Footer />
