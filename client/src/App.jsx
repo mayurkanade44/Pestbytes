@@ -1,4 +1,6 @@
 import "./App.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Outlet,
   Route,
@@ -23,6 +25,7 @@ function App() {
   const Layout = () => {
     return (
       <div className="App font-opensans">
+        <ToastContainer position="top-center" autoClose={2000} />
         <Navbar />
         <Outlet />
         <Footer />

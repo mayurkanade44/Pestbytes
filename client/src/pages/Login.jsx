@@ -1,9 +1,23 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { useDispatch, useSelector } from "react-redux";
+import { useLoginMutation } from "../redux/userSlice";
+import { setCredentials } from "../redux/authSlice";
+import { toast } from "react-toastify";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector((store) => store.auth);
+
+  const [login, { isLoading }] = useLoginMutation();
+
+  useEffect(() => {
+    if (user) navigate("/");
+  }, [navigate, user]);
+
   const {
     handleSubmit,
     register,
@@ -16,7 +30,17 @@ const Login = () => {
     mode: "onChange",
   });
 
-  const submitHandler = () => {};
+  const submitHandler = async (data) => {
+    try {
+      const res = await login(data).unwrap();
+      dispatch(setCredentials(res));
+      navigate("/");
+      toast.success(res.msg);
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.data?.msg || error.error);
+    }
+  };
 
   return (
     <section className="container mx-auto px-5 py-10">
