@@ -1,27 +1,29 @@
 import express from "express";
-import { authenticateUser } from "../middleware/authMiddleware.js";
 import {
-  forgotPassword,
-  getUser,
   loginUser,
   registerUser,
-  resetPassword,
+  logoutUser,
+  getUserProfile,
+  updateUserProfile,
   updateAvatar,
-  updateUser,
   verifyUser,
+  resetPassword,
+  forgotPassword,
 } from "../controllers/userController.js";
+import { authenticateUser } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.route("/register").post(registerUser);
-router.route("/login").post(loginUser);
+router.post("/register", registerUser);
+router.post("/login", loginUser);
+router.post("/logout", logoutUser);
 router.route("/verify-user").post(verifyUser);
 router.route("/reset-password").post(resetPassword);
 router.route("/forgot-password").post(forgotPassword);
 router
   .route("/profile")
-  .get(authenticateUser, getUser)
-  .patch(authenticateUser, updateUser)
+  .get(authenticateUser, getUserProfile)
+  .patch(authenticateUser, updateUserProfile)
   .post(authenticateUser, updateAvatar);
 
 export default router;

@@ -1,5 +1,8 @@
 export const notFound = (req, res, next) => {
-  let error = new Error(`Not Found ${req.originalUrl}`);
-  error.statusCode = 404;
+  const error = new Error(`Not Found - ${req.originalUrl}`);
+  res.status(404);
   next(error);
 };
+
+
+

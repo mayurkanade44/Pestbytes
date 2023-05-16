@@ -1,10 +1,10 @@
-import User from "../models/User.js";
-import { v2 as cloudinary } from "cloudinary";
-import fs, { link } from "fs";
+import User from "../models/userModel.js";
+import generateToken from "../utils/generateToken.js";
+import fs from "fs";
 import crypto from "crypto";
-import sgMail from "@sendgrid/mail";
+import { v2 as cloudinary } from "cloudinary";
 
-export const registerUser = async (req, res, next) => {
+export const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
   try {
     if (!password || !email || !name)
@@ -93,6 +93,8 @@ export const loginUser = async (req, res) => {
     if (!passwordCheck)
       return res.status(400).json({ msg: "Invalid credentials" });
 
+    generateToken(res, user._id);
+
     return res.status(200).json({
       user: {
         userId: user._id,
@@ -100,7 +102,6 @@ export const loginUser = async (req, res) => {
         email: user.email,
         avatar: user.avatar,
         admin: user.admin,
-        token: await user.createJWT(),
       },
       msg: `Welcome ${user.name}`,
     });
@@ -158,9 +159,6 @@ export const resetPassword = async (req, res) => {
     if (user) {
       const currentDate = new Date().toISOString;
 
-      console.log(currentDate);
-      console.log(user.resetPasswordExpiry > currentDate);
-
       if (
         user.passwordToken === token &&
         user.resetPasswordExpiry > currentDate
@@ -170,7 +168,6 @@ export const resetPassword = async (req, res) => {
         user.resetPasswordExpiry = null;
 
         await user.save();
-        console.log('ok');
       }
     }
 
@@ -183,9 +180,17 @@ export const resetPassword = async (req, res) => {
   }
 };
 
-export const getUser = async (req, res, next) => {
+export const logoutUser = (req, res) => {
+  res.cookie("token", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(200).json({ message: "Logged out successfully" });
+};
+
+export const getUserProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user.userId);
+    const user = await User.findById(req.user._id);
 
     if (!user) return res.status(404).json({ msg: "User not found" });
 
@@ -196,10 +201,10 @@ export const getUser = async (req, res, next) => {
   }
 };
 
-export const updateUser = async (req, res, next) => {
+export const updateUserProfile = async (req, res) => {
   const { name, email, avatar } = req.body;
   try {
-    let user = await User.findById(req.user.userId);
+    let user = await User.findById(req.user._id);
 
     if (!user) return res.status(404).json({ msg: "User not found" });
 
@@ -234,7 +239,7 @@ export const updateAvatar = async (req, res) => {
     fs.unlinkSync(req.files.image.tempFilePath);
 
     await User.findByIdAndUpdate(
-      { _id: req.user.userId },
+      { _id: req.user._id },
       { avatar: result.secure_url },
       {
         new: true,

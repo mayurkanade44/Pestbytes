@@ -1,19 +1,22 @@
 import jwt from "jsonwebtoken";
 
-export const authenticateUser = async (req, res, next) => {
-  try {
-    const authHeaders = req.headers.authorization;
-    if (!authHeaders || !authHeaders.startsWith("Bearer"))
-      return res.status(401).json({ msg: "Authentication Invalid" });
+import User from "../models/userModel.js";
 
-    const token = authHeaders.split(" ")[1];
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = {
-      userId: payload.userId,
-    };
-    next();
-  } catch (error) {
-    console.log(error);
-    return res.status(401).json({ msg: "Authentication Invalid" });
+export const authenticateUser = async (req, res, next) => {
+  const token = req.cookies.token;
+
+  if (!token) return res.status(401).json({ msg: "Authentication Invalid" });
+
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = await User.findById(decoded.userId).select("-password");
+      next();
+    } catch (error) {
+      console.error(error);
+      res.status(401).json({ msg: "Authentication Invalid" });
+    }
+  } else {
+    res.status(401).json({ msg: "Authentication Invalid" });
   }
 };
