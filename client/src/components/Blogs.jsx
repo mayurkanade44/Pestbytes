@@ -3,8 +3,10 @@ import { FaArrowRight } from "react-icons/fa";
 
 const Blogs = () => {
   return (
-    <section className="flex flex-col container mx-auto px-5 py-10">
+    <section className="flex flex-col container mx-auto px-5 py-5">
+      <h1 className="text-2xl pb-4 font-bold">In the Spotlight: Partnerships</h1>
       <div className="flex flex-wrap md:gap-x-5 gap-y-5 pb-10">
+        <BlogCard className="w-full md:w-[calc(50%-20px)] lg:w-[calc(33.33%-21px)]" />
         <BlogCard className="w-full md:w-[calc(50%-20px)] lg:w-[calc(33.33%-21px)]" />
         <BlogCard className="w-full md:w-[calc(50%-20px)] lg:w-[calc(33.33%-21px)]" />
       </div>
