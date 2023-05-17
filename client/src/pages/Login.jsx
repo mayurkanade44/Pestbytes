@@ -118,7 +118,7 @@ const Login = () => {
           </Link>
           <button
             type="submit"
-            disabled={!isValid}
+            disabled={!isValid || isLoading}
             className="bg-primary text-white font-bold text-lg py-2 px-4 w-full rounded-lg my-2 disabled:opacity-70 disabled:cursor-not-allowed"
           >
             Log In

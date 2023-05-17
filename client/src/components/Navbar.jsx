@@ -4,7 +4,10 @@ import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Link } from "react-router-dom";
 import profile from "../assets/profile.svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useLogoutMutation } from "../redux/userSlice";
+import { logout } from "../redux/authSlice";
+import { toast } from "react-toastify";
 
 const navItemsInfo = [
   { name: "Home", type: "link", href: "/" },
@@ -29,11 +32,23 @@ const Navbar = () => {
   const [navIsVisible, setNavIsVisible] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(false);
   const { user } = useSelector((store) => store.auth);
+  const [logoutUser] = useLogoutMutation();
+  const dispatch = useDispatch();
 
   const navVisibilityHandler = () => {
     setNavIsVisible((curState) => {
       return !curState;
     });
+  };
+
+  const logoutHandler = async () => {
+    try {
+      const res = await logoutUser();
+      dispatch(logout());
+      toast.success(res.msg);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <section className="sticky top-0 left-0 right-0 z-50 bg-white shadow-sm border-b-[1px]">
@@ -99,6 +114,7 @@ const Navbar = () => {
                       </Link>
                       <button
                         type="button"
+                        onClick={logoutHandler}
                         className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft"
                       >
                         Logout

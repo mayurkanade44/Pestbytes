@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
-import { useDispatch } from "react-redux";
 import { useRegisterMutation } from "../redux/userSlice";
 import { toast } from "react-toastify";
 
 const Register = () => {
-  const dispatch = useDispatch();
   const [registerUser, { isLoading }] = useRegisterMutation();
 
   const {
@@ -28,7 +26,7 @@ const Register = () => {
 
   const submitHandler = async (data) => {
     try {
-      const res = await registerUser(data).unwrap()
+      const res = await registerUser(data).unwrap();
       toast.success(res.msg);
     } catch (error) {
       console.log(error);
@@ -171,7 +169,7 @@ const Register = () => {
           </div>
           <button
             type="submit"
-            disabled={!isValid}
+            disabled={!isValid || isLoading}
             className="bg-primary text-white font-bold mb-2 text-lg py-2 px-5 w-full rounded-lg disabled:opacity-70 disabled:cursor-not-allowed"
           >
             Register
