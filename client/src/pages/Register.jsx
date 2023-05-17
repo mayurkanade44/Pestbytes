@@ -1,8 +1,14 @@
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
+import { useDispatch } from "react-redux";
+import { useRegisterMutation } from "../redux/userSlice";
+import { toast } from "react-toastify";
 
 const Register = () => {
+  const dispatch = useDispatch();
+  const [registerUser, { isLoading }] = useRegisterMutation();
+
   const {
     handleSubmit,
     register,
@@ -20,7 +26,15 @@ const Register = () => {
 
   const password = watch("password"); // to compare password
 
-  const submitHandler = () => {};
+  const submitHandler = async (data) => {
+    try {
+      const res = await registerUser(data).unwrap()
+      toast.success(res.msg);
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.data?.msg || error.error);
+    }
+  };
 
   return (
     <section className="container mx-auto px-5 py-10">

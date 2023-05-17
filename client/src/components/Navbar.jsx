@@ -4,6 +4,7 @@ import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Link } from "react-router-dom";
 import profile from "../assets/profile.svg";
+import { useSelector } from "react-redux";
 
 const navItemsInfo = [
   { name: "Home", type: "link", href: "/" },
@@ -27,6 +28,7 @@ const NavItems = ({ name, href }) => {
 const Navbar = () => {
   const [navIsVisible, setNavIsVisible] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(false);
+  const { user } = useSelector((store) => store.auth);
 
   const navVisibilityHandler = () => {
     setNavIsVisible((curState) => {
@@ -54,69 +56,66 @@ const Navbar = () => {
         <div
           className={`${
             navIsVisible ? "right-0" : "-right-full"
-          } transition-all duration-300 mt-[56px] lg:mt-0 bg-dark-hard lg:bg-transparent z-[49] flex flex-col w-full lg:w-auto justify-center lg:justify-end lg:flex-row fixed top-0 bottom-0 lg:static gap-x-9 items-center`}
+          } transition-all duration-300 mt-[56px] lg:mt-0 bg-dark-hard lg:bg-transparent z-[49] flex flex-col w-full lg:w-auto justify-center lg:justify-end lg:flex-row fixed top-0 bottom-0 lg:static gap-x-2 items-center`}
         >
           <ul className="text-white items-center gap-y-7 lg:text-dark-soft flex flex-col lg:flex-row gap-x-2 font-semibold">
             {navItemsInfo.map((item) => (
               <NavItems key={item.name} name={item.name} href={item.href} />
             ))}
           </ul>
-          <Link
-            to="/login"
-            className="mt-8 lg:mt-0 border-2 border-blue-500 px-4 py-1 rounded-full text-blue-500 font-semibold hover:bg-blue-500 hover:text-white transition-all duration-300"
-          >
-            Log In
-          </Link>
-          <div className="text-white items-center gap-y-5 lg:text-dark-soft flex flex-col lg:flex-row gap-x-2 font-semibold">
-            <div className="relative group">
-              <div className="flex flex-col items-center">
-                <button
-                  className="flex gap-x-1 items-center mt-4 lg:mt-0 px-4 py-1 rounded-full text-dark font-semibold"
-                  onClick={() => setProfileDropdown(!profileDropdown)}
-                >
-                  <img
-                    src={profile}
-                    alt="user-profile"
-                    className="w-6 rounded-full mr-2"
-                  />
-                  <span>Mayur</span>
-                  <MdKeyboardArrowDown />
-                </button>
-                <div
-                  className={`${
-                    profileDropdown ? "block" : "hidden"
-                  } lg:hidden transition-all duration-500 pt-1 lg:absolute lg:bottom-0 lg:right-0 lg:transform lg:translate-y-full lg:group-hover:block w-[120px]`}
-                >
-                  <ul className="bg-dark-soft lg:bg-white text-center flex flex-col shadow-lg rounded-lg overflow-hidden">
-                    <Link
-                      to="/add-blog"
-                      className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft"
-                    >
-                      Add Blog
-                    </Link>
-                    <Link
-                      to="/profile"
-                      className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft"
-                    >
-                      Favorites
-                    </Link>
-                    <Link
-                      to="/profile"
-                      className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft"
-                    >
-                      Profile
-                    </Link>
-                    <button
-                      type="button"
-                      className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft"
-                    >
-                      Logout
-                    </button>
-                  </ul>
+          {user ? (
+            <div className="text-white items-center gap-y-5 lg:text-dark-soft flex flex-col lg:flex-row gap-x-2 font-semibold">
+              <div className="relative group">
+                <div className="flex flex-col items-center">
+                  <button
+                    className="flex gap-x-1 items-center mt-4 lg:mt-0 px-4 py-1 rounded-full text-dark font-semibold"
+                    onClick={() => setProfileDropdown(!profileDropdown)}
+                  >
+                    <img
+                      src={user.avatar}
+                      alt="user-profile"
+                      className="w-6 rounded-full mr-2"
+                    />
+                    <span>{user.name.split(" ")[0]}</span>
+                    <MdKeyboardArrowDown />
+                  </button>
+                  <div
+                    className={`${
+                      profileDropdown ? "block" : "hidden"
+                    } lg:hidden transition-all duration-500 pt-1 lg:absolute lg:bottom-0 lg:right-0 lg:transform lg:translate-y-full lg:group-hover:block w-[120px]`}
+                  >
+                    <ul className="bg-dark-soft lg:bg-white text-center flex flex-col shadow-lg rounded-lg overflow-hidden">
+                      <Link
+                        to="/add-blog"
+                        className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft"
+                      >
+                        Add Blog
+                      </Link>
+                      <Link
+                        to="/profile"
+                        className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft"
+                      >
+                        Profile
+                      </Link>
+                      <button
+                        type="button"
+                        className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft"
+                      >
+                        Logout
+                      </button>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <Link
+              to="/login"
+              className="mt-8 lg:mt-0 border-2 border-blue-500 px-4 py-1 rounded-full text-blue-500 font-semibold hover:bg-blue-500 hover:text-white transition-all duration-300"
+            >
+              Log In
+            </Link>
+          )}
         </div>
       </header>
     </section>

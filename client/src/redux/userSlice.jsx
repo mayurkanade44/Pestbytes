@@ -9,7 +9,22 @@ export const userSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    register: builder.mutation({
+      query: (data) => ({
+        url: "/api/user/register",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    verifyEmail: builder.mutation({
+      query: (data) => ({
+        url: "/api/user/verify-account",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation } = userSlice;
+export const { useLoginMutation, useRegisterMutation, useVerifyEmailMutation } =
+  userSlice;

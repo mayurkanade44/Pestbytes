@@ -34,7 +34,9 @@ const Login = () => {
     try {
       const res = await login(data).unwrap();
       dispatch(setCredentials(res));
-      navigate("/");
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
       toast.success(res.msg);
     } catch (error) {
       console.log(error);
@@ -95,10 +97,6 @@ const Login = () => {
                 required: {
                   value: true,
                   message: "Password is required",
-                },
-                minLength: {
-                  value: 5,
-                  message: "Password length must be at least 5 characters",
                 },
               })}
               placeholder="Enter password"
