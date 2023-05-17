@@ -3,6 +3,8 @@ import generateToken from "../utils/generateToken.js";
 import fs from "fs";
 import crypto from "crypto";
 import { v2 as cloudinary } from "cloudinary";
+import sgMail from "@sendgrid/mail";
+import { capitalLetter } from "../utils/helpers.js";
 
 export const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
@@ -15,12 +17,18 @@ export const registerUser = async (req, res) => {
 
     const verificationToken = crypto.randomBytes(40).toString("hex");
 
-    user = await User.create({ name, email, password, verificationToken });
-
-    const link = `http://localhost:5173/verify-account?email=${email}&token=${verificationToken}`;
+    name = capitalLetter(name);
+    const link = `http://localhost:3000/verify-account?token=${verificationToken}&email=${email}`;
     const mail = await sendEmail({ name, email, link });
     if (!mail)
       return res.status(500).json({ msg: "Server error, try again later." });
+
+    user = await User.create({
+      name,
+      email,
+      password,
+      verificationToken,
+    });
 
     return res.status(201).json({
       msg: `Verification email has been sent to your registered email id`,
@@ -129,7 +137,7 @@ export const forgotPassword = async (req, res) => {
 
       await user.save();
 
-      const link = `http://localhost:5173/reset-password?email=${email}&token=${passwordToken}`;
+      const link = `http://localhost:3000/reset-password?token=${passwordToken}&email=${email}`;
 
       const mail = await sendEmail({ name: user.name, email, link });
 
