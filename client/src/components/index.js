@@ -7,6 +7,9 @@ import SuggestedBlogs from "./SuggestedBlogs";
 import Comments from "./Comments";
 import SocialShare from "./SocialShare";
 import BlogRow from "./BlogRow";
+import EditProfile from "./EditProfile";
+import PrivateRoute from "./PrivateRoute";
+
 
 export {
   Navbar,
@@ -18,4 +21,6 @@ export {
   Comments,
   SocialShare,
   BlogRow,
+  EditProfile,
+  PrivateRoute,
 };

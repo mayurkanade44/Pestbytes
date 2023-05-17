@@ -29,6 +29,26 @@ export const userSlice = apiSlice.injectEndpoints({
         method: "POST",
       }),
     }),
+    getUserProfile: builder.query({
+      query: (id) => ({
+        url: `/api/user/profile/${id}`,
+      }),
+      keepUnusedDataFor: 5,
+    }),
+    updateProfilePic: builder.mutation({
+      query: (data, id) => ({
+        url: `/api/user/profile/${id}`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+    updateProfile: builder.mutation({
+      query: ({data, id}) => ({
+        url: `/api/user/profile/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -37,4 +57,7 @@ export const {
   useRegisterMutation,
   useVerifyEmailMutation,
   useLogoutMutation,
+  useGetUserProfileQuery,
+  useUpdateProfilePicMutation,
+  useUpdateProfileMutation,
 } = userSlice;

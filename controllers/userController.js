@@ -197,12 +197,20 @@ export const logoutUser = (req, res) => {
 };
 
 export const getUserProfile = async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(id);
 
     if (!user) return res.status(404).json({ msg: "User not found" });
 
-    return res.status(200).json({ user });
+    return res.status(200).json({
+      userId: user._id,
+      avatar: user.avatar,
+      name: user.name,
+      email: user.email,
+      blogs: 10,
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Server error, try again later." });
@@ -222,7 +230,7 @@ export const updateUserProfile = async (req, res) => {
         return res.status(400).json({ msg: "Email id already exists" });
     }
 
-    user.name = name;
+    user.name = capitalLetter(name);
     user.email = email;
 
     await user.save();

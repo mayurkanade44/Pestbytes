@@ -21,7 +21,7 @@ router.route("/verify-account").post(verifyUser);
 router.route("/reset-password").post(resetPassword);
 router.route("/forgot-password").post(forgotPassword);
 router
-  .route("/profile")
+  .route("/profile/:id")
   .get(authenticateUser, getUserProfile)
   .patch(authenticateUser, updateUserProfile)
   .post(authenticateUser, updateAvatar);
