@@ -8,7 +8,7 @@ import { createPortal } from "react-dom";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../redux/authSlice";
 
-const EditProfile = ({ user, close, refetch }) => {
+const EditProfile = ({ user, close, refetch, id }) => {
   const [updateProfile, { isLoading }] = useUpdateProfileMutation();
   const dispatch = useDispatch();
   const [image, setImage] = useState(user.avatar);
@@ -41,7 +41,7 @@ const EditProfile = ({ user, close, refetch }) => {
     }
 
     try {
-      const res = await updateProfile({ data, id: 123 }).unwrap();
+      const res = await updateProfile({ data, id }).unwrap();
       toast.success(res.msg);
       dispatch(setCredentials(res));
       refetch();
@@ -66,6 +66,7 @@ const EditProfile = ({ user, close, refetch }) => {
               setOpenCrop={setOpenCrop}
               setImage={setImage}
               refetch={refetch}
+              id={id}
             />,
             document.getElementById("portal")
           )}

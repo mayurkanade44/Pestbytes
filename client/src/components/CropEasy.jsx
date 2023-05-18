@@ -6,7 +6,7 @@ import { useUpdateProfilePicMutation } from "../redux/userSlice";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../redux/authSlice";
 
-const CropEasy = ({ photo, setOpenCrop, setImage, refetch }) => {
+const CropEasy = ({ photo, setOpenCrop, setImage, refetch, id }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
@@ -29,7 +29,7 @@ const CropEasy = ({ photo, setOpenCrop, setImage, refetch }) => {
       const formData = new FormData();
       formData.append("image", file);
 
-      const res = await uploadPic({ data: formData, id: 123 }).unwrap();
+      const res = await uploadPic({ data: formData, id }).unwrap();
       setImage(res.user.avatar);
       dispatch(setCredentials(res));
       refetch();

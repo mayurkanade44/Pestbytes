@@ -217,8 +217,12 @@ export const getUserProfile = async (req, res) => {
 };
 
 export const updateUserProfile = async (req, res) => {
-  const { name, email, avatar } = req.body;
+  const { name, email } = req.body;
+  const { id } = req.params;
   try {
+  
+    if (id !== req.user._id.toString()) return;
+
     let user = await User.findById(req.user._id);
 
     if (!user) return res.status(404).json({ msg: "User not found" });
@@ -250,7 +254,10 @@ export const updateUserProfile = async (req, res) => {
 };
 
 export const updateAvatar = async (req, res) => {
+  const { id } = req.params;
   try {
+    if (id !== req.user._id.toString()) return;
+
     const result = await cloudinary.uploader.upload(
       req.files.image.tempFilePath,
       {
