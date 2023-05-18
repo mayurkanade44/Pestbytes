@@ -9,6 +9,8 @@ import SocialShare from "./SocialShare";
 import BlogRow from "./BlogRow";
 import EditProfile from "./EditProfile";
 import PrivateRoute from "./PrivateRoute";
+import CropEasy from "./CropEasy";
+
 
 
 export {
@@ -23,4 +25,5 @@ export {
   BlogRow,
   EditProfile,
   PrivateRoute,
+  CropEasy,
 };

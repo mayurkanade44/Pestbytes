@@ -1,11 +1,16 @@
-import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { HiOutlineCamera } from "react-icons/hi";
 import { toast } from "react-toastify";
 import { useUpdateProfileMutation } from "../redux/userSlice";
+import { useState } from "react";
+import CropEasy from "./CropEasy";
+import { createPortal } from "react-dom";
 
 const EditProfile = ({ user, close, refetch }) => {
   const [updateProfile, { isLoading }] = useUpdateProfileMutation();
+  const [image, setImage] = useState(user.avatar);
+  const [openCrop, setOpenCrop] = useState(false);
+  const [photo, setPhoto] = useState("");
 
   const {
     handleSubmit,
@@ -20,9 +25,11 @@ const EditProfile = ({ user, close, refetch }) => {
     mode: "onChange",
   });
 
-  const handleFileChange = () => {};
-
-  const handleProfile = () => {};
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setPhoto({ url: URL.createObjectURL(file), file });
+    setOpenCrop(true);
+  };
 
   const submitHandler = async (data) => {
     try {
@@ -38,27 +45,77 @@ const EditProfile = ({ user, close, refetch }) => {
   };
 
   return (
-    <section className="container mx-auto px-5 py-10">
+    <section className="container mx-auto px-5 py-5">
       <div className="w-full max-w-xl mx-auto">
         <h1 className="font-roboto text-2xl font-bold text-center text-dark-hard mb-4">
           Update Profile
         </h1>
-        <form onSubmit={handleProfile}>
+        {openCrop &&
+          createPortal(
+            <CropEasy
+              photo={photo}
+              setOpenCrop={setOpenCrop}
+              setImage={setImage}
+              refetch={refetch}
+            />,
+            document.getElementById("portal")
+          )}
+        <div className="flex justify-center">
+          <div className="relative  w-44 h-44 mb-4 rounded-full outline outline-offset-2 outline-1 lutline-primary overflow-hidden">
+            <label
+              htmlFor="profilePicture"
+              className="cursor-pointer absolute inset-0 rounded-full bg-transparent "
+            >
+              {image && (
+                <>
+                  <img
+                    src={image}
+                    alt="profile"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute w-full h-full flex top-0 left-16">
+                    <HiOutlineCamera className="w-8 h-auto text-primary" />
+                  </div>
+                </>
+              )}
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              className="sr-only"
+              id="profilePicture"
+              onChange={handleFileChange}
+            />
+          </div>
+        </div>
+
+        {/* <form onSubmit={handleProfile}>
           <div className="flex flex-row md:w-3/12 md:ml-20">
             <img
               className="w-10 h-10 md:w-40 md:h-40 object-cover rounded-full
                      border-2 border-cyan-600 p-1"
-              src={user?.avatar}
+              src={image}
               alt="profile"
             />
             <div className="flex justify-center items-center ml-10">
-              <button className=" bg-black text-white mb-2 text-lg py-1 px-2 w-52 rounded-lg">
-                <HiOutlineCamera className="w-7 h-auto text-primary inline-flex mr-2" />
-                Upload Picture
-              </button>
+              <label className="me-3">
+                <input
+                  type="file"
+                  className="w-0 h-0 overflow-hidden"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                />
+                <button
+                  type="submit"
+                  className=" bg-black text-white text-lg py-1 px-2 w-52 rounded-lg"
+                >
+                  <HiOutlineCamera className="w-7 h-auto text-primary inline-flex mr-2" />
+                  Upload Picture
+                </button>
+              </label>
             </div>
           </div>
-        </form>
+        </form> */}
         <form onSubmit={handleSubmit(submitHandler)}>
           <div className="grid md:grid-cols-2 gap-x-3">
             <div className="flex flex-col mb-4 w-full">
@@ -127,7 +184,7 @@ const EditProfile = ({ user, close, refetch }) => {
           </div>
           <button
             type="submit"
-            disabled={!isValid || !isLoading}
+            disabled={!isValid || isLoading}
             className="bg-primary text-white font-bold mb-2 text-lg py-2 px-5 w-full rounded-lg disabled:opacity-70 disabled:cursor-not-allowed"
           >
             Save

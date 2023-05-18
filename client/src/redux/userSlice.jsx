@@ -36,14 +36,14 @@ export const userSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
     }),
     updateProfilePic: builder.mutation({
-      query: (data, id) => ({
+      query: ({ data, id }) => ({
         url: `/api/user/profile/${id}`,
         method: "POST",
         body: data,
       }),
     }),
     updateProfile: builder.mutation({
-      query: ({data, id}) => ({
+      query: ({ data, id }) => ({
         url: `/api/user/profile/${id}`,
         method: "PATCH",
         body: data,
