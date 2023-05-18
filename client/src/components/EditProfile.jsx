@@ -5,9 +5,12 @@ import { useUpdateProfileMutation } from "../redux/userSlice";
 import { useState } from "react";
 import CropEasy from "./CropEasy";
 import { createPortal } from "react-dom";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../redux/authSlice";
 
 const EditProfile = ({ user, close, refetch }) => {
   const [updateProfile, { isLoading }] = useUpdateProfileMutation();
+  const dispatch = useDispatch();
   const [image, setImage] = useState(user.avatar);
   const [openCrop, setOpenCrop] = useState(false);
   const [photo, setPhoto] = useState("");
@@ -32,9 +35,15 @@ const EditProfile = ({ user, close, refetch }) => {
   };
 
   const submitHandler = async (data) => {
+    if ((data.name === user.name) & (data.email === user.email)) {
+      close();
+      return;
+    }
+
     try {
       const res = await updateProfile({ data, id: 123 }).unwrap();
       toast.success(res.msg);
+      dispatch(setCredentials(res));
       refetch();
       setTimeout(() => {
         close();
@@ -61,7 +70,7 @@ const EditProfile = ({ user, close, refetch }) => {
             document.getElementById("portal")
           )}
         <div className="flex justify-center">
-          <div className="relative  w-44 h-44 mb-4 rounded-full outline outline-offset-2 outline-1 lutline-primary overflow-hidden">
+          <div className="relative w-44 h-44 mb-4 rounded-full outline outline-offset-2 outline-1 lutline-primary overflow-hidden">
             <label
               htmlFor="profilePicture"
               className="cursor-pointer absolute inset-0 rounded-full bg-transparent "
@@ -73,8 +82,8 @@ const EditProfile = ({ user, close, refetch }) => {
                     alt="profile"
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute w-full h-full flex top-0 left-16">
-                    <HiOutlineCamera className="w-8 h-auto text-primary" />
+                  <div className="absolute w-full h-full flex top-0 left-[73px]">
+                    <HiOutlineCamera className="w-9 h-auto" />
                   </div>
                 </>
               )}

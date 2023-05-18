@@ -107,7 +107,6 @@ export const loginUser = async (req, res) => {
       user: {
         userId: user._id,
         name: user.name,
-        email: user.email,
         avatar: user.avatar,
         admin: user.admin,
       },
@@ -235,7 +234,15 @@ export const updateUserProfile = async (req, res) => {
 
     await user.save();
 
-    return res.status(200).json({ user, msg: "Profile successfully updated" });
+    return res.status(200).json({
+      user: {
+        userId: user._id,
+        name: user.name,
+        avatar: user.avatar,
+        admin: user.admin,
+      },
+      msg: "Profile successfully updated",
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Server error, try again later." });
@@ -254,7 +261,7 @@ export const updateAvatar = async (req, res) => {
     );
     fs.unlinkSync(req.files.image.tempFilePath);
 
-    await User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
       { _id: req.user._id },
       { avatar: result.secure_url },
       {
@@ -263,9 +270,15 @@ export const updateAvatar = async (req, res) => {
       }
     );
 
-    return res
-      .status(200)
-      .json({ msg: "Profile picture updated", link: result.secure_url });
+    return res.status(200).json({
+      msg: "Profile picture updated",
+      user: {
+        userId: user._id,
+        name: user.name,
+        avatar: user.avatar,
+        admin: user.admin,
+      },
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Server error, try again later." });

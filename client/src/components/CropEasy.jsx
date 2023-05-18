@@ -3,6 +3,8 @@ import Cropper from "react-easy-crop";
 import getCroppedImg from "./CropImage";
 import { toast } from "react-toastify";
 import { useUpdateProfilePicMutation } from "../redux/userSlice";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../redux/authSlice";
 
 const CropEasy = ({ photo, setOpenCrop, setImage, refetch }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -13,6 +15,8 @@ const CropEasy = ({ photo, setOpenCrop, setImage, refetch }) => {
   const handleCropComplete = (croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
   };
+
+  const dispatch = useDispatch();
 
   const handleCropImage = async () => {
     try {
@@ -26,7 +30,8 @@ const CropEasy = ({ photo, setOpenCrop, setImage, refetch }) => {
       formData.append("image", file);
 
       const res = await uploadPic({ data: formData, id: 123 }).unwrap();
-      setImage(res.link);
+      setImage(res.user.avatar);
+      dispatch(setCredentials(res));
       refetch();
       setOpenCrop(false);
       toast.success(res.msg);
@@ -46,6 +51,7 @@ const CropEasy = ({ photo, setOpenCrop, setImage, refetch }) => {
             crop={crop}
             zoom={zoom}
             aspect={1}
+            cropShape="round"
             onZoomChange={setZoom}
             onCropChange={setCrop}
             onCropComplete={handleCropComplete}

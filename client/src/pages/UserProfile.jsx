@@ -21,18 +21,18 @@ const UserProfile = () => {
         <EditProfile user={user} close={goBack} refetch={refetch} />
       ) : (
         <div className="lg:w-8/12 lg:mx-auto mb-8">
-          <header className="flex flex-wrap items-center p-4 md:pt-8 pb-2">
-            <div className="md:w-3/12 md:ml-16">
+          <header className="flex flex-wrap p-4 md:pt-8 pb-2">
+            <div className="md:w-3/12 md:ml-16 mt-1">
               <img
-                className="w-20 h-20 md:w-40 md:h-40 object-cover rounded-full
+                className="w-28 h-28 md:w-40 md:h-40 object-cover rounded-full
                      border-2 border-cyan-600 p-1"
                 src={user?.avatar}
                 alt="profile"
               />
             </div>
             <div className="w-8/12 md:w-7/12 ml-4">
-              <div className="md:flex md:flex-wrap md:items-center mb-4">
-                <h2 className="text-3xl inline-block font-light md:mr-4 mb-2 sm:mb-0">
+              <div className="mt-4 md:mt-0 md:flex md:flex-wrap md:items-center mb-4">
+                <h2 className="text-2xl md:text-3xl inline-block font-light md:mr-4 mb-2 sm:mb-0">
                   {user?.name}
                 </h2>
                 <button
