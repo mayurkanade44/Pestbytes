@@ -4,6 +4,12 @@ import { useGetUserProfileQuery } from "../redux/userSlice";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { EditProfile } from "../components";
+import {
+  FaFacebookSquare,
+  FaTwitterSquare,
+  FaLinkedin,
+  FaInstagram,
+} from "react-icons/fa";
 
 const UserProfile = () => {
   const { id } = useParams();
@@ -48,15 +54,33 @@ const UserProfile = () => {
                 )}
               </div>
               <div className="hidden md:block">
-                <h1 className="font-semibold">ByteWebster</h1>
-                <span className="bioclass">Internet company</span>
-                <p>
-                  ByteWebster is a web development and coding blog website.
-                  Where we provide professional web projects🌍
-                </p>
+                <p>{data?.aboutMe}</p>
                 <span>
                   <strong>www.bytewebster.com</strong>
                 </span>
+                <div className="w-full flex justify-start mt-2">
+                  <a
+                    target="_blank"
+                    rel="noreferrer"
+                    href={data?.socialLinks.linkedin}
+                  >
+                    <FaLinkedin className="text-[#4583c9] w-7 h-auto mr-2" />
+                  </a>
+                  <a
+                    target="_blank"
+                    rel="noreferrer"
+                    href={data?.socialLinks.instagram}
+                  >
+                    <FaInstagram className="text-[#ff56be] w-7 h-auto mr-2" />
+                  </a>
+                  <a
+                    target="_blank"
+                    rel="noreferrer"
+                    href={data?.socialLinks.twitter}
+                  >
+                    <FaTwitterSquare className="text-[#56d8ff] w-7 h-auto mr-2" />
+                  </a>
+                </div>
               </div>
               <ul className="hidden md:flex space-x-8 mt-5">
                 <li>
@@ -70,15 +94,33 @@ const UserProfile = () => {
               </ul>
             </div>
             <div className="md:hidden text-sm my-2">
-              <h1 className="font-semibold">ByteWebster</h1>
-              <span className="bioclass">Internet company</span>
-              <p>
-                ByteWebster is a web development and coding blog website. Where
-                we provide professional web projects🌍
-              </p>
+              <p>{data?.aboutMe}</p>
               <span>
                 <strong>www.bytewebster.com</strong>
               </span>
+              <div className="w-full flex justify-start mt-2">
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  href={data?.socialLinks.linkedin}
+                >
+                  <FaLinkedin className="text-[#4583c9] w-6 h-auto mr-2" />
+                </a>
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  href={data?.socialLinks.instagram}
+                >
+                  <FaInstagram className="text-[#ff56be] w-6 h-auto mr-2" />
+                </a>
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  href={data?.socialLinks.twitter}
+                >
+                  <FaTwitterSquare className="text-[#56d8ff] w-6 h-auto mr-2" />
+                </a>
+              </div>
             </div>
           </header>
           <div className="px-px md:px-3">

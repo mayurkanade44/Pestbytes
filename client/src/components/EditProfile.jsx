@@ -23,7 +23,10 @@ const EditProfile = ({ user, close, refetch, id }) => {
     defaultValues: {
       name: user.name,
       email: user.email,
-      about: "",
+      aboutMe: user.aboutMe || "",
+      linkedin: user.socialLinks?.linkedin || null,
+      instagram: user.socialLinks?.instagram || null,
+      twitter: user.socialLinks?.twitter || null,
     },
     mode: "onChange",
   });
@@ -35,7 +38,14 @@ const EditProfile = ({ user, close, refetch, id }) => {
   };
 
   const submitHandler = async (data) => {
-    if ((data.name === user.name) & (data.email === user.email)) {
+    if (
+      data.name === user.name &&
+      data.email === user.email &&
+      data.aboutMe === user.aboutMe &&
+      data.linkedin === user.socialLinks.linkedin &&
+      data.instagram === user.socialLinks.instagram &&
+      data.twitter === user.socialLinks.twitter
+    ) {
       close();
       return;
     }
@@ -98,34 +108,6 @@ const EditProfile = ({ user, close, refetch, id }) => {
             />
           </div>
         </div>
-
-        {/* <form onSubmit={handleProfile}>
-          <div className="flex flex-row md:w-3/12 md:ml-20">
-            <img
-              className="w-10 h-10 md:w-40 md:h-40 object-cover rounded-full
-                     border-2 border-cyan-600 p-1"
-              src={image}
-              alt="profile"
-            />
-            <div className="flex justify-center items-center ml-10">
-              <label className="me-3">
-                <input
-                  type="file"
-                  className="w-0 h-0 overflow-hidden"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                />
-                <button
-                  type="submit"
-                  className=" bg-black text-white text-lg py-1 px-2 w-52 rounded-lg"
-                >
-                  <HiOutlineCamera className="w-7 h-auto text-primary inline-flex mr-2" />
-                  Upload Picture
-                </button>
-              </label>
-            </div>
-          </div>
-        </form> */}
         <form onSubmit={handleSubmit(submitHandler)}>
           <div className="grid md:grid-cols-2 gap-x-3">
             <div className="flex flex-col mb-4 w-full">
@@ -192,6 +174,70 @@ const EditProfile = ({ user, close, refetch, id }) => {
               )}
             </div>
           </div>
+          <div className="flex flex-col mb-4 w-full">
+            <label
+              htmlFor="aboutMe"
+              className="text-[#5a7184] font-semibold block pl-1"
+            >
+              About Me
+            </label>
+            <textarea
+              type="text"
+              id="aboutMe"
+              rows='3'
+              {...register("aboutMe")}
+              placeholder="Describe yourself in short"
+              className={`placeholder:text-[#959ead] text-dark-hard mt-1 rounded-lg px-3 py-2 font-semibold block outline-none border ${
+                errors.name ? "border-red-500" : "border-[#c3cad9]"
+              }`}
+            />
+          </div>
+          <div className="flex flex-col mb-4 w-full">
+            <label
+              htmlFor="linkedin"
+              className="text-[#5a7184] font-semibold block pl-1"
+            >
+              Linkedin
+            </label>
+            <input
+              type="text"
+              id="linkedin"
+              {...register("linkedin")}
+              placeholder="Please provide your linkedin profile link"
+              className="placeholder:text-[#959ead] text-dark-hard mt-1 rounded-lg px-3 py-2 font-semibold block outline-none border border-[#c3cad9]"
+            />
+          </div>
+          <div className="flex flex-col mb-4 w-full">
+            <label
+              htmlFor="instagram"
+              className="text-[#5a7184] font-semibold block pl-1"
+            >
+              Instagram
+            </label>
+            <input
+              type="text"
+              id="instagram"
+              {...register("instagram")}
+              placeholder="Please provide your instagram profile link"
+              className="placeholder:text-[#959ead] text-dark-hard mt-1 rounded-lg px-3 py-2 font-semibold block outline-none border border-[#c3cad9]"
+            />
+          </div>
+          <div className="flex flex-col mb-4 w-full">
+            <label
+              htmlFor="Twitter"
+              className="text-[#5a7184] font-semibold block pl-1"
+            >
+              Twitter
+            </label>
+            <input
+              type="text"
+              id="Twitter"
+              {...register("Twitter")}
+              placeholder="Please provide your Twitter profile link"
+              className="placeholder:text-[#959ead] text-dark-hard mt-1 rounded-lg px-3 py-2 font-semibold block outline-none border border-[#c3cad9]"
+            />
+          </div>
+
           <button
             type="submit"
             disabled={!isValid || isLoading}

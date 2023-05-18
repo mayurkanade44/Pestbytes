@@ -208,6 +208,8 @@ export const getUserProfile = async (req, res) => {
       avatar: user.avatar,
       name: user.name,
       email: user.email,
+      aboutMe: user.aboutMe,
+      socialLinks: user.socialLinks,
       blogs: 10,
     });
   } catch (error) {
@@ -217,10 +219,9 @@ export const getUserProfile = async (req, res) => {
 };
 
 export const updateUserProfile = async (req, res) => {
-  const { name, email } = req.body;
+  const { name, email, aboutMe, instagram, linkedin, twitter } = req.body;
   const { id } = req.params;
   try {
-  
     if (id !== req.user._id.toString()) return;
 
     let user = await User.findById(req.user._id);
@@ -233,8 +234,16 @@ export const updateUserProfile = async (req, res) => {
         return res.status(400).json({ msg: "Email id already exists" });
     }
 
+    const socialLinks = {
+      linkedin: linkedin || null,
+      instagram: instagram || null,
+      twitter: twitter || null,
+    };
+
     user.name = capitalLetter(name);
     user.email = email;
+    user.aboutMe = aboutMe.charAt(0).toUpperCase() + aboutMe.slice(1);
+    user.socialLinks = socialLinks;
 
     await user.save();
 

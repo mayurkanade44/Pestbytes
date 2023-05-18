@@ -13,6 +13,8 @@ const UserSchema = new mongoose.Schema(
       default:
         "https://res.cloudinary.com/djc8opvcg/image/upload/v1683786516/Pestbytes/Avatar/profile_lqcjqg.png",
     },
+    aboutMe: { type: String },
+    socialLinks: { type: Object },
     verificationToken: { type: String },
     isVerified: { type: Boolean, default: false },
     admin: { type: Boolean, default: false },

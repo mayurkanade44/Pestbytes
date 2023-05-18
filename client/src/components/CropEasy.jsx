@@ -88,7 +88,7 @@ const CropEasy = ({ photo, setOpenCrop, setImage, refetch, id }) => {
             onClick={handleCropImage}
             className="px-5 py-2.5 rounded-lg text-white bg-blue-500 text-sm disabled:opacity-70"
           >
-            Crop & Upload
+            Upload
           </button>
         </div>
       </div>
