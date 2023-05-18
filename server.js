@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import connectDB from "./config/db.js";
 import { notFound } from "./middleware/errorMiddleware.js";
 import userRoutes from "./routes/userRoute.js";
+import blogRoutes from "./routes/blogRoute.js"
 
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -27,6 +28,7 @@ app.use(cookieParser());
 app.use(fileUpload({ useTempFiles: true }));
 
 app.use("/api/user", userRoutes);
+app.use("/api/blog", blogRoutes);
 
 if (process.env.NODE_ENV === "production") {
   const __dirname = path.resolve();
