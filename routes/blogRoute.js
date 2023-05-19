@@ -1,8 +1,10 @@
 import express from "express";
 import { authenticateUser } from "../middleware/authMiddleware.js";
 import {
+  addComment,
   createBlog,
   deleteBlog,
+  deleteComment,
   getAllBlogs,
   getSingleBlog,
   updateBlog,
@@ -15,5 +17,10 @@ router
   .get(authenticateUser, getSingleBlog)
   .delete(authenticateUser, deleteBlog)
   .patch(authenticateUser, updateBlog);
+
+router
+  .route("/comment/:id")
+  .post(authenticateUser, addComment)
+  .delete(authenticateUser, deleteComment);
 
 export default router;
