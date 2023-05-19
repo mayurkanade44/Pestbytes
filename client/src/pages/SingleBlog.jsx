@@ -51,7 +51,7 @@ const SingleBlog = () => {
         <article className="flex-1">
           <BreadCrumbs data={brd} />
           <h1 className="text-xl font-medium font-roboto my-5 text-dark-hard md:text-[26px]">
-            Green Shield
+            {blog?.title}
           </h1>
           <div className="py-1 px-4 bg-slate-100 mb-5 ">
             <div className="flex justify-between flex-nowrap items-center">
@@ -63,9 +63,18 @@ const SingleBlog = () => {
                 />
                 <div className="flex flex-col">
                   <h4 className="font-bold italic text-dark-soft text-sm md:text-base">
-                    {blog?.user.name}
+                    by {blog?.user.name}
                   </h4>
-                  <div className="flex items-center gap-x-2"></div>
+                  <div className="flex items-center gap-x-2">
+                    <span className="text-xs text-dark-light">
+                      on{" "}
+                      {new Date(blog?.createdAt).toLocaleDateString("en-US", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })}
+                    </span>
+                  </div>
                 </div>
               </div>
               <span className="font-bold text-dark-light italic text-sm md:text-base">
@@ -108,12 +117,8 @@ const SingleBlog = () => {
               Share on:
             </h2>
             <SocialShare
-              url={encodeURI(
-                "https://moonfo.com/post/client-side-and-server-side-explanation"
-              )}
-              title={encodeURIComponent(
-                "Client-side and Server-side explanation"
-              )}
+              url={encodeURI(`http://localhost:3000/blog/${blog?._id}`)}
+              title={encodeURIComponent(`Pestbytes - ${blog?.title}`)}
             />
           </div>
         </div>
