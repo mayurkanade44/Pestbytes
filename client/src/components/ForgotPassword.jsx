@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useForgotPasswordMutation } from "../redux/userSlice";
 import { toast } from "react-toastify";
 
-const ForgotPassword = () => {
+const ForgotPassword = ({ setOpen }) => {
   const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
   const {
     handleSubmit,
@@ -75,9 +75,9 @@ const ForgotPassword = () => {
         </form>
         <p className="text-sm font-semibold text-[#5a7184]">
           Already have an account?{" "}
-          <Link to="/login" className="text-primary">
+          <button onClick={() => setOpen(false)} className="text-primary">
             Log In
-          </Link>
+          </button>
         </p>
       </div>
     </section>

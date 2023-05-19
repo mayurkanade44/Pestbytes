@@ -10,6 +10,7 @@ import BlogRow from "./BlogRow";
 import EditProfile from "./EditProfile";
 import PrivateRoute from "./PrivateRoute";
 import CropEasy from "./CropEasy";
+import ForgotPassword from "./ForgotPassword";
 
 export {
   Navbar,
@@ -24,4 +25,5 @@ export {
   EditProfile,
   PrivateRoute,
   CropEasy,
+  ForgotPassword,
 };
