@@ -91,7 +91,7 @@ const SingleBlog = () => {
           <Comments
             comments={blog?.comments}
             blogUser={blog?.user._id}
-            userId={user.userId}
+            userId={user?.userId}
             blogId={id}
             refetch={refetch}
           />

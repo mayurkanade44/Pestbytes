@@ -6,11 +6,12 @@ import {
   useEditCommentMutation,
 } from "../redux/blogSlice";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Comments = ({ comments, blogUser, userId, blogId, refetch }) => {
   const [comment, setComment] = useState("");
-  const [addComment, { isLoading: commentLoading }] =
-    useAddCommentMutation();
+  const navigate = useNavigate();
+  const [addComment, { isLoading: commentLoading }] = useAddCommentMutation();
   const [deleteComment, { isLoading: deleteLoading }] =
     useDeleteCommentMutation();
   const [editComment, { isLoading: editLoading }] = useEditCommentMutation();
@@ -34,6 +35,14 @@ const Comments = ({ comments, blogUser, userId, blogId, refetch }) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
+    if (!userId) {
+      toast.error("Please login to comment");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+      return;
+    }
 
     try {
       let res;

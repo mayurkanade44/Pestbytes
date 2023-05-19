@@ -15,7 +15,7 @@ const router = express.Router();
 router.route("/").post(authenticateUser, createBlog).get(getAllBlogs);
 router
   .route("/singleBlog/:id")
-  .get(authenticateUser, getSingleBlog)
+  .get(getSingleBlog)
   .delete(authenticateUser, deleteBlog)
   .patch(authenticateUser, updateBlog);
 
