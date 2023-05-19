@@ -11,8 +11,6 @@ import EditProfile from "./EditProfile";
 import PrivateRoute from "./PrivateRoute";
 import CropEasy from "./CropEasy";
 
-
-
 export {
   Navbar,
   Footer,

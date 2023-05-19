@@ -1,10 +1,22 @@
-import { BreadCrumbs, Comments, SocialShare, SuggestedBlogs } from "../components";
+import {
+  BreadCrumbs,
+  Comments,
+  SocialShare,
+  SuggestedBlogs,
+} from "../components";
 import post from "../assets/post.jpg";
 import logo from "../assets/logo.png";
-import profile from "../assets/profile.svg";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useGetSingleBlogQuery } from "../redux/blogSlice";
+import { useSelector } from "react-redux";
 
 const SingleBlog = () => {
+  const { id } = useParams();
+  const { data: blog, refetch, isLoading, error } = useGetSingleBlogQuery(id);
+  const { user } = useSelector((store) => store.auth);
+
+  console.log(blog);
+
   const postsData = [
     {
       _id: "1",
@@ -33,6 +45,8 @@ const SingleBlog = () => {
     { name: "Blog", link: "/blog" },
   ];
 
+  if (isLoading) return <h1>Loading..</h1>;
+
   return (
     <div>
       <section className="container mx-auto max-w-5xl flex flex-col px-5 py-5 lg:flex-row lg:gap-x-5 lg:items-start">
@@ -45,13 +59,13 @@ const SingleBlog = () => {
             <div className="flex justify-between flex-nowrap items-center">
               <div className="flex items-center gap-x-2 md:gap-x-2.5">
                 <img
-                  src={profile}
+                  src={blog?.user.avatar}
                   alt="post-profile"
                   className="w-9 h-9 md:w-10 md:h-10 rounded-full"
                 />
                 <div className="flex flex-col">
                   <h4 className="font-bold italic text-dark-soft text-sm md:text-base">
-                    Mayur
+                    {blog?.user.name}
                   </h4>
                   <div className="flex items-center gap-x-2"></div>
                 </div>
@@ -76,7 +90,11 @@ const SingleBlog = () => {
             non possimus praesentium, neque voluptate similique expedita nobis
             est vel aut?
           </div>
-          <Comments />
+          <Comments
+            comments={blog?.comments}
+            blogUser={blog?.user._id}
+            userId={user.userId}
+          />
         </article>
         <div>
           <SuggestedBlogs
