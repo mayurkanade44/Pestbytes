@@ -3,8 +3,8 @@ import Blog from "../models/blogModel.js";
 export const createBlog = async (req, res) => {
   try {
     const blog = new Blog({
-      title: "test title",
-      caption: "sample caption",
+      title: "test title absd njb",
+      caption: "sample caption xz",
       body: {
         type: "doc",
         content: [],
@@ -12,7 +12,7 @@ export const createBlog = async (req, res) => {
       photo: "",
       comments: [
         {
-          comment: "Nice Post",
+          comment: "Nice Post xz",
           user: req.user._id,
         },
       ],
@@ -50,6 +50,32 @@ export const getSingleBlog = async (req, res) => {
   }
 };
 
+export const updateBlog = async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+
+    if (!blog) return res.status(404).json({ msg: "Blog not found" });
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Server error, try again later." });
+  }
+};
+
+export const deleteBlog = async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+
+    if (!blog) return res.status(404).json({ msg: "Blog not found" });
+
+    await Blog.deleteOne({ _id: blog._id });
+    return res.json({ msg: "Blog removed" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Server error, try again later." });
+  }
+};
+
 export const getAllBlogs = async (req, res) => {
   try {
     const blogs = await Blog.find().populate({
@@ -63,3 +89,5 @@ export const getAllBlogs = async (req, res) => {
     return res.status(500).json({ msg: "Server error, try again later." });
   }
 };
+
+
