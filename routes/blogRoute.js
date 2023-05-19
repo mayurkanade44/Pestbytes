@@ -5,6 +5,7 @@ import {
   createBlog,
   deleteBlog,
   deleteComment,
+  editComment,
   getAllBlogs,
   getSingleBlog,
   updateBlog,
@@ -21,6 +22,7 @@ router
 router
   .route("/comment/:id")
   .post(authenticateUser, addComment)
+  .patch(authenticateUser, editComment)
   .delete(authenticateUser, deleteComment);
 
 export default router;

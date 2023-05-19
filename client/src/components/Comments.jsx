@@ -1,26 +1,56 @@
 import { FiEdit2, FiTrash } from "react-icons/fi";
 import { useState } from "react";
+import {
+  useAddCommentMutation,
+  useDeleteCommentMutation,
+  useEditCommentMutation,
+} from "../redux/blogSlice";
+import { toast } from "react-toastify";
 
-const Comments = ({ comments, blogUser, userId }) => {
-  const [affectedComment, setAffectedComment] = useState(null);
-  const [value, setValue] = useState("");
+const Comments = ({ comments, blogUser, userId, blogId, refetch }) => {
+  const [comment, setComment] = useState("");
+  const [addComment, { isLoading: commentLoading }] =
+    useAddCommentMutation();
+  const [deleteComment, { isLoading: deleteLoading }] =
+    useDeleteCommentMutation();
+  const [editComment, { isLoading: editLoading }] = useEditCommentMutation();
+  const [edit, setEdit] = useState({
+    state: false,
+    id: "",
+  });
 
-  console.log();
+  const deleteCommentHandler = async (commentId) => {
+    const id = blogId + "_" + commentId;
 
-  const addCommentHandler = (value, parent = null, replyOnUser = null) => {
-    setAffectedComment(null);
+    try {
+      const res = await deleteComment(id).unwrap();
+      toast.success(res.msg);
+      refetch();
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.data?.msg || error.error);
+    }
   };
 
-  const updateCommentHandler = (value, commentId) => {
-    setAffectedComment(null);
-  };
-
-  const deleteCommentHandler = (commentId) => {};
-
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
-    setValue("");
+    try {
+      let res;
+      if (edit.state) {
+        const id = blogId + "_" + edit.id;
+        res = await editComment({ data: { comment }, id }).unwrap();
+        setEdit({ state: false, id: "" });
+      } else {
+        res = await addComment({ data: { comment }, blogId }).unwrap();
+      }
+      toast.success(res.msg);
+      refetch();
+      setComment("");
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.data?.msg || error.error);
+    }
   };
 
   return (
@@ -31,13 +61,14 @@ const Comments = ({ comments, blogUser, userId }) => {
             className="w-full focus:outline-none bg-transparent"
             rows="3"
             placeholder="Leave your comment here..."
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
           />
           <div className="flex flex-col-reverse gap-y-2 items-center gap-x-2 pt-2 min-[420px]:flex-row">
             {blogUser !== userId && (
               <button
                 type="submit"
+                disabled={commentLoading || editLoading}
                 className="px-6 py-2 rounded-lg bg-primary text-white font-semibold"
               >
                 Post
@@ -79,16 +110,17 @@ const Comments = ({ comments, blogUser, userId }) => {
                 <div className="flex items-center gap-x-3 text-dark-light font-roboto text-sm">
                   <button
                     className="flex items-center space-x-2"
-                    onClick={() =>
-                      setAffectedComment({ type: "editing", _id: comment._id })
-                    }
+                    onClick={() => {
+                      setEdit({ state: true, id: comment._id }),
+                        setComment(comment.comment);
+                    }}
                   >
                     <FiEdit2 className="w-4 h-auto" />
                     <span>Edit</span>
                   </button>
                   <button
                     className="flex items-center space-x-2"
-                    //   onClick={() => deleteComment(comment._id)}
+                    onClick={() => deleteCommentHandler(comment._id)}
                   >
                     <FiTrash className="w-4 h-auto" />
                     <span>Delete</span>

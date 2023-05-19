@@ -10,12 +10,7 @@ export const createBlog = async (req, res) => {
         content: [],
       },
       photo: "",
-      comments: [
-        {
-          comment: "Nice Post xz",
-          user: req.user._id,
-        },
-      ],
+
       user: req.user._id,
     });
 
@@ -124,6 +119,32 @@ export const addComment = async (req, res) => {
   }
 };
 
+export const editComment = async (req, res) => {
+  const { comment } = req.body;
+  try {
+    if (!comment)
+      return res.status(400).json({ msg: "Please provide valid comment" });
+
+    const ids = req.params.id.split("_");
+
+    const blog = await Blog.findById(ids[0]);
+
+    if (!blog) return res.status(404).json({ msg: "Blog not found" });
+
+    for (let com of blog.comments) {
+      if (com._id.toString() === ids[1]) {
+        com.comment = comment;
+      }
+    }
+
+    await blog.save();
+    return res.json({ msg: "Comment updated" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Server error, try again later." });
+  }
+};
+
 export const deleteComment = async (req, res) => {
   const { id } = req.params;
   try {
@@ -131,17 +152,13 @@ export const deleteComment = async (req, res) => {
 
     const blog = await Blog.findById(ids[0]);
 
-    if (req.user._id.toString() === ids[1]) {
-      const comments = blog.comments.filter(
-        (c) => c.user._id.toString() !== ids[1]
-      );
-      blog.comments = comments;
+    if (!blog) return res.status(404).json({ msg: "Blog not found" });
 
-      await blog.save();
-      return res.json({ msg: "comment removed" });
-    }
+    const comments = blog.comments.filter((c) => c._id.toString() !== ids[1]);
+    blog.comments = comments;
+    await blog.save();
 
-    return res.status(401).json({ msg: "You don't have access" });
+    return res.json({ msg: "comment removed" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Server error, try again later." });

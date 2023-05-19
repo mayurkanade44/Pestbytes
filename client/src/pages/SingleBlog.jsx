@@ -15,8 +15,6 @@ const SingleBlog = () => {
   const { data: blog, refetch, isLoading, error } = useGetSingleBlogQuery(id);
   const { user } = useSelector((store) => store.auth);
 
-  console.log(blog);
-
   const postsData = [
     {
       _id: "1",
@@ -94,6 +92,8 @@ const SingleBlog = () => {
             comments={blog?.comments}
             blogUser={blog?.user._id}
             userId={user.userId}
+            blogId={id}
+            refetch={refetch}
           />
         </article>
         <div>
