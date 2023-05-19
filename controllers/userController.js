@@ -164,7 +164,7 @@ export const resetPassword = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user) {
-      const currentDate = new Date().toISOString;
+      const currentDate = new Date();
 
       if (
         user.passwordToken === token &&
@@ -175,12 +175,11 @@ export const resetPassword = async (req, res) => {
         user.resetPasswordExpiry = null;
 
         await user.save();
-      }
+      } else
+        return res.status(400).json({ msg: "Password link has been expired." });
     }
 
-    return res
-      .status(200)
-      .json({ msg: "Successfully updated, redirecting to login page" });
+    return res.json({ msg: "Successfully updated, redirecting to login page" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Server error, try again later." });

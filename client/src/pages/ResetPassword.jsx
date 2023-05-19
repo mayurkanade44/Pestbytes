@@ -1,7 +1,12 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useResetPasswordMutation } from "../redux/userSlice";
+import { toast } from "react-toastify";
 
 const ForgotPassword = () => {
+  const [resetPassword, { isLoading }] = useResetPasswordMutation();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const {
     handleSubmit,
     register,
@@ -13,7 +18,22 @@ const ForgotPassword = () => {
     mode: "onChange",
   });
 
-  const submitHandler = () => {};
+  const submitHandler = async (data) => {
+    try {
+      const res = await resetPassword({
+        token: searchParams.get("token"),
+        email: searchParams.get("email"),
+        password: data.password,
+      }).unwrap();
+      toast.success(res.msg);
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.data?.msg || error?.error);
+    }
+  };
 
   return (
     <section className="container mx-auto px-5 py-10 md:py-16">
@@ -54,6 +74,7 @@ const ForgotPassword = () => {
           </div>
           <button
             type="submit"
+            disabled={isLoading}
             className="bg-primary text-white mb-2 text-lg py-1 px-5 w-full rounded-lg"
           >
             Submit
