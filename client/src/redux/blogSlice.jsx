@@ -28,6 +28,12 @@ export const blogSlice = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    likeBlog: builder.mutation({
+      query: (id) => ({
+        url: `/api/blog/singleBlog/like/${id}`,
+        method: "PATCH",
+      }),
+    }),
   }),
 });
 
@@ -36,4 +42,5 @@ export const {
   useAddCommentMutation,
   useDeleteCommentMutation,
   useEditCommentMutation,
+  useLikeBlogMutation,
 } = blogSlice;

@@ -7,12 +7,16 @@ import {
 import post from "../assets/post.jpg";
 import logo from "../assets/logo.png";
 import { Link, useParams } from "react-router-dom";
-import { useGetSingleBlogQuery } from "../redux/blogSlice";
+import { useGetSingleBlogQuery, useLikeBlogMutation } from "../redux/blogSlice";
 import { useSelector } from "react-redux";
+import { MdCalendarMonth } from "react-icons/md";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 const SingleBlog = () => {
   const { id } = useParams();
   const { data: blog, refetch, isLoading, error } = useGetSingleBlogQuery(id);
+  const [likeBlog, { isLoading: likeLoading }] = useLikeBlogMutation();
   const { user } = useSelector((store) => store.auth);
 
   const postsData = [
@@ -43,6 +47,19 @@ const SingleBlog = () => {
     { name: "Blog", link: "/blog" },
   ];
 
+  console.log(blog);
+
+  const handleLike = async () => {
+    if (!user) return toast.error("Please login to like the blog");
+
+    try {
+      const res = await likeBlog(id).unwrap();
+      refetch();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   if (isLoading) return <h1>Loading..</h1>;
 
   return (
@@ -63,11 +80,11 @@ const SingleBlog = () => {
                 />
                 <div className="flex flex-col">
                   <h4 className="font-bold italic text-dark-soft text-sm md:text-base">
-                    by {blog?.user.name}
+                    <span className="font-normal">by</span> {blog?.user.name}
                   </h4>
                   <div className="flex items-center gap-x-2">
                     <span className="text-xs text-dark-light">
-                      on{" "}
+                      <MdCalendarMonth className="inline mr-1 mb-[2px]" />
                       {new Date(blog?.createdAt).toLocaleDateString("en-US", {
                         day: "numeric",
                         month: "short",
@@ -78,7 +95,14 @@ const SingleBlog = () => {
                 </div>
               </div>
               <span className="font-bold text-dark-light italic text-sm md:text-base">
-                5 Likes
+                <button type="button" onClick={handleLike}>
+                  {user && blog?.likes.find((like) => like === user.userId) ? (
+                    <AiFillHeart className="text-[#ee4040] w-6 h-6 mr-2 mb-1 inline" />
+                  ) : (
+                    <AiOutlineHeart className="w-6 h-6 mr-2 text-[#ee4040] mb-1 inline" />
+                  )}
+                  <span className="text-xl">{blog?.likes.length}</span>
+                </button>
               </span>
             </div>
           </div>

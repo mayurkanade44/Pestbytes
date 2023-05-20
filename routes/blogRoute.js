@@ -8,11 +8,14 @@ import {
   editComment,
   getAllBlogs,
   getSingleBlog,
+  likeBlog,
   updateBlog,
 } from "../controllers/blogController.js";
 const router = express.Router();
 
 router.route("/").post(authenticateUser, createBlog).get(getAllBlogs);
+router.route("/singleBlog/like/:id").patch(authenticateUser, likeBlog);
+
 router
   .route("/singleBlog/:id")
   .get(getSingleBlog)

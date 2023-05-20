@@ -164,3 +164,28 @@ export const deleteComment = async (req, res) => {
     return res.status(500).json({ msg: "Server error, try again later." });
   }
 };
+
+export const likeBlog = async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+
+    if (!blog) return res.json(404).json({ msg: "Blog not found" });
+
+    const userId = req.user._id;
+
+    const alreadyLiked = blog.likes.find(
+      (id) => id.toString() === userId.toString()
+    );
+    if (alreadyLiked) {
+      blog.likes = blog.likes.filter(
+        (id) => id.toString() !== userId.toString()
+      );
+    } else blog.likes.push(userId.toString());
+
+    await blog.save();
+    return res.json(blog);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Server error, try again later." });
+  }
+};
