@@ -16,10 +16,13 @@ const UserProfile = () => {
   const { user } = useSelector((store) => store.auth);
   const { data, refetch, isLoading, error } = useGetUserProfileQuery(id);
   const [open, setOpen] = useState(false);
+  const [blogs, setBlogs] = useState();
 
   const goBack = () => {
     setOpen(!open);
   };
+
+  console.log(data);
 
   return (
     <main className="bg-gray-100 bg-opacity-25">
@@ -84,15 +87,20 @@ const UserProfile = () => {
               </div>
               <ul className="hidden md:flex space-x-8 mt-5">
                 <li>
-                  <span className="font-semibold mr-1">{data?.blogs}</span>
+                  <span className="font-semibold mr-1">
+                    {data?.blogs.length}
+                  </span>
                   Blogs
                 </li>
                 <li>
-                  <span className="font-semibold mr-1">10</span>
+                  <span className="font-semibold mr-1">
+                    {data?.favorites.length}
+                  </span>
                   Favorites
                 </li>
               </ul>
             </div>
+              <hr />
             <div className="md:hidden text-sm my-2">
               <p>{data?.aboutMe}</p>
               <span>
@@ -130,18 +138,21 @@ const UserProfile = () => {
             >
               <li>
                 <span className="font-semibold text-gray-800 block">
-                  {data?.blogs}
+                  {data?.blogs.length}
                 </span>
                 Blogs
               </li>
               <li>
-                <span className="font-semibold text-gray-800 block">10</span>
+                <span className="font-semibold text-gray-800 block">
+                  {data?.favorites.length}
+                </span>
                 Favorites
               </li>
             </ul>
             <div className="flex flex-wrap md:gap-x-5 gap-y-5 pb-10 px-3">
-              <BlogCard className="w-full md:w-[calc(50%-20px)]" />
-              <BlogCard className="w-full md:w-[calc(50%-20px)]" />
+              {data?.blogs.map((blog) => (
+                <BlogCard key={blog._id} blog={blog} />
+              ))}
             </div>
           </div>
         </div>

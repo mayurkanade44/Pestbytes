@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema(
     isVerified: { type: Boolean, default: false },
     admin: { type: Boolean, default: false },
   },
-  { timestamps: true }
+  { timestamps: true, toObject: { virtuals: true } }
 );
 
 UserSchema.pre("save", async function () {
@@ -31,5 +31,17 @@ UserSchema.pre("save", async function () {
 UserSchema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
+
+UserSchema.virtual("blogs", {
+  ref: "Blog",
+  localField: "_id",
+  foreignField: "user",
+});
+
+UserSchema.virtual("likes", {
+  ref: "Blog",
+  localField: "_id",
+  foreignField: "likes",
+});
 
 export default mongoose.model("User", UserSchema);

@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { MdCalendarMonth } from "react-icons/md";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 const SingleBlog = () => {
   const { id } = useParams();
@@ -44,10 +45,9 @@ const SingleBlog = () => {
 
   const brd = [
     { name: "Home", link: "/" },
-    { name: "Blog", link: "/blog" },
+    { name: "Blog", link: `/blog/${id}` },
+    { name: `${blog?.title}`, link: `/blog/${id}` },
   ];
-
-  console.log(blog);
 
   const handleLike = async () => {
     if (!user) return toast.error("Please login to like the blog");

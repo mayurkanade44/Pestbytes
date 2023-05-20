@@ -198,7 +198,18 @@ export const getUserProfile = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const user = await User.findById(id);
+    const user = await User.findById(id).populate([
+      {
+        path: "blogs",
+        select: "title createdAt",
+        populate: { path: "user", select: "name avatar" },
+      },
+      {
+        path: "likes",
+        select: "title createdAt",
+        populate: { path: "user", select: "name avatar" },
+      },
+    ]);
 
     if (!user) return res.status(404).json({ msg: "User not found" });
 
@@ -209,7 +220,8 @@ export const getUserProfile = async (req, res) => {
       email: user.email,
       aboutMe: user.aboutMe,
       socialLinks: user.socialLinks,
-      blogs: 10,
+      blogs: user.blogs,
+      favorites: user.likes,
     });
   } catch (error) {
     console.log(error);
