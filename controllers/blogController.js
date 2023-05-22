@@ -75,7 +75,7 @@ export const getAllBlogs = async (req, res) => {
     const blogs = await Blog.find().populate({
       path: "user",
       select: "name avatar",
-    });
+    }).sort("-createdAt")
 
     res.json(blogs);
   } catch (error) {
