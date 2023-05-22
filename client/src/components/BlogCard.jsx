@@ -1,10 +1,10 @@
 import post from "../assets/post.jpg";
 import { Link } from "react-router-dom";
 
-const BlogCard = ({ blog }) => {
+const BlogCard = ({ blog, className }) => {
   return (
     <div
-      className={`rounded-xl overflow-hidden shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] w-full md:w-[calc(50%-20px)]`}
+      className={`rounded-xl overflow-hidden shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] ${className}`}
     >
       <Link to={`/blog/${blog._id}`}>
         <img

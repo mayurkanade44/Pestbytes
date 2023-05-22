@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import { MdCalendarMonth } from "react-icons/md";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { toast } from "react-toastify";
-import { useState } from "react";
+import { SingleBlogSkeleton } from "../components/skeletons";
 
 const SingleBlog = () => {
   const { id } = useParams();
@@ -60,7 +60,7 @@ const SingleBlog = () => {
     }
   };
 
-  if (isLoading) return <h1>Loading..</h1>;
+  if (isLoading) return <SingleBlogSkeleton />;
 
   return (
     <div>
