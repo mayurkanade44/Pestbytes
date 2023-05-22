@@ -2,7 +2,7 @@ import BlogCard from "../components/BlogCard";
 import { useSelector } from "react-redux";
 import { useGetUserProfileQuery } from "../redux/userSlice";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EditProfile } from "../components";
 import {
   FaFacebookSquare,
@@ -10,14 +10,17 @@ import {
   FaLinkedin,
   FaInstagram,
 } from "react-icons/fa";
-import { BlogCardSkeleton, UserProfileSkeleton } from "../components/skeletons";
+import { UserProfileSkeleton } from "../components/skeletons";
 
 const UserProfile = () => {
   const { id } = useParams();
   const { user } = useSelector((store) => store.auth);
   const { data, refetch, isLoading, error } = useGetUserProfileQuery(id);
   const [open, setOpen] = useState(false);
-  const [blogs, setBlogs] = useState(true);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const goBack = () => {
     setOpen(!open);

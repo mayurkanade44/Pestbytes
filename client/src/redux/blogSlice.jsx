@@ -34,6 +34,13 @@ export const blogSlice = apiSlice.injectEndpoints({
         method: "PATCH",
       }),
     }),
+    allBlogs: builder.query({
+      query: () => ({
+        url: "/api/blog",
+      }),
+      keepUnusedDataFor: 5,
+      providesTags: ["Blogs"],
+    }),
   }),
 });
 
@@ -43,4 +50,5 @@ export const {
   useDeleteCommentMutation,
   useEditCommentMutation,
   useLikeBlogMutation,
+  useAllBlogsQuery,
 } = blogSlice;

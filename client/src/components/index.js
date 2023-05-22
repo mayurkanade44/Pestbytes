@@ -1,6 +1,5 @@
 import Footer from "./Footer";
 import Navbar from "./Navbar";
-import Hero from "./Hero";
 import Blogs from "./Blogs";
 import BreadCrumbs from "./BreadCrumbs";
 import SuggestedBlogs from "./SuggestedBlogs";
@@ -11,11 +10,11 @@ import EditProfile from "./EditProfile";
 import PrivateRoute from "./PrivateRoute";
 import CropEasy from "./CropEasy";
 import ForgotPassword from "./ForgotPassword";
+import BlogCard from "./BlogCard";
 
 export {
   Navbar,
   Footer,
-  Hero,
   Blogs,
   BreadCrumbs,
   SuggestedBlogs,
@@ -26,4 +25,5 @@ export {
   PrivateRoute,
   CropEasy,
   ForgotPassword,
+  BlogCard,
 };

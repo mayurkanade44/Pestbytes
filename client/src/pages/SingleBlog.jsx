@@ -13,12 +13,17 @@ import { MdCalendarMonth } from "react-icons/md";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { toast } from "react-toastify";
 import { SingleBlogSkeleton } from "../components/skeletons";
+import { useEffect } from "react";
 
 const SingleBlog = () => {
   const { id } = useParams();
   const { data: blog, refetch, isLoading, error } = useGetSingleBlogQuery(id);
-  const [likeBlog, { isLoading: likeLoading }] = useLikeBlogMutation();
+  const [likeBlog] = useLikeBlogMutation();
   const { user } = useSelector((store) => store.auth);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const postsData = [
     {
