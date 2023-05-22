@@ -10,19 +10,20 @@ import {
   FaLinkedin,
   FaInstagram,
 } from "react-icons/fa";
+import { BlogCardSkeleton, UserProfileSkeleton } from "../components/skeletons";
 
 const UserProfile = () => {
   const { id } = useParams();
   const { user } = useSelector((store) => store.auth);
   const { data, refetch, isLoading, error } = useGetUserProfileQuery(id);
   const [open, setOpen] = useState(false);
-  const [blogs, setBlogs] = useState();
+  const [blogs, setBlogs] = useState(true);
 
   const goBack = () => {
     setOpen(!open);
   };
 
-  console.log(data);
+  if (isLoading) return <UserProfileSkeleton />;
 
   return (
     <main className="bg-gray-100 bg-opacity-25">
@@ -31,7 +32,7 @@ const UserProfile = () => {
       ) : (
         <div className="lg:w-8/12 lg:mx-auto mb-8">
           <header className="flex flex-wrap p-4 md:pt-8 pb-2">
-            <div className="md:w-3/12 md:ml-16 mt-1">
+            <div className="md:ml-16 mt-1">
               <img
                 className="w-28 h-28 md:w-40 md:h-40 object-cover rounded-full
                      border-2 border-cyan-600 p-1"
@@ -39,7 +40,7 @@ const UserProfile = () => {
                 alt="profile"
               />
             </div>
-            <div className="w-8/12 md:w-7/12 ml-4">
+            <div className="w-7/12 ml-4">
               <div className="mt-4 md:mt-0 md:flex md:flex-wrap md:items-center mb-4">
                 <h2 className="text-2xl md:text-3xl inline-block font-light md:mr-4 mb-2 sm:mb-0">
                   {data?.name}
@@ -100,8 +101,8 @@ const UserProfile = () => {
                 </li>
               </ul>
             </div>
-              <hr />
-            <div className="md:hidden text-sm my-2">
+            <hr />
+            <div className="md:hidden block text-sm my-2">
               <p>{data?.aboutMe}</p>
               <span>
                 <strong>www.bytewebster.com</strong>
@@ -151,7 +152,11 @@ const UserProfile = () => {
             </ul>
             <div className="flex flex-wrap md:gap-x-5 gap-y-5 pb-10 px-3">
               {data?.blogs.map((blog) => (
-                <BlogCard key={blog._id} blog={blog} />
+                <BlogCard
+                  key={blog._id}
+                  blog={blog}
+                  className="w-full md:w-[calc(50%-20px)]"
+                />
               ))}
             </div>
           </div>
