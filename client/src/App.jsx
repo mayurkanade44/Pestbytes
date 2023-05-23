@@ -18,6 +18,8 @@ import {
   VerifyAccount,
   UserProfile,
   AddBlog,
+  AllBlogs,
+  AboutUs,
 } from "./pages";
 
 function App() {
@@ -37,10 +39,12 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route index={true} path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/about-pestbytes" element={<AboutUs />} />
         <Route path="/login" element={<Login />} />
         <Route path="/verify-account" element={<VerifyAccount />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/add-blog" element={<AddBlog />} />
+        <Route path="/all-blogs" element={<AllBlogs />} />
         <Route path="/profile/:id" element={<UserProfile />} />
         <Route path="/blog/:id" element={<SingleBlog />} />
       </Route>

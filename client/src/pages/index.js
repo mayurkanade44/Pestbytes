@@ -6,6 +6,8 @@ import ResetPassword from "./ResetPassword";
 import Login from "./Login";
 import UserProfile from "./UserProfile";
 import AddBlog from "./AddBlog";
+import AllBlogs from "./AllBlogs";
+import AboutUs from "./AboutUs";
 
 export {
   Home,
@@ -16,4 +18,6 @@ export {
   Login,
   UserProfile,
   AddBlog,
+  AllBlogs,
+  AboutUs,
 };
