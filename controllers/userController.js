@@ -17,14 +17,14 @@ export const registerUser = async (req, res) => {
 
     const verificationToken = crypto.randomBytes(40).toString("hex");
 
-    name = capitalLetter(name);
+    const newName = capitalLetter(name);
     const link = `http://localhost:3000/verify-account?token=${verificationToken}&email=${email}`;
-    const mail = await sendEmail({ name, email, link });
+    const mail = await sendEmail({ newName, email, link });
     if (!mail)
       return res.status(500).json({ msg: "Server error, try again later." });
 
-    user = await User.create({
-      name,
+    await User.create({
+      name: newName,
       email,
       password,
       verificationToken,
