@@ -1,16 +1,18 @@
+import mongoose from "mongoose";
+import Admin from "../models/adminModel.js";
 import Blog from "../models/blogModel.js";
 
 export const createBlog = async (req, res) => {
   try {
     const blog = new Blog({
-      title: "test title absd njb",
+      title: "Category",
       caption: "sample caption xz",
       body: {
         type: "doc",
         content: [],
       },
       photo: "",
-
+      category: "646b40162ce0bb21a57968fa",
       user: req.user._id,
     });
 
@@ -34,6 +36,10 @@ export const getSingleBlog = async (req, res) => {
         path: "comments.user",
         select: "name avatar",
       },
+      {
+        path: "category",
+        select: "category",
+      },
     ]);
 
     if (!blog) return res.status(404).json({ msg: "Blog not found" });
@@ -50,6 +56,15 @@ export const updateBlog = async (req, res) => {
     const blog = await Blog.findById(req.params.id);
 
     if (!blog) return res.status(404).json({ msg: "Blog not found" });
+
+    if (blog.user.toString() !== req.user._id.toString())
+      return res.status(401).json({ msg: "Access denied" });
+
+    blog.category = "646b40162ce0bb21a57968fa";
+
+    await blog.save();
+
+    return res.json({ msg: "Blog updated" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Server error, try again later." });
@@ -72,10 +87,12 @@ export const deleteBlog = async (req, res) => {
 
 export const getAllBlogs = async (req, res) => {
   try {
-    const blogs = await Blog.find().populate({
-      path: "user",
-      select: "name avatar",
-    }).sort("-createdAt")
+    const blogs = await Blog.find()
+      .populate({
+        path: "user",
+        select: "name avatar",
+      })
+      .sort("-createdAt");
 
     res.json(blogs);
   } catch (error) {
@@ -184,6 +201,27 @@ export const likeBlog = async (req, res) => {
 
     await blog.save();
     return res.json(blog);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Server error, try again later." });
+  }
+};
+
+export const blogsByCategory = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const blogs = await Blog.find({
+      category: { $in: new mongoose.Types.ObjectId(id) },
+    })
+      .populate([
+        {
+          path: "user",
+          select:"name avatar"
+        },
+      ])
+      .select("title photo createdAt");
+
+    return res.json(blogs);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Server error, try again later." });

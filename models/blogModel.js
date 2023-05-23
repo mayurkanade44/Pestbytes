@@ -13,10 +13,10 @@ const BlogSchema = new mongoose.Schema(
     title: { type: String, required: true },
     caption: { type: String, required: true },
     body: { type: Object, required: true },
-    photo: { type: String, required: false },
-    tags: { type: String },
-    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    photo: { type: String },
     comments: [CommentSchema],
+    category: [{ type: mongoose.Types.ObjectId, ref: "Admin", required: true }],
+    likes: [{ type: mongoose.Types.ObjectId, ref: "User" }],
     user: { type: mongoose.Types.ObjectId, ref: "User", required: true },
   },
   { timestamps: true }
