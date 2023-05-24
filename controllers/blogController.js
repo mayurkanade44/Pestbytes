@@ -207,39 +207,17 @@ export const likeBlog = async (req, res) => {
   }
 };
 
-export const blogsByCategory = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const blogs = await Blog.find({
-      category: { $in: new mongoose.Types.ObjectId(id) },
-    })
-      .populate([
-        {
-          path: "user",
-          select: "name avatar",
-        },
-        {
-          path: "category",
-          select: "category",
-        },
-      ])
-      .select("title photo createdAt")
-      .sort("-createdAt");
-
-    return res.json(blogs);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ msg: "Server error, try again later." });
-  }
-};
-
 export const searchBlogs = async (req, res) => {
   const { search, category } = req.query;
   const query = {};
   try {
     if (search) query.title = { $regex: search, $options: "i" };
-    if (category) query.category = { $in: new mongoose.Types.ObjectId(category) };
+    if (category)
+      query.category = { $in: new mongoose.Types.ObjectId(category) };
 
+    const page = Number(req.query.page) || 1;
+
+    const count = await Blog.countDocuments({ ...query });
     const blogs = await Blog.find(query)
       .populate([
         {
@@ -252,8 +230,11 @@ export const searchBlogs = async (req, res) => {
         },
       ])
       .select("title photo createdAt")
-      .sort("-createdAt");;
-    res.json(blogs);
+      .sort("-createdAt")
+      .limit(2)
+      .skip(2 * (page - 1));
+
+    res.json({ blogs, pages: Math.ceil(count / 2) });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Server error, try again later." });

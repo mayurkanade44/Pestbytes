@@ -1,5 +1,5 @@
 import { BlogRow, BlogCard } from "../components";
-import { useAllBlogsQuery, useBlogsByCategoryQuery } from "../redux/blogSlice";
+import { useAllBlogsQuery } from "../redux/blogSlice";
 import { FaArrowRight } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 

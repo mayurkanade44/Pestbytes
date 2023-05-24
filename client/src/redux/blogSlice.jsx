@@ -41,22 +41,16 @@ export const blogSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
       providesTags: ["Blogs"],
     }),
-    blogsByCategory: builder.query({
-      query: (id) => ({
-        url: `/api/blog/category/${id}`,
-      }),
-      keepUnusedDataFor: 5,
-      providesTags: ["Blogs"],
-    }),
+
     allCategories: builder.query({
       query: () => ({
         url: "/api/admin/category",
       }),
     }),
     searchBlogs: builder.query({
-      query: ({ search, category }) => ({
+      query: ({ search, category, page }) => ({
         url: "/api/blog/search",
-        params: { search, category },
+        params: { search, category, page },
       }),
       keepUnusedDataFor: 5,
       providesTags: ["Blogs"],
@@ -71,7 +65,6 @@ export const {
   useEditCommentMutation,
   useLikeBlogMutation,
   useAllBlogsQuery,
-  useBlogsByCategoryQuery,
   useAllCategoriesQuery,
   useSearchBlogsQuery,
 } = blogSlice;

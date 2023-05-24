@@ -1,9 +1,5 @@
 import { AiOutlineSearch } from "react-icons/ai";
-import {
-  useAllCategoriesQuery,
-  useBlogsByCategoryQuery,
-  useSearchBlogsQuery,
-} from "../redux/blogSlice";
+import { useAllCategoriesQuery, useSearchBlogsQuery } from "../redux/blogSlice";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useMemo, useState } from "react";
@@ -11,14 +7,15 @@ import { setSearch } from "../redux/authSlice";
 
 const AllBlogs = () => {
   const { search } = useSelector((store) => store.auth);
+  const [page, setPage] = useState(1);
   const [tempSearch, setTempSearch] = useState("");
   const dispatch = useDispatch();
 
-  const {
-    data: blogs,
-    isLoading,
-    refetch,
-  } = useSearchBlogsQuery({ search: search.title, category: search.category });
+  const { data, isLoading, refetch } = useSearchBlogsQuery({
+    search: search.title,
+    category: search.category,
+    page: page,
+  });
   const { data: categories } = useAllCategoriesQuery();
 
   useEffect(() => {
@@ -33,6 +30,8 @@ const AllBlogs = () => {
         name: name,
       })
     );
+    setPage(1);
+    setTempSearch("")
   };
 
   const debounce = () => {
@@ -48,12 +47,14 @@ const AllBlogs = () => {
             name: e.target.value,
           })
         );
-        refetch();
+        setPage(1);
       }, 1000);
     };
   };
 
   const optimizedDebounce = useMemo(() => debounce(), []);
+
+  const pages = Array.from({ length: data?.pages }, (_, index) => index + 1);
 
   return (
     <div className="container my-5 px-6 mx-auto">
@@ -93,10 +94,12 @@ const AllBlogs = () => {
 
       <section className="my-1 text-gray-800 text-center md:text-left">
         <h2 className="text-3xl font-bold mb-12 text-center">
-          {blogs?.length ? `Latest ${search.name} blogs` : "No Blog Found"}
+          {data?.blogs?.length
+            ? `Latest ${search.name} blogs`
+            : "No Blog Found"}
         </h2>
 
-        {blogs?.map((blog) => (
+        {data?.blogs.map((blog) => (
           <div className="flex flex-wrap mb-6" key={blog._id}>
             <Link
               to={`/blog/${blog._id}`}
@@ -118,7 +121,6 @@ const AllBlogs = () => {
                 ></div>
               </div>
             </Link>
-
             <div className="grow-0 shrink-0 basis-auto w-full md:w-9/12 xl:w-7/12 px-3 mb-6 md:mb-0 mr-auto">
               <h5 className="text-lg font-bold mb-3">{blog.title}</h5>
               <div className="mb-3 text-red-600 font-medium text-sm flex items-center justify-center md:justify-start">
@@ -148,6 +150,34 @@ const AllBlogs = () => {
           </div>
         ))}
       </section>
+
+      <nav aria-label="Page navigation example">
+        <ul className="list-style-none flex justify-center">
+          <li className="pr-1">
+            <button className="relative block rounded bg-transparent px-3 py-1.5 text-sm transition-all duration-30 bg-neutral-700 text-white hover:bg-blue-400">
+              Previous
+            </button>
+          </li>
+          {pages.map((item) => (
+            <li className="pr-1" key={item}>
+              <button
+                className={`relative block rounded bg-transparent px-3 py-1.5 text-sm transition-all duration-30  ${
+                  page === item ? "bg-blue-400" : "bg-neutral-700"
+                } text-white hover:bg-blue-400`}
+                onClick={() => setPage(item)}
+              >
+                {item}
+              </button>
+            </li>
+          ))}
+
+          <li>
+            <button className="relative block rounded bg-transparent px-3 py-1.5 text-sm transition-all duration-30 bg-neutral-700 text-white hover:bg-blue-400">
+              Next
+            </button>
+          </li>
+        </ul>
+      </nav>
     </div>
   );
 };
