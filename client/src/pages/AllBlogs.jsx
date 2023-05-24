@@ -5,14 +5,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useMemo, useState } from "react";
 import { setSearch } from "../redux/authSlice";
 import { SearchBlogSkeleton } from "../components/skeletons";
-
+import { BreadCrumbs } from "../components";
 
 const AllBlogs = () => {
   const { search } = useSelector((store) => store.auth);
   const [page, setPage] = useState(1);
   const [tempSearch, setTempSearch] = useState("");
   const dispatch = useDispatch();
- 
+
+  const brd = [
+    { name: "Home", link: "/" },
+    { name: "Blogs", link: `/all-blogs` },
+    { name: search.name },
+  ];
 
   const { data, isLoading, refetch } = useSearchBlogsQuery({
     search: search.title,
@@ -61,6 +66,10 @@ const AllBlogs = () => {
 
   return (
     <div className="container my-5 px-6 mx-auto">
+      <div className="md:ml-28 mb-2">
+        <BreadCrumbs data={brd} />
+      </div>
+
       <div className="flex justify-center">
         <div className="flex flex-col w-full md:w-2/3 gap-y-5 mt-2 relative">
           <AiOutlineSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-6 h-6 text-[#959EAD]" />
@@ -102,7 +111,7 @@ const AllBlogs = () => {
         <SearchBlogSkeleton />
       ) : (
         <section className="my-1 text-gray-800 text-center md:text-left">
-          <h2 className="text-3xl font-bold mb-12 text-center">
+          <h2 className="text-3xl font-bold mt-3 md:mt-0 mb-5 md:mb-10 text-center">
             {data?.blogs?.length
               ? `Latest ${search.name} Blogs`
               : "No Blog Found"}
@@ -112,7 +121,7 @@ const AllBlogs = () => {
             <div className="flex flex-wrap mb-6" key={blog._id}>
               <Link
                 to={`/blog/${blog._id}`}
-                className="grow-0 shrink-0 basis-auto w-full md:w-3/12 px-3 mb-6 md:mb-0 ml-auto"
+                className="grow-0 shrink-0 basis-auto w-full md:w-3/12 px-3 mb-0 ml-auto"
               >
                 <div
                   className="relative overflow-hidden bg-no-repeat bg-cover ripple shadow-lg rounded-lg mb-6"
@@ -130,9 +139,9 @@ const AllBlogs = () => {
                   ></div>
                 </div>
               </Link>
-              <div className="grow-0 shrink-0 basis-auto w-full md:w-9/12 xl:w-7/12 px-3 mb-6 md:mb-0 mr-auto">
-                <h5 className="text-lg font-bold mb-3">{blog.title}</h5>
-                <div className="mb-3 text-red-600 font-medium text-sm flex items-center justify-center md:justify-start">
+              <div className="grow-0 shrink-0 basis-auto w-full md:w-9/12 xl:w-7/12 px-3 mb-0 mr-auto">
+                <h5 className="text-lg font-bold mb-1 md:mb-3">{blog.title}</h5>
+                <div className="mb-1 md:mb-3 text-red-600 font-medium text-sm flex items-center justify-center md:justify-start">
                   {blog?.category.map((c) => `#${c.category.toLowerCase()} `)}
                 </div>
                 <p className="text-gray-500 mb-2">
@@ -150,7 +159,9 @@ const AllBlogs = () => {
                 <p className="text-gray-500">
                   Ut pretium ultricies dignissim. Sed sit amet mi eget urna
                   placerat vulputate. Ut vulputate est non quam dignissim
-                  elementum. Donec a ullamcorper diam
+                  elementum. Donec a ullamcorper diam Lorem ipsum dolor sit
+                  amet, consectetur adipisicing elit. Exercitationem ullam
+                  blanditiis excepturi ut
                   <Link to={`/blog/${blog._id}`} className="text-primary">
                     ...Read More
                   </Link>

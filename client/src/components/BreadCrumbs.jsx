@@ -6,7 +6,7 @@ const BreadCrumbs = ({ data }) => {
       {data?.map((item, index) => (
         <div
           key={index}
-          className="text-black opacity-50 text-xs font-roboto md:text-sm"
+          className="text-black opacity-50 text-xs font-roboto md:text-sm hover:font-extrabold"
         >
           <Link to={item.link}>{item.name}</Link>
           {index !== data.length - 1 && <span className="px-3">/</span>}
