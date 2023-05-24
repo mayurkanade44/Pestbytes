@@ -238,7 +238,7 @@ export const searchBlogs = async (req, res) => {
   const query = {};
   try {
     if (search) query.title = { $regex: search, $options: "i" };
-    if (category) query.category = { $in: new mongoose.Types.ObjectId(id) };
+    if (category) query.category = { $in: new mongoose.Types.ObjectId(category) };
 
     const blogs = await Blog.find(query)
       .populate([

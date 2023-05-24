@@ -19,6 +19,25 @@ const blogs = [
   { id: 7 },
 ];
 
+const topCategories = [
+  {
+    id: "646c954d0053b184c58edec6",
+    name: "Rodent",
+  },
+  {
+    id: "646b40162ce0bb21a57968fa",
+    name: "Cockroach",
+  },
+  {
+    id: "646c95090053b184c58edebe",
+    name: "Mosquito",
+  },
+  {
+    id: "646c95240053b184c58edec0",
+    name: "Termite",
+  },
+];
+
 const Home = () => {
   const { data, isLoading, refetch } = useAllBlogsQuery();
   const dispatch = useDispatch();
@@ -31,13 +50,30 @@ const Home = () => {
       setTempSearch(e.target.value);
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
-        dispatch(setSearch({ search: e.target.value, category: "" }));
+        dispatch(
+          setSearch({
+            title: e.target.value,
+            category: "",
+            name: e.target.value,
+          })
+        );
         navigate(`/all-blogs`);
       }, 1000);
     };
   };
 
   const optimizedDebounce = useMemo(() => debounce(), []);
+
+  const searchCategory = ({ category, name }) => {
+    dispatch(
+      setSearch({
+        title: "",
+        category: category,
+        name: name,
+      })
+    );
+    navigate(`/all-blogs`);
+  };
 
   return (
     <div>
@@ -67,22 +103,23 @@ const Home = () => {
               Popular Tags:
             </span>
             <ul className="flex flex-wrap gap-x-2 gap-y-2.5 mt-3 lg:text-sm xl:text-base">
-              <li className="rounded-lg bg-primary bg-opacity-10 h-6 md:h-auto px-2 md:px-3 py-0.5 md:py-1.5 text-primary text-sm md:text-base md:font-semibold">
-                <Link to="/all-blogs?id=646c954d0053b184c58edec6">Rodent</Link>
-              </li>
-              <li className="rounded-lg bg-primary bg-opacity-10 h-6 md:h-auto px-2 md:px-3 py-0.5 md:py-1.5 text-primary text-sm md:text-base md:font-semibold">
-                <Link to="/all-blogs?id=646b40162ce0bb21a57968fa">
-                  Cockroach
-                </Link>
-              </li>
-              <li className="rounded-lg bg-primary bg-opacity-10 h-6 md:h-auto px-2 md:px-3 py-0.5 md:py-1.5 text-primary text-sm md:text-base md:font-semibold">
-                <Link to="/all-blogs?id=646c95090053b184c58edebe">
-                  Mosquito
-                </Link>
-              </li>
-              <li className="hidden lg:block rounded-lg bg-primary bg-opacity-10 px-3 py-1.5 text-primary font-semibold">
-                <Link to="/all-blogs?id=646c95240053b184c58edec0">Termite</Link>
-              </li>
+              {topCategories.map((category) => (
+                <li
+                  key={category.id}
+                  className="rounded-lg bg-primary bg-opacity-10 h-6 md:h-auto px-2 md:px-3 py-0.5 md:py-1.5 text-primary text-sm md:text-base md:font-semibold"
+                >
+                  <button
+                    onClick={() =>
+                      searchCategory({
+                        category: category.id,
+                        name: category.name,
+                      })
+                    }
+                  >
+                    {category.name}
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

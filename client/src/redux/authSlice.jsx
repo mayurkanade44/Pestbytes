@@ -4,8 +4,11 @@ const initialState = {
   user: localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : null,
-  search: "",
-  category: "",
+  search: {
+    title: "",
+    category: "",
+    name: "",
+  },
 };
 
 const authSlice = createSlice({
@@ -21,8 +24,7 @@ const authSlice = createSlice({
       localStorage.removeItem("user");
     },
     setSearch: (state, { payload }) => {
-      state.search = payload.search;
-      state.category = payload.category;
+      state.search = payload
     },
   },
 });

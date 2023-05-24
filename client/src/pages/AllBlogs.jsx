@@ -4,19 +4,56 @@ import {
   useBlogsByCategoryQuery,
   useSearchBlogsQuery,
 } from "../redux/blogSlice";
-import { Link, useSearchParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useMemo, useState } from "react";
+import { setSearch } from "../redux/authSlice";
 
 const AllBlogs = () => {
-  const { search, category } = useSelector((store) => store.auth);
-  const [searchParams] = useSearchParams();
+  const { search } = useSelector((store) => store.auth);
+  const [tempSearch, setTempSearch] = useState("");
+  const dispatch = useDispatch();
 
   const {
     data: blogs,
     isLoading,
     refetch,
-  } = useSearchBlogsQuery({ search, category });
+  } = useSearchBlogsQuery({ search: search.title, category: search.category });
   const { data: categories } = useAllCategoriesQuery();
+
+  useEffect(() => {
+    setTempSearch(search.title);
+  }, []);
+
+  const searchCategory = ({ category, name }) => {
+    dispatch(
+      setSearch({
+        title: "",
+        category: category,
+        name: name,
+      })
+    );
+  };
+
+  const debounce = () => {
+    let timeoutId;
+    return (e) => {
+      setTempSearch(e.target.value);
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        dispatch(
+          setSearch({
+            title: e.target.value,
+            category: "",
+            name: e.target.value,
+          })
+        );
+        refetch();
+      }, 1000);
+    };
+  };
+
+  const optimizedDebounce = useMemo(() => debounce(), []);
 
   return (
     <div className="container my-5 px-6 mx-auto">
@@ -27,6 +64,8 @@ const AllBlogs = () => {
             className="placeholder:font-bold font-semibold text-dark-soft placeholder:text-[#959EAD] rounded-lg pl-12 pr-3 w-full py-3 focus:outline-none shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] md:py-3"
             type="text"
             placeholder="Search for pest, pest prevention or pest services"
+            value={tempSearch}
+            onChange={optimizedDebounce}
           />
         </div>
       </div>
@@ -38,6 +77,12 @@ const AllBlogs = () => {
               <button
                 key={category._id}
                 className="mr-2 mb-2 rounded-lg bg-primary bg-opacity-10 h-6 md:h-auto px-1 md:px-2 py-0.5 text-primary hover:text-dark-hard text-sm md:text-base md:font-semibold"
+                onClick={() =>
+                  searchCategory({
+                    category: category._id,
+                    name: category.category,
+                  })
+                }
               >
                 #{category.category.toLowerCase().split(" ")}
               </button>
@@ -45,9 +90,10 @@ const AllBlogs = () => {
           </div>
         </div>
       </div>
+
       <section className="my-1 text-gray-800 text-center md:text-left">
         <h2 className="text-3xl font-bold mb-12 text-center">
-          Latest articles
+          {blogs?.length ? `Latest ${search.name} blogs` : "No Blog Found"}
         </h2>
 
         {blogs?.map((blog) => (
