@@ -1,9 +1,13 @@
 import { BlogRow, BlogCard } from "../components";
-import { useAllBlogsQuery } from "../redux/blogSlice";
+import { useAllBlogsQuery, useBlogsByCategoryQuery } from "../redux/blogSlice";
 import { FaArrowRight } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 
 import hero from "../assets/hero.png";
+import { Link, useNavigate } from "react-router-dom";
+import { useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setSearch } from "../redux/authSlice";
 
 const blogs = [
   { id: 1 },
@@ -17,8 +21,23 @@ const blogs = [
 
 const Home = () => {
   const { data, isLoading, refetch } = useAllBlogsQuery();
+  const dispatch = useDispatch();
+  const [tempSearch, setTempSearch] = useState("");
+  const navigate = useNavigate();
 
-  
+  const debounce = () => {
+    let timeoutId;
+    return (e) => {
+      setTempSearch(e.target.value);
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        dispatch(setSearch({ search: e.target.value, category: "" }));
+        navigate(`/all-blogs`);
+      }, 1000);
+    };
+  };
+
+  const optimizedDebounce = useMemo(() => debounce(), []);
 
   return (
     <div>
@@ -38,25 +57,31 @@ const Home = () => {
                 className="placeholder:font-bold font-semibold text-dark-soft placeholder:text-[#959EAD] rounded-lg pl-12 pr-3 w-full py-3 focus:outline-none shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] md:py-4"
                 type="text"
                 placeholder="Search for pest, pest prevention or pest services"
+                value={tempSearch}
+                onChange={optimizedDebounce}
               />
             </div>
           </div>
           <div className="flex mt-4 flex-row lg:items-start flex-nowrap lg:gap-x-4 lg:mt-7">
             <span className="text-dark-light font-semibold italic mt-3 mr-1.5 lg:mt-4 lg:text-sm xl:text-base">
-              Popular Pests:
+              Popular Tags:
             </span>
             <ul className="flex flex-wrap gap-x-2 gap-y-2.5 mt-3 lg:text-sm xl:text-base">
               <li className="rounded-lg bg-primary bg-opacity-10 h-6 md:h-auto px-2 md:px-3 py-0.5 md:py-1.5 text-primary text-sm md:text-base md:font-semibold">
-                Rodent
+                <Link to="/all-blogs?id=646c954d0053b184c58edec6">Rodent</Link>
               </li>
               <li className="rounded-lg bg-primary bg-opacity-10 h-6 md:h-auto px-2 md:px-3 py-0.5 md:py-1.5 text-primary text-sm md:text-base md:font-semibold">
-                Mosquito
+                <Link to="/all-blogs?id=646b40162ce0bb21a57968fa">
+                  Cockroach
+                </Link>
               </li>
               <li className="rounded-lg bg-primary bg-opacity-10 h-6 md:h-auto px-2 md:px-3 py-0.5 md:py-1.5 text-primary text-sm md:text-base md:font-semibold">
-                Cockroach
+                <Link to="/all-blogs?id=646c95090053b184c58edebe">
+                  Mosquito
+                </Link>
               </li>
               <li className="hidden lg:block rounded-lg bg-primary bg-opacity-10 px-3 py-1.5 text-primary font-semibold">
-                Termite
+                <Link to="/all-blogs?id=646c95240053b184c58edec0">Termite</Link>
               </li>
             </ul>
           </div>
@@ -82,10 +107,10 @@ const Home = () => {
             />
           ))}
         </div>
-        <button className="mx-auto flex items-center gap-x-2 font-bold text-primary border-2 border-primary px-5 py-2 rounded-lg">
+        {/* <button className="mx-auto flex items-center gap-x-2 font-bold text-primary border-2 border-primary px-5 py-2 rounded-lg">
           <span>More blogs</span>
           <FaArrowRight className="w-3 h-3" />
-        </button>
+        </button> */}
       </section>
 
       <BlogRow title="Trending Now" blogs={blogs} />

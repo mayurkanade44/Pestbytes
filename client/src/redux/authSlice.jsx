@@ -4,6 +4,8 @@ const initialState = {
   user: localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : null,
+  search: "",
+  category: "",
 };
 
 const authSlice = createSlice({
@@ -18,8 +20,12 @@ const authSlice = createSlice({
       state.user = null;
       localStorage.removeItem("user");
     },
+    setSearch: (state, { payload }) => {
+      state.search = payload.search;
+      state.category = payload.category;
+    },
   },
 });
 
-export const { setCredentials, logout } = authSlice.actions;
+export const { setCredentials, logout, setSearch } = authSlice.actions;
 export default authSlice.reducer;

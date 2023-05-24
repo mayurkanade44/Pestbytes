@@ -220,12 +220,40 @@ export const blogsByCategory = async (req, res) => {
         },
         {
           path: "category",
-          select: "category"
+          select: "category",
         },
       ])
-      .select("title photo createdAt").sort("-createdAt")
+      .select("title photo createdAt")
+      .sort("-createdAt");
 
     return res.json(blogs);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "Server error, try again later." });
+  }
+};
+
+export const searchBlogs = async (req, res) => {
+  const { search, category } = req.query;
+  const query = {};
+  try {
+    if (search) query.title = { $regex: search, $options: "i" };
+    if (category) query.category = { $in: new mongoose.Types.ObjectId(id) };
+
+    const blogs = await Blog.find(query)
+      .populate([
+        {
+          path: "user",
+          select: "name avatar",
+        },
+        {
+          path: "category",
+          select: "category",
+        },
+      ])
+      .select("title photo createdAt")
+      .sort("-createdAt");;
+    res.json(blogs);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Server error, try again later." });

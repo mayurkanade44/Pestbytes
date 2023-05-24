@@ -53,6 +53,14 @@ export const blogSlice = apiSlice.injectEndpoints({
         url: "/api/admin/category",
       }),
     }),
+    searchBlogs: builder.query({
+      query: ({ search, category }) => ({
+        url: "/api/blog/search",
+        params: { search, category },
+      }),
+      keepUnusedDataFor: 5,
+      providesTags: ["Blogs"],
+    }),
   }),
 });
 
@@ -65,4 +73,5 @@ export const {
   useAllBlogsQuery,
   useBlogsByCategoryQuery,
   useAllCategoriesQuery,
+  useSearchBlogsQuery,
 } = blogSlice;
