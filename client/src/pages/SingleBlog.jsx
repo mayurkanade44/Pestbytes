@@ -50,7 +50,7 @@ const SingleBlog = () => {
 
   const brd = [
     { name: "Home", link: "/" },
-    { name: "Blog", link: `/blog/${id}` },
+    { name: "Blogs", link: `/all-blogs` },
     { name: `${blog?.title}`, link: `/blog/${id}` },
   ];
 
@@ -58,7 +58,7 @@ const SingleBlog = () => {
     if (!user) return toast.error("Please login to like the blog");
 
     try {
-      const res = await likeBlog(id).unwrap();
+      await likeBlog(id).unwrap();
       refetch();
     } catch (error) {
       console.log(error);

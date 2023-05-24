@@ -4,12 +4,15 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useMemo, useState } from "react";
 import { setSearch } from "../redux/authSlice";
+import { SearchBlogSkeleton } from "../components/skeletons";
+
 
 const AllBlogs = () => {
   const { search } = useSelector((store) => store.auth);
   const [page, setPage] = useState(1);
   const [tempSearch, setTempSearch] = useState("");
   const dispatch = useDispatch();
+ 
 
   const { data, isLoading, refetch } = useSearchBlogsQuery({
     search: search.title,
@@ -20,7 +23,8 @@ const AllBlogs = () => {
 
   useEffect(() => {
     setTempSearch(search.title);
-  }, []);
+    window.scrollTo(0, 0);
+  }, [page]);
 
   const searchCategory = ({ category, name }) => {
     dispatch(
@@ -31,7 +35,6 @@ const AllBlogs = () => {
       })
     );
     setPage(1);
-    setTempSearch("")
   };
 
   const debounce = () => {
@@ -77,7 +80,11 @@ const AllBlogs = () => {
             {categories?.map((category) => (
               <button
                 key={category._id}
-                className="mr-2 mb-2 rounded-lg bg-primary bg-opacity-10 h-6 md:h-auto px-1 md:px-2 py-0.5 text-primary hover:text-dark-hard text-sm md:text-base md:font-semibold"
+                className={`mr-2 mb-2 rounded-lg bg-primary ${
+                  search.category === category._id
+                    ? "text-black"
+                    : " text-primary"
+                } bg-opacity-10 h-6 md:h-auto px-1 md:px-2 py-0.5 hover:text-dark-hard text-sm md:text-base md:font-semibold`}
                 onClick={() =>
                   searchCategory({
                     category: category._id,
@@ -91,93 +98,97 @@ const AllBlogs = () => {
           </div>
         </div>
       </div>
+      {isLoading ? (
+        <SearchBlogSkeleton />
+      ) : (
+        <section className="my-1 text-gray-800 text-center md:text-left">
+          <h2 className="text-3xl font-bold mb-12 text-center">
+            {data?.blogs?.length
+              ? `Latest ${search.name} Blogs`
+              : "No Blog Found"}
+          </h2>
 
-      <section className="my-1 text-gray-800 text-center md:text-left">
-        <h2 className="text-3xl font-bold mb-12 text-center">
-          {data?.blogs?.length
-            ? `Latest ${search.name} blogs`
-            : "No Blog Found"}
-        </h2>
-
-        {data?.blogs.map((blog) => (
-          <div className="flex flex-wrap mb-6" key={blog._id}>
-            <Link
-              to={`/blog/${blog._id}`}
-              className="grow-0 shrink-0 basis-auto w-full md:w-3/12 px-3 mb-6 md:mb-0 ml-auto"
-            >
-              <div
-                className="relative overflow-hidden bg-no-repeat bg-cover ripple shadow-lg rounded-lg mb-6"
-                data-mdb-ripple="true"
-                data-mdb-ripple-color="light"
+          {data?.blogs.map((blog) => (
+            <div className="flex flex-wrap mb-6" key={blog._id}>
+              <Link
+                to={`/blog/${blog._id}`}
+                className="grow-0 shrink-0 basis-auto w-full md:w-3/12 px-3 mb-6 md:mb-0 ml-auto"
               >
-                <img
-                  src="https://mdbootstrap.com/img/new/standard/city/018.jpg"
-                  className="w-full"
-                  alt="Louvre"
-                />
                 <div
-                  className="absolute top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed opacity-0 hover:opacity-100 transition duration-300 ease-in-out"
-                  style={{ backgroundColor: "#fbfbfb33" }}
-                ></div>
+                  className="relative overflow-hidden bg-no-repeat bg-cover ripple shadow-lg rounded-lg mb-6"
+                  data-mdb-ripple="true"
+                  data-mdb-ripple-color="light"
+                >
+                  <img
+                    src="https://mdbootstrap.com/img/new/standard/city/018.jpg"
+                    className="w-full"
+                    alt="Louvre"
+                  />
+                  <div
+                    className="absolute top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed opacity-0 hover:opacity-100 transition duration-300 ease-in-out"
+                    style={{ backgroundColor: "#fbfbfb33" }}
+                  ></div>
+                </div>
+              </Link>
+              <div className="grow-0 shrink-0 basis-auto w-full md:w-9/12 xl:w-7/12 px-3 mb-6 md:mb-0 mr-auto">
+                <h5 className="text-lg font-bold mb-3">{blog.title}</h5>
+                <div className="mb-3 text-red-600 font-medium text-sm flex items-center justify-center md:justify-start">
+                  {blog?.category.map((c) => `#${c.category.toLowerCase()} `)}
+                </div>
+                <p className="text-gray-500 mb-2">
+                  <small>
+                    Published on{" "}
+                    {new Date(blog?.createdAt).toLocaleDateString("en-US", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    })}{" "}
+                    by
+                    <span className="text-gray-900 ml-1">{blog.user.name}</span>
+                  </small>
+                </p>
+                <p className="text-gray-500">
+                  Ut pretium ultricies dignissim. Sed sit amet mi eget urna
+                  placerat vulputate. Ut vulputate est non quam dignissim
+                  elementum. Donec a ullamcorper diam
+                  <Link to={`/blog/${blog._id}`} className="text-primary">
+                    ...Read More
+                  </Link>
+                </p>
               </div>
-            </Link>
-            <div className="grow-0 shrink-0 basis-auto w-full md:w-9/12 xl:w-7/12 px-3 mb-6 md:mb-0 mr-auto">
-              <h5 className="text-lg font-bold mb-3">{blog.title}</h5>
-              <div className="mb-3 text-red-600 font-medium text-sm flex items-center justify-center md:justify-start">
-                {blog?.category.map((c) => `#${c.category.toLowerCase()} `)}
-              </div>
-              <p className="text-gray-500 mb-2">
-                <small>
-                  Published on{" "}
-                  {new Date(blog?.createdAt).toLocaleDateString("en-US", {
-                    day: "numeric",
-                    month: "short",
-                    year: "numeric",
-                  })}{" "}
-                  by
-                  <span className="text-gray-900 ml-1">{blog.user.name}</span>
-                </small>
-              </p>
-              <p className="text-gray-500">
-                Ut pretium ultricies dignissim. Sed sit amet mi eget urna
-                placerat vulputate. Ut vulputate est non quam dignissim
-                elementum. Donec a ullamcorper diam
-                <Link to={`/blog/${blog._id}`} className="text-primary">
-                  ...Read More
-                </Link>
-              </p>
             </div>
-          </div>
-        ))}
-      </section>
+          ))}
+        </section>
+      )}
 
-      <nav aria-label="Page navigation example">
-        <ul className="list-style-none flex justify-center">
-          <li className="pr-1">
-            <button className="relative block rounded bg-transparent px-3 py-1.5 text-sm transition-all duration-30 bg-neutral-700 text-white hover:bg-blue-400">
-              Previous
-            </button>
-          </li>
-          {pages.map((item) => (
-            <li className="pr-1" key={item}>
-              <button
-                className={`relative block rounded bg-transparent px-3 py-1.5 text-sm transition-all duration-30  ${
-                  page === item ? "bg-blue-400" : "bg-neutral-700"
-                } text-white hover:bg-blue-400`}
-                onClick={() => setPage(item)}
-              >
-                {item}
+      {pages.length > 1 && (
+        <nav aria-label="Page navigation example">
+          <ul className="list-style-none flex justify-center">
+            <li className="pr-1">
+              <button className="relative block rounded bg-transparent px-3 py-1.5 text-sm transition-all duration-30 bg-neutral-700 text-white hover:bg-blue-400">
+                Previous
               </button>
             </li>
-          ))}
-
-          <li>
-            <button className="relative block rounded bg-transparent px-3 py-1.5 text-sm transition-all duration-30 bg-neutral-700 text-white hover:bg-blue-400">
-              Next
-            </button>
-          </li>
-        </ul>
-      </nav>
+            {pages.map((item) => (
+              <li className="pr-1" key={item}>
+                <button
+                  className={`relative block rounded bg-transparent px-3 py-1.5 text-sm transition-all duration-30  ${
+                    page === item ? "bg-blue-400" : "bg-neutral-700"
+                  } text-white hover:bg-blue-400`}
+                  onClick={() => setPage(item)}
+                >
+                  {item}
+                </button>
+              </li>
+            ))}
+            <li>
+              <button className="relative block rounded bg-transparent px-3 py-1.5 text-sm transition-all duration-30 bg-neutral-700 text-white hover:bg-blue-400">
+                Next
+              </button>
+            </li>
+          </ul>
+        </nav>
+      )}
     </div>
   );
 };
