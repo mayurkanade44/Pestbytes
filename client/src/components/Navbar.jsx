@@ -18,7 +18,7 @@ const navItemsInfo = [
 const NavItems = ({ name, href }) => {
   return (
     <li className="relative group">
-      <Link to={href} className="px-4 py-2">
+      <Link to={href} className="px-4 py-2 hover:text-blue-500">
         {name}
       </Link>
       <span className="cursor-pointer text-blue-500 absolute transition-all duration-500 font-bold right-0 top-0 group-hover:right-[90%] opacity-0 group-hover:opacity-100">
@@ -91,7 +91,7 @@ const Navbar = () => {
                       alt="user-profile"
                       className="w-6 rounded-full mr-2"
                     />
-                    <span>{user.name.split(" ")[0]}</span>
+                    <span className="hover:text-blue-500">{user.name.split(" ")[0]}</span>
                     <MdKeyboardArrowDown />
                   </button>
                   <div
