@@ -5,14 +5,14 @@ import Blog from "../models/blogModel.js";
 export const createBlog = async (req, res) => {
   try {
     const blog = new Blog({
-      title: "Category",
+      title: "Multiple categories",
       caption: "sample caption xz",
       body: {
         type: "doc",
         content: [],
       },
       photo: "",
-      category: "646b40162ce0bb21a57968fa",
+      category: ["646b40162ce0bb21a57968fa", "646b57c9e2331d15c8911871"],
       user: req.user._id,
     });
 
@@ -60,7 +60,7 @@ export const updateBlog = async (req, res) => {
     if (blog.user.toString() !== req.user._id.toString())
       return res.status(401).json({ msg: "Access denied" });
 
-    blog.category = "646b40162ce0bb21a57968fa";
+    blog.category.push("646c95240053b184c58edec0");
 
     await blog.save();
 
@@ -216,10 +216,14 @@ export const blogsByCategory = async (req, res) => {
       .populate([
         {
           path: "user",
-          select:"name avatar"
+          select: "name avatar",
+        },
+        {
+          path: "category",
+          select: "category"
         },
       ])
-      .select("title photo createdAt");
+      .select("title photo createdAt").sort("-createdAt")
 
     return res.json(blogs);
   } catch (error) {

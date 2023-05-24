@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 
 const navItemsInfo = [
   { name: "Home", type: "link", href: "/" },
-  { name: "About Us", type: "link", href: "/about" },
+  { name: "About Us", type: "link", href: "/about-pestbytes" },
   { name: "Contact Us", type: "link", href: "/contact" },
 ];
 

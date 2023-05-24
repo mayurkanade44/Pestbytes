@@ -15,7 +15,7 @@ export const allCategories = async (req, res) => {
   try {
     let categories = await Admin.find();
 
-    res.json({ categories });
+    res.json(categories);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Server error, try again later." });
