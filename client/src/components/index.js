@@ -11,6 +11,7 @@ import PrivateRoute from "./PrivateRoute";
 import CropEasy from "./CropEasy";
 import ForgotPassword from "./ForgotPassword";
 import BlogCard from "./BlogCard";
+import Modal from "./Modal";
 
 export {
   Navbar,
@@ -26,4 +27,5 @@ export {
   CropEasy,
   ForgotPassword,
   BlogCard,
+  Modal,
 };
