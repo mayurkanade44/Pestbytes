@@ -1,23 +1,35 @@
 import mongoose from "mongoose";
-import Admin from "../models/adminModel.js";
 import Blog from "../models/blogModel.js";
+import { uploadImage } from "../utils/helpers.js";
 
 export const createBlog = async (req, res) => {
+  const { title, body, category } = req.body;
   try {
+    if (!title || !body || !category)
+      return res.status(400).json({ msg: "Please provide all values" });
+
+    let link;
+    if (req.files) {
+      link = await uploadImage(req.files.coverPic.tempFilePath);
+
+      if (!link)
+        return res
+          .status(500)
+          .json({ msg: "Image upload error, try again later." });
+    }
+
     const blog = new Blog({
-      title: "Multiple categories",
-      caption: "sample caption xz",
-      body: {
-        type: "doc",
-        content: [],
-      },
-      photo: "",
-      category: ["646b40162ce0bb21a57968fa", "646b57c9e2331d15c8911871"],
+      title,
+      body,
+      coverPicture: link,
+      category: JSON.parse(category),
       user: req.user._id,
     });
 
     const newBlog = await blog.save();
-    return res.status(201).json(newBlog);
+    return res
+      .status(201)
+      .json({ newBlog, msg: "Congratulation, your blog has been posted" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Server error, try again later." });

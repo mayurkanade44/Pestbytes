@@ -11,11 +11,15 @@ const CommentSchema = new mongoose.Schema(
 const BlogSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
-    caption: { type: String, required: true },
-    body: { type: Object, required: true },
-    photo: { type: String },
+    body: { type: String, required: true },
+    coverPicture: { type: String, require: true },
     comments: [CommentSchema],
-    category: [{ type: mongoose.Types.ObjectId, ref: "Admin", required: true }],
+    category: [
+      {
+        value: { type: mongoose.Types.ObjectId, ref: "Admin", required: true },
+        label: { type: String, required: true },
+      },
+    ],
     likes: [{ type: mongoose.Types.ObjectId, ref: "User" }],
     user: { type: mongoose.Types.ObjectId, ref: "User", required: true },
   },
