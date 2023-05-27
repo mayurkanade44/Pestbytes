@@ -55,6 +55,13 @@ export const blogSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
       providesTags: ["Blogs"],
     }),
+    createBlog: builder.mutation({
+      query: (data) => ({
+        url: "/api/blog",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -67,4 +74,5 @@ export const {
   useAllBlogsQuery,
   useAllCategoriesQuery,
   useSearchBlogsQuery,
+  useCreateBlogMutation
 } = blogSlice;
