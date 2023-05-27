@@ -12,6 +12,8 @@ import CropEasy from "./CropEasy";
 import ForgotPassword from "./ForgotPassword";
 import BlogCard from "./BlogCard";
 import Modal from "./Modal";
+import PopularTags from "./PopularTags";
+
 
 export {
   Navbar,
@@ -28,4 +30,5 @@ export {
   ForgotPassword,
   BlogCard,
   Modal,
+  PopularTags,
 };

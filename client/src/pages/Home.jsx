@@ -1,10 +1,10 @@
-import { BlogRow, BlogCard } from "../components";
+import { BlogRow, BlogCard, PopularTags } from "../components";
 import { useAllBlogsQuery } from "../redux/blogSlice";
 import { FaArrowRight } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 
 import hero from "../assets/hero.png";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setSearch } from "../redux/authSlice";
@@ -17,25 +17,6 @@ const blogs = [
   { id: 5 },
   { id: 6 },
   { id: 7 },
-];
-
-const topCategories = [
-  {
-    id: "646c954d0053b184c58edec6",
-    name: "Rodent",
-  },
-  {
-    id: "646b40162ce0bb21a57968fa",
-    name: "Cockroach",
-  },
-  {
-    id: "646c95090053b184c58edebe",
-    name: "Mosquito",
-  },
-  {
-    id: "646c95240053b184c58edec0",
-    name: "Termite",
-  },
 ];
 
 const Home = () => {
@@ -102,25 +83,7 @@ const Home = () => {
             <span className="text-dark-light font-semibold italic mt-3 mr-1.5 lg:mt-4 lg:text-sm xl:text-base">
               Popular Tags:
             </span>
-            <ul className="flex flex-wrap gap-x-2 gap-y-2.5 mt-3 lg:text-sm xl:text-base">
-              {topCategories.map((category) => (
-                <li
-                  key={category.id}
-                  className="rounded-lg bg-primary bg-opacity-10 h-6 md:h-auto px-2 md:px-3 py-0.5 md:py-1.5 text-primary text-sm md:text-base md:font-semibold"
-                >
-                  <button
-                    onClick={() =>
-                      searchCategory({
-                        category: category.id,
-                        name: category.name,
-                      })
-                    }
-                  >
-                    {category.name}
-                  </button>
-                </li>
-              ))}
-            </ul>
+            <PopularTags className="rounded-lg bg-primary mt-3 mr-2 bg-opacity-10 h-6 md:h-auto px-2 md:px-3 py-0.5 md:py-1.5 text-primary text-sm md:text-base md:font-semibold" />
           </div>
         </div>
         <div className="hidden lg:block lg:1/2">

@@ -6,24 +6,29 @@ import {
 } from "../components";
 import post from "../assets/post.jpg";
 import logo from "../assets/logo.png";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetSingleBlogQuery, useLikeBlogMutation } from "../redux/blogSlice";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { MdCalendarMonth } from "react-icons/md";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { toast } from "react-toastify";
 import { SingleBlogSkeleton } from "../components/skeletons";
 import { useEffect } from "react";
+import { setSearch } from "../redux/authSlice";
 
 const SingleBlog = () => {
   const { id } = useParams();
   const { data: blog, refetch, isLoading, error } = useGetSingleBlogQuery(id);
   const [likeBlog] = useLikeBlogMutation();
   const { user } = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  console.log(blog);
 
   const postsData = [
     {
@@ -46,8 +51,6 @@ const SingleBlog = () => {
     },
   ];
 
-  const tagsData = ["Cockroach", "Termite", "Mosquitoes", "Ants", "Rodent"];
-
   const brd = [
     { name: "Home", link: "/" },
     { name: "Blogs", link: `/all-blogs` },
@@ -65,6 +68,17 @@ const SingleBlog = () => {
     }
   };
 
+  const searchCategory = ({ category, name }) => {
+    dispatch(
+      setSearch({
+        title: "",
+        category: category,
+        name: name,
+      })
+    );
+    navigate(`/all-blogs`);
+  };
+
   if (isLoading) return <SingleBlogSkeleton />;
 
   return (
@@ -72,7 +86,7 @@ const SingleBlog = () => {
       <section className="container mx-auto max-w-5xl flex flex-col px-5 py-5 lg:flex-row lg:gap-x-5 lg:items-start">
         <article className="flex-1">
           <BreadCrumbs data={brd} />
-          <h1 className="text-xl font-medium font-roboto my-5 text-dark-hard md:text-[26px]">
+          <h1 className="text-xl font-medium font-roboto my-3 text-dark-hard md:text-[26px]">
             {blog?.title}
           </h1>
           <div className="py-1 px-4 bg-slate-100 mb-5 ">
@@ -111,20 +125,30 @@ const SingleBlog = () => {
               </span>
             </div>
           </div>
-          <img src={post} alt="post" className="rounded-xl w-full" />
-          <div className="mt-4 flex gap-2">
-            <Link
-              to={`/blog?category`}
-              className="text-primary text-sm font-roboto inline-block md:text-base"
-            >
-              Cockroach
-            </Link>
+          <img
+            src={blog?.coverPicture}
+            alt="post"
+            className="w-full object-contain h-auto md:h-52 lg:h-72 rounded-lg"
+          />
+          <div className="mt-3 flex gap-2">
+            {blog?.category.map((item) => (
+              <button
+                key={item._id}
+                type="button"
+                onClick={() =>
+                  searchCategory({ category: item.value, name: item.label })
+                }
+                className="text-primary text-sm font-roboto inline-block md:text-base"
+              >
+                #{item.label}
+              </button>
+            ))}
           </div>
-          <div className="mt-4 prose prose-sm sm:prose-base">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus
-            repellat tenetur a tempora asperiores soluta quaerat vero nemo unde
-            non possimus praesentium, neque voluptate similique expedita nobis
-            est vel aut?
+          <div className="mt-2 prose prose-sm sm:prose-base">
+            <div
+              className="mt-4 quill"
+              dangerouslySetInnerHTML={{ __html: blog?.body }}
+            ></div>
           </div>
           <Comments
             comments={blog?.comments}
@@ -138,7 +162,6 @@ const SingleBlog = () => {
           <SuggestedBlogs
             header="Latest Article"
             posts={postsData}
-            tags={tagsData}
             className="mt-8 lg:mt-0 lg:max-w-xs"
           />
           <div className="mt-7">
