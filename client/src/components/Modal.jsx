@@ -93,10 +93,10 @@ const Modal = ({
                 <div className="flex justify-center w-full">
                   <button
                     className="bg-green-800 text-white font-bold text-lg py-2 px-4  rounded-lg my-2"
-                    onSubmit={onSubmit}
+                    onClick={onSubmit}
                     disabled={isLoading}
                   >
-                    Publish
+                    {isLoading ? "posting..." : "Publish"}
                   </button>
                 </div>
               </div>

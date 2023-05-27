@@ -113,6 +113,7 @@ const AddBlog = () => {
 
   return (
     <div className="container mx-auto max-w-3xl px-5 py-5 lg:flex-row lg:gap-x-5 lg:items-start">
+      <h2 className="text-center mb-5 text-xl font-semibold">Create New Blog</h2>
       <form action="submit" onSubmit={handleSubmit}>
         <div className="relative mb-3">
           <input
@@ -160,7 +161,7 @@ const AddBlog = () => {
           modules={modules}
           formats={formats}
           placeholder="Write something"
-          className="h-60 mb-12"
+          className="h-72 mb-20 md:mb-12"
         />
         <div className="flex justify-center">
           <button
@@ -173,7 +174,6 @@ const AddBlog = () => {
         </div>
         <div className="flex justify-center"></div>
       </form>
-      {value}
       {blogValues.openPreview && (
         <Modal
           title="Blog Preview"

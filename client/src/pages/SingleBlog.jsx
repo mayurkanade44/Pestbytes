@@ -28,8 +28,6 @@ const SingleBlog = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  console.log(blog);
-
   const postsData = [
     {
       _id: "1",
@@ -128,9 +126,9 @@ const SingleBlog = () => {
           <img
             src={blog?.coverPicture}
             alt="post"
-            className="w-full object-contain h-auto md:h-52 lg:h-72 rounded-lg"
+            className="w-full object-contain h-40 md:h-52 lg:h-72 rounded-lg"
           />
-          <div className="mt-3 flex gap-2">
+          <div className="mt-4 flex gap-2">
             {blog?.category.map((item) => (
               <button
                 key={item._id}
@@ -144,9 +142,9 @@ const SingleBlog = () => {
               </button>
             ))}
           </div>
-          <div className="mt-2 prose prose-sm sm:prose-base">
+          <div className=" prose prose-sm sm:prose-base">
             <div
-              className="mt-4 quill"
+              className="quill"
               dangerouslySetInnerHTML={{ __html: blog?.body }}
             ></div>
           </div>

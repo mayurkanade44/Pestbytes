@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import Blog from "../models/blogModel.js";
-import { uploadImage } from "../utils/helpers.js";
+import { capitalLetter, uploadImage } from "../utils/helpers.js";
 
 export const createBlog = async (req, res) => {
   const { title, body, category } = req.body;
@@ -19,7 +19,7 @@ export const createBlog = async (req, res) => {
     }
 
     const blog = new Blog({
-      title,
+      title: capitalLetter(title),
       body,
       coverPicture: link,
       category: JSON.parse(category),
@@ -225,7 +225,11 @@ export const searchBlogs = async (req, res) => {
   try {
     if (search) query.title = { $regex: search, $options: "i" };
     if (category)
-      query.category = { $in: new mongoose.Types.ObjectId(category) };
+      query.category = {
+        $elemMatch: {
+          value: new mongoose.Types.ObjectId(category),
+        },
+      };
 
     const page = Number(req.query.page) || 1;
 
@@ -241,7 +245,7 @@ export const searchBlogs = async (req, res) => {
           select: "category",
         },
       ])
-      .select("title photo createdAt")
+      .select("title coverPicture body createdAt")
       .sort("-createdAt")
       .limit(2)
       .skip(2 * (page - 1));
