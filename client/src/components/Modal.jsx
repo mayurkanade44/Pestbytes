@@ -12,9 +12,16 @@ const Modal = ({
   isLoading,
 }) => {
   const [showModal, setShowModal] = useState(openPreview);
+  const [previewImage, setPreviewImage] = useState(null);
+
+  const prevImage = () => {
+    if (typeof blogValues.file === "string") setPreviewImage(blogValues.file);
+    else setPreviewImage(URL.createObjectURL(blogValues.file));
+  };
 
   useEffect(() => {
     setShowModal(openPreview);
+    prevImage();
   }, [openPreview]);
 
   const handleClose = useCallback(() => {
@@ -23,6 +30,8 @@ const Modal = ({
       onClose();
     }, 200);
   }, [onClose]);
+
+  
 
   return (
     <div>
@@ -78,7 +87,7 @@ const Modal = ({
                     </div>
                   </div>
                   <img
-                    src={URL.createObjectURL(blogValues.file)}
+                    src={previewImage}
                     alt="post"
                     className="w-full object-contain h-auto md:h-52 lg:h-72 rounded-lg"
                   />

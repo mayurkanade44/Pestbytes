@@ -159,6 +159,7 @@ const UserProfile = () => {
                   key={blog._id}
                   blog={blog}
                   className="w-full md:w-[calc(50%-20px)]"
+                  profile={true}
                 />
               ))}
             </div>

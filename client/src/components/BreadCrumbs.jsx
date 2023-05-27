@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const BreadCrumbs = ({ data }) => {
   return (
-    <div className="flex items-center pt-2 overflow-x-auto whitespace-nowrap">
+    <div className="flex items-center overflow-x-auto whitespace-nowrap">
       {data?.map((item, index) => (
         <div
           key={index}
