@@ -20,7 +20,7 @@ const AddBlog = () => {
   const [postBlog, { isLoading: postBlogLoading }] = useCreateBlogMutation();
   const [updateBlog, { isLoading: updateBlogLoading }] =
     useUpdateBlogMutation();
-  const { newBlog } = useSelector((store) => store.auth);
+  const { newBlog, user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   const { data: categories } = useAllCategoriesQuery();
   const [category, setCategory] = useState([]);
@@ -47,8 +47,6 @@ const AddBlog = () => {
       setSelectedOption(blog.category);
     }
   }, [blog]);
-
-  console.log(selectedOption);
 
   useEffect(() => {
     if (categories) {
@@ -224,6 +222,7 @@ const AddBlog = () => {
           onSubmit={handleSubmit}
           blogValues={blogValues}
           isLoading={updateBlogLoading || postBlogLoading}
+          user={user}
         />
       )}
     </div>

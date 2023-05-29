@@ -6,7 +6,6 @@ export const blogSlice = apiSlice.injectEndpoints({
       query: (id) => ({
         url: `/api/blog/singleBlog/${id}`,
       }),
-      keepUnusedDataFor: 5,
     }),
     addComment: builder.mutation({
       query: ({ data, blogId }) => ({
@@ -82,5 +81,5 @@ export const {
   useAllCategoriesQuery,
   useSearchBlogsQuery,
   useCreateBlogMutation,
-  useUpdateBlogMutation
+  useUpdateBlogMutation,
 } = blogSlice;

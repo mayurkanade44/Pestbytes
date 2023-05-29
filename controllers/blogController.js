@@ -39,20 +39,18 @@ export const createBlog = async (req, res) => {
 export const getSingleBlog = async (req, res) => {
   const { id } = req.params;
   try {
-    const blog = await Blog.findById(id).populate([
-      {
-        path: "user",
-        select: "name avatar",
-      },
-      {
-        path: "comments.user",
-        select: "name avatar",
-      },
-      {
-        path: "category",
-        select: "category",
-      },
-    ]);
+    const blog = await Blog.findById(id)
+      .populate([
+        {
+          path: "user",
+          select: "name avatar",
+        },
+        {
+          path: "comments.user",
+          select: "name avatar",
+        },
+      ])
+      .select("-category._id");
 
     if (!blog) return res.status(404).json({ msg: "Blog not found" });
 
@@ -64,6 +62,7 @@ export const getSingleBlog = async (req, res) => {
 };
 
 export const updateBlog = async (req, res) => {
+  const { title, body, category } = req.body;
   try {
     const blog = await Blog.findById(req.params.id);
 
@@ -72,11 +71,23 @@ export const updateBlog = async (req, res) => {
     if (blog.user.toString() !== req.user._id.toString())
       return res.status(401).json({ msg: "Access denied" });
 
-    blog.category.push("646c95240053b184c58edec0");
+    let link;
+    if (req.files) {
+      link = await uploadImage(req.files.coverPic.tempFilePath);
+
+      if (!link)
+        return res
+          .status(500)
+          .json({ msg: "Image upload error, try again later." });
+    }
+
+    blog.title = title;
+    blog.body = body;
+    blog.coverPicture = link;
 
     await blog.save();
 
-    return res.json({ msg: "Blog updated" });
+    return res.json({ msg: "Blog updated", newBlog: blog });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Server error, try again later." });

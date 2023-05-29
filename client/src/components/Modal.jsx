@@ -10,6 +10,7 @@ const Modal = ({
   onSubmit,
   blogValues,
   isLoading,
+  user
 }) => {
   const [showModal, setShowModal] = useState(openPreview);
   const [previewImage, setPreviewImage] = useState(null);
@@ -64,13 +65,13 @@ const Modal = ({
                     <div className="flex justify-between flex-nowrap items-center">
                       <div className="flex items-center gap-x-2 md:gap-x-2.5">
                         <img
-                          src=""
+                          src={user.avatar}
                           alt="post-profile"
                           className="w-9 h-9 md:w-10 md:h-10 rounded-full"
                         />
                         <div className="flex flex-col">
                           <h4 className="font-bold italic text-dark-soft text-sm md:text-base">
-                            <span className="font-normal">by</span> Mayur
+                            <span className="font-normal">by</span> {user.name}
                           </h4>
                           <div className="flex items-center gap-x-2">
                             <span className="text-xs text-dark-light">

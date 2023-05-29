@@ -53,7 +53,7 @@ const Navbar = () => {
   };
 
   const addBlog = () => {
-    dispatch(setNewBlog({ state: true, blogId: "" }));
+    dispatch(setNewBlog({ status: true, blogId: "" }));
     navigate("/add-blog");
   };
   return (
