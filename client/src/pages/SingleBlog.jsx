@@ -5,7 +5,7 @@ import {
   SuggestedBlogs,
 } from "../components";
 import post from "../assets/post.jpg";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.jpg";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetSingleBlogQuery, useLikeBlogMutation } from "../redux/blogSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -131,7 +131,7 @@ const SingleBlog = () => {
           <div className="mt-4 flex gap-2">
             {blog?.category.map((item) => (
               <button
-                key={item._id}
+                key={item.value}
                 type="button"
                 onClick={() =>
                   searchCategory({ category: item.value, name: item.label })

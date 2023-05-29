@@ -168,7 +168,7 @@ const AddBlog = () => {
             <label className="cursor-pointer hover:bg-cyan-600 text-white font-bold py-2 px-4 w-full inline-flex items-center rounded-lg">
               <AiOutlineCloudUpload className="text-black h-5 w-5 mr-2" />
               <span className="text-base leading-normal">
-                {blogValues.file ? "Uploaded" : "Upload A Cover Picture"}
+                {blogValues.file ? "Image Uploaded" : "Upload A Cover Picture"}
               </span>
               <input
                 type="file"

@@ -69,21 +69,21 @@ const UserProfile = () => {
                   <a
                     target="_blank"
                     rel="noreferrer"
-                    href={data?.socialLinks.linkedin}
+                    href={data?.socialLinks?.linkedin}
                   >
                     <FaLinkedin className="text-[#4583c9] w-7 h-auto mr-2" />
                   </a>
                   <a
                     target="_blank"
                     rel="noreferrer"
-                    href={data?.socialLinks.instagram}
+                    href={data?.socialLinks?.instagram}
                   >
                     <FaInstagram className="text-[#ff56be] w-7 h-auto mr-2" />
                   </a>
                   <a
                     target="_blank"
                     rel="noreferrer"
-                    href={data?.socialLinks.twitter}
+                    href={data?.socialLinks?.twitter}
                   >
                     <FaTwitterSquare className="text-[#56d8ff] w-7 h-auto mr-2" />
                   </a>
@@ -114,21 +114,21 @@ const UserProfile = () => {
                 <a
                   target="_blank"
                   rel="noreferrer"
-                  href={data?.socialLinks.linkedin}
+                  href={data?.socialLinks?.linkedin}
                 >
                   <FaLinkedin className="text-[#4583c9] w-6 h-auto mr-2" />
                 </a>
                 <a
                   target="_blank"
                   rel="noreferrer"
-                  href={data?.socialLinks.instagram}
+                  href={data?.socialLinks?.instagram}
                 >
                   <FaInstagram className="text-[#ff56be] w-6 h-auto mr-2" />
                 </a>
                 <a
                   target="_blank"
                   rel="noreferrer"
-                  href={data?.socialLinks.twitter}
+                  href={data?.socialLinks?.twitter}
                 >
                   <FaTwitterSquare className="text-[#56d8ff] w-6 h-auto mr-2" />
                 </a>

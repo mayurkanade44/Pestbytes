@@ -2,9 +2,9 @@ import { useNavigate } from "react-router-dom";
 import { setSearch } from "../redux/authSlice";
 import { useDispatch } from "react-redux";
 
-const PopularTags = ({className}) => {
+const PopularTags = ({ className }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const categories = [
     {
@@ -40,6 +40,7 @@ const PopularTags = ({className}) => {
     <div>
       {categories?.map((category) => (
         <button
+          key={category.id}
           onClick={() =>
             searchCategory({
               category: category.id,

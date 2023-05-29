@@ -19,7 +19,12 @@ export const registerUser = async (req, res) => {
 
     const newName = capitalLetter(name);
     const link = `http://localhost:3000/verify-account?token=${verificationToken}&email=${email}`;
-    const mail = await sendEmail({ newName, email, link });
+    const mail = await sendEmail({
+      newName,
+      email,
+      link,
+      template: "d-7949d5cffefe46a7b6a0eab95b71076e",
+    });
     if (!mail)
       return res.status(500).json({ msg: "Server error, try again later." });
 
@@ -39,7 +44,7 @@ export const registerUser = async (req, res) => {
   }
 };
 
-const sendEmail = async ({ name, email, link }) => {
+const sendEmail = async ({ name, email, link, template }) => {
   try {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -50,7 +55,7 @@ const sendEmail = async ({ name, email, link }) => {
         name: name,
         link: link,
       },
-      template_id: "d-7949d5cffefe46a7b6a0eab95b71076e",
+      template_id: template,
     };
 
     return sgMail.send(msg);
@@ -138,7 +143,12 @@ export const forgotPassword = async (req, res) => {
 
       const link = `http://localhost:3000/reset-password?token=${passwordToken}&email=${email}`;
 
-      const mail = await sendEmail({ name: user.name, email, link });
+      const mail = await sendEmail({
+        name: user.name,
+        email,
+        link,
+        template: "d-5d44d02a46dd4428b950e580d2bf3770",
+      });
 
       if (!mail)
         return res

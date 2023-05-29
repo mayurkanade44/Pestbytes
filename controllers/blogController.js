@@ -71,9 +71,10 @@ export const updateBlog = async (req, res) => {
     if (blog.user.toString() !== req.user._id.toString())
       return res.status(401).json({ msg: "Access denied" });
 
-    let link;
+  
     if (req.files) {
-      link = await uploadImage(req.files.coverPic.tempFilePath);
+      const  link = await uploadImage(req.files.coverPic.tempFilePath);
+      blog.coverPicture = link;
 
       if (!link)
         return res
@@ -83,7 +84,6 @@ export const updateBlog = async (req, res) => {
 
     blog.title = title;
     blog.body = body;
-    blog.coverPicture = link;
 
     await blog.save();
 

@@ -57,7 +57,7 @@ const BlogCard = ({ blog, className, profile, refetch }) => {
       <Link to={`/blog/${blog._id}`}>
         <div className="py-2 px-4">
           <h2 className="font-roboto font-bold text-xl text-dark-soft md:text-2xl lg:text-[28px]">
-            {blog.title}
+            {blog.title.substring(0, 26)}
           </h2>
           <div className="flex justify-between flex-nowrap items-center mt-2">
             <div className="flex items-center gap-x-2 md:gap-x-2.5">
