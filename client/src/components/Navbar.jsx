@@ -1,9 +1,8 @@
 import { useState } from "react";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.jpg";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
-import profile from "../assets/profile.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { useLogoutMutation } from "../redux/userSlice";
 import { logout, setNewBlog } from "../redux/authSlice";
@@ -61,7 +60,7 @@ const Navbar = () => {
       <header className="container mx-auto px-5 flex justify-between py-4 items-center">
         <div>
           <Link to="/">
-            <img src={logo} className="w-32" alt="logo" />
+            <img src={logo} className="w-10" alt="logo" />
           </Link>
         </div>
         <div className="lg:hidden z-50">

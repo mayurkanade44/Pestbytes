@@ -1,5 +1,3 @@
-import cta from "../assets/cta.jpg";
-import logo from "../assets/logo.png";
 import React from "react";
 import {
   AiOutlineTwitter,
