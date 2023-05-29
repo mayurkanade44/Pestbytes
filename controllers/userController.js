@@ -201,12 +201,13 @@ export const getUserProfile = async (req, res) => {
     const user = await User.findById(id).populate([
       {
         path: "blogs",
-        select: "title createdAt",
+        select: "title coverPicture createdAt",
+        options: { sort: { createdAt: -1 } },
         populate: { path: "user", select: "name avatar" },
       },
       {
         path: "likes",
-        select: "title createdAt",
+        select: "title coverPicture createdAt",
         populate: { path: "user", select: "name avatar" },
       },
     ]);

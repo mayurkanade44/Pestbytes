@@ -1,11 +1,13 @@
-import post from "../assets/post.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FaRegEdit } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { setNewBlog } from "../redux/authSlice";
+import { toast } from "react-toastify";
+import { useDeleteBlogMutation } from "../redux/blogSlice";
 
-const BlogCard = ({ blog, className, profile }) => {
+const BlogCard = ({ blog, className, profile, refetch }) => {
+  const [deleteBlog, { isLoading }] = useDeleteBlogMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleEdit = () => {
@@ -15,7 +17,18 @@ const BlogCard = ({ blog, className, profile }) => {
         blogId: blog._id,
       })
     );
-    navigate("/add-blog")
+    navigate("/add-blog");
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const res = await deleteBlog(id).unwrap();
+      refetch();
+      toast.success(res.msg);
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.data?.msg || error.error);
+    }
   };
 
   return (
@@ -32,11 +45,12 @@ const BlogCard = ({ blog, className, profile }) => {
         </Link>
         {profile && (
           <div className="absolute top-0 right-1 p-3 flex">
-            <FaRegEdit
-              onClick={handleEdit}
-              className="text-cyan-600 w-8 h-8 p-1  hover:border-2 mr-3"
-            />
-            <AiOutlineDelete className="text-red-500 w-8 h-8 p-1  hover:border-2" />
+            <button onClick={handleEdit}>
+              <FaRegEdit className="text-cyan-600 w-8 h-8 p-1  hover:border-2 mr-3" />
+            </button>
+            <button onClick={() => handleDelete(blog._id)}>
+              <AiOutlineDelete className="text-red-500 w-8 h-8 p-1  hover:border-2" />
+            </button>
           </div>
         )}
       </div>
