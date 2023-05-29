@@ -9,6 +9,10 @@ const initialState = {
     category: "",
     name: "",
   },
+  newBlog: {
+    status: true,
+    blogId: "",
+  },
 };
 
 const authSlice = createSlice({
@@ -24,10 +28,13 @@ const authSlice = createSlice({
       localStorage.removeItem("user");
     },
     setSearch: (state, { payload }) => {
-      state.search = payload
+      state.search = payload;
+    },
+    setNewBlog: (state, { payload }) => {
+      state.newBlog = payload;
     },
   },
 });
 
-export const { setCredentials, logout, setSearch } = authSlice.actions;
+export const { setCredentials, logout, setSearch, setNewBlog } = authSlice.actions;
 export default authSlice.reducer;

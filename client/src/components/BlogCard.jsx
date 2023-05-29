@@ -1,17 +1,46 @@
 import post from "../assets/post.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AiOutlineDelete } from "react-icons/ai";
+import { FaRegEdit } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { setNewBlog } from "../redux/authSlice";
 
-const BlogCard = ({ blog, className }) => {
+const BlogCard = ({ blog, className, profile }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleEdit = () => {
+    dispatch(
+      setNewBlog({
+        status: false,
+        blogId: blog._id,
+      })
+    );
+    navigate("/add-blog")
+  };
+
   return (
     <div
       className={`rounded-xl overflow-hidden shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] ${className}`}
     >
+      <div className="relative">
+        <Link to={`/blog/${blog._id}`}>
+          <img
+            src={blog.coverPicture}
+            alt="Image"
+            className="w-full h-60 rounded-lg"
+          />
+        </Link>
+        {profile && (
+          <div className="absolute top-0 right-1 p-3 flex">
+            <FaRegEdit
+              onClick={handleEdit}
+              className="text-cyan-600 w-8 h-8 p-1  hover:border-2 mr-3"
+            />
+            <AiOutlineDelete className="text-red-500 w-8 h-8 p-1  hover:border-2" />
+          </div>
+        )}
+      </div>
       <Link to={`/blog/${blog._id}`}>
-        <img
-          src={post}
-          className="w-full object-cover object-center h-auto md:h-52 lg:h-48 xl:h-60"
-          alt="post image"
-        />
         <div className="py-2 px-4">
           <h2 className="font-roboto font-bold text-xl text-dark-soft md:text-2xl lg:text-[28px]">
             {blog.title}

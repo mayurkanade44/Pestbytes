@@ -4,17 +4,24 @@ import "react-quill/dist/quill.snow.css";
 import {
   useAllCategoriesQuery,
   useCreateBlogMutation,
+  useGetSingleBlogQuery,
+  useUpdateBlogMutation,
 } from "../redux/blogSlice";
 import { toast } from "react-toastify";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { MdCalendarMonth } from "react-icons/md";
 import Select from "react-select";
 import { Modal } from "../components";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setNewBlog } from "../redux/authSlice";
 
 const AddBlog = () => {
   const [value, setValue] = useState("");
-  const [postBlog, { isLoading }] = useCreateBlogMutation();
+  const [postBlog, { isLoading: postBlogLoading }] = useCreateBlogMutation();
+  const [updateBlog, { isLoading: updateBlogLoading }] =
+    useUpdateBlogMutation();
+  const { newBlog } = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
   const { data: categories } = useAllCategoriesQuery();
   const [category, setCategory] = useState([]);
   const [blogValues, setBlogValues] = useState({
@@ -22,8 +29,26 @@ const AddBlog = () => {
     file: "",
     openPreview: false,
   });
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState([]);
   const navigate = useNavigate();
+
+  const { data: blog, error } = useGetSingleBlogQuery(newBlog.blogId, {
+    skip: newBlog.status,
+  });
+
+  useEffect(() => {
+    if (!newBlog.status && blog) {
+      setBlogValues({
+        title: blog.title,
+        file: blog.coverPicture,
+        openPreview: false,
+      });
+      setValue(blog.body);
+      setSelectedOption(blog.category);
+    }
+  }, [blog]);
+
+  console.log(selectedOption);
 
   useEffect(() => {
     if (categories) {
@@ -72,15 +97,26 @@ const AddBlog = () => {
     form.append("coverPic", blogValues.file);
 
     try {
-      const res = await postBlog(form).unwrap();
+      let res;
+      if (newBlog.status) {
+        res = await postBlog(form).unwrap();
+      } else {
+        res = await updateBlog({ data: form, id: newBlog.blogId }).unwrap();
+      }
       toast.success(res.msg);
+      navigate(`/blog/${res.newBlog._id}`);
       setBlogValues((prev) => ({
         title: "",
         file: "",
         openPreview: false,
       }));
       setValue("");
-      navigate(`/blog/${res.newBlog._id}`);
+      dispatch(
+        setNewBlog({
+          status: true,
+          blogId: "",
+        })
+      );
     } catch (error) {
       console.log(error);
       toast.error(error?.data?.msg || error.error);
@@ -113,7 +149,9 @@ const AddBlog = () => {
 
   return (
     <div className="container mx-auto max-w-3xl px-5 py-5 lg:flex-row lg:gap-x-5 lg:items-start">
-      <h2 className="text-center mb-5 text-xl font-semibold">Create New Blog</h2>
+      <h2 className="text-center mb-5 text-xl font-semibold">
+        {newBlog.status ? "Create New Blog" : "Update Blog"}
+      </h2>
       <form action="submit" onSubmit={handleSubmit}>
         <div className="relative mb-3">
           <input
@@ -143,16 +181,19 @@ const AddBlog = () => {
               />
             </label>
           </div>
-          <div className="md:w-2/4 mb-2">
-            <Select
-              defaultValue={selectedOption}
-              onChange={setSelectedOption}
-              options={category}
-              isMulti={true}
-              placeholder="Select Blog Category"
-              required
-            />
-          </div>
+          {newBlog.status && (
+            <div className="md:w-2/4 mb-2">
+              <Select
+                closeMenuOnSelect={false}
+                defaultValue={selectedOption}
+                onChange={setSelectedOption}
+                options={category}
+                isMulti={true}
+                placeholder="Select Blog Category"
+                required
+              />
+            </div>
+          )}
         </div>
         <ReactQuill
           theme="snow"
@@ -182,7 +223,7 @@ const AddBlog = () => {
           onClose={onClose}
           onSubmit={handleSubmit}
           blogValues={blogValues}
-          isLoading={isLoading}
+          isLoading={updateBlogLoading || postBlogLoading}
         />
       )}
     </div>

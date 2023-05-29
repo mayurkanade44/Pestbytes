@@ -2,11 +2,11 @@ import { useState } from "react";
 import logo from "../assets/logo.png";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import profile from "../assets/profile.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { useLogoutMutation } from "../redux/userSlice";
-import { logout } from "../redux/authSlice";
+import { logout, setNewBlog } from "../redux/authSlice";
 import { toast } from "react-toastify";
 
 const navItemsInfo = [
@@ -34,6 +34,7 @@ const Navbar = () => {
   const { user } = useSelector((store) => store.auth);
   const [logoutUser] = useLogoutMutation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const navVisibilityHandler = () => {
     setNavIsVisible((curState) => {
@@ -49,6 +50,11 @@ const Navbar = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const addBlog = () => {
+    dispatch(setNewBlog({ state: true, blogId: "" }));
+    navigate("/add-blog");
   };
   return (
     <section className="sticky top-0 left-0 right-0 z-50 bg-white shadow-sm border-b-[1px]">
@@ -91,7 +97,9 @@ const Navbar = () => {
                       alt="user-profile"
                       className="w-6 rounded-full mr-2"
                     />
-                    <span className="hover:text-blue-500">{user.name.split(" ")[0]}</span>
+                    <span className="hover:text-blue-500">
+                      {user.name.split(" ")[0]}
+                    </span>
                     <MdKeyboardArrowDown />
                   </button>
                   <div
@@ -100,12 +108,13 @@ const Navbar = () => {
                     } lg:hidden transition-all duration-500 pt-1 lg:absolute lg:bottom-0 lg:right-0 lg:transform lg:translate-y-full lg:group-hover:block w-[120px]`}
                   >
                     <ul className="bg-dark-soft lg:bg-white text-center flex flex-col shadow-lg rounded-lg overflow-hidden">
-                      <Link
-                        to="/add-blog"
+                      <button
+                        onClick={addBlog}
+                        type="button"
                         className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft"
                       >
                         Add Blog
-                      </Link>
+                      </button>
                       <Link
                         to={`/profile/${user.userId}`}
                         className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft"

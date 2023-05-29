@@ -62,6 +62,13 @@ export const blogSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    updateBlog: builder.mutation({
+      query: ({ data, id }) => ({
+        url: `/api/blog/singleBlog/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -74,5 +81,6 @@ export const {
   useAllBlogsQuery,
   useAllCategoriesQuery,
   useSearchBlogsQuery,
-  useCreateBlogMutation
+  useCreateBlogMutation,
+  useUpdateBlogMutation
 } = blogSlice;
