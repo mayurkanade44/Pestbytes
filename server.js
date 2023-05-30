@@ -8,8 +8,8 @@ import cookieParser from "cookie-parser";
 import connectDB from "./config/db.js";
 import { notFound } from "./middleware/errorMiddleware.js";
 import userRoutes from "./routes/userRoute.js";
-import blogRoutes from "./routes/blogRoute.js"
-import adminRoutes from "./routes/adminRoute.js"
+import blogRoutes from "./routes/blogRoute.js";
+import adminRoutes from "./routes/adminRoute.js";
 
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -34,10 +34,10 @@ app.use("/api/admin", adminRoutes);
 
 if (process.env.NODE_ENV === "production") {
   const __dirname = path.resolve();
-  app.use(express.static(path.join(__dirname, "/frontend/dist")));
+  app.use(express.static(path.join(__dirname, "/client/dist")));
 
   app.get("*", (req, res) =>
-    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"))
+    res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"))
   );
 } else {
   app.get("/", (req, res) => {
