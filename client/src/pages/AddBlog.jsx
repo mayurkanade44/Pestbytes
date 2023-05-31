@@ -15,6 +15,7 @@ import { Modal } from "../components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setNewBlog } from "../redux/authSlice";
+import { Loading } from "../components/skeletons";
 
 const AddBlog = () => {
   const [value, setValue] = useState("");
@@ -39,7 +40,6 @@ const AddBlog = () => {
   const { data: blog, error } = useGetSingleBlogQuery(newBlog.blogId, {
     skip: newBlog.status,
   });
-
 
   useEffect(() => {
     if (!newBlog.status && blog) {
@@ -179,6 +179,7 @@ const AddBlog = () => {
 
   return (
     <div className="container mx-auto max-w-3xl px-5 py-5 lg:flex-row lg:gap-x-5 lg:items-start">
+      {blogImageLoading && <Loading />}
       <h2 className="text-center mb-5 text-xl font-semibold">
         {newBlog.status ? "Create New Blog" : "Update Blog"}
       </h2>
@@ -196,8 +197,12 @@ const AddBlog = () => {
           />
         </div>
         <div className="flex flex-col lg:flex-row justify-between">
-          <div className="flex bg-teal-600 w-64 mb-2 rounded-lg">
-            <label className="cursor-pointer hover:bg-cyan-600 text-white font-bold py-2 px-4 w-full inline-flex items-center rounded-lg">
+          <div className="flex w-64 mb-2 rounded-lg">
+            <label
+              className={`cursor-pointer ${
+                blogValues.file ? "bg-green-600" : " bg-teal-600"
+              } text-white font-bold py-2 px-4 w-full inline-flex items-center rounded-lg`}
+            >
               <AiOutlineCloudUpload className="text-black h-5 w-5 mr-2" />
               <span className="text-base leading-normal">
                 {blogValues.file ? "Image Uploaded" : "Upload A Cover Picture"}

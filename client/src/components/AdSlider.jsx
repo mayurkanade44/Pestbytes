@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
-import { AiOutlineVerticalRight, AiOutlineVerticalLeft } from "react-icons/ai";
-import post from "../assets/post.jpg";
+import { useState, useEffect, useRef } from "react";
 import temp from "../assets/temp.jpg";
 import temp1 from "../assets/temp2.jpg";
-import ad from "../assets/ad.jpg";
+import ad from "../assets/eppl.jpg";
 
 const featuredProducts = [temp, ad, temp1];
 
