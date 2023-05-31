@@ -128,7 +128,7 @@ const SingleBlog = () => {
             alt="post"
             className="w-full object-contain h-40 md:h-52 lg:h-72 rounded-lg"
           />
-          <div className="mt-4 flex gap-2">
+          <div className="my-4 flex gap-2">
             {blog?.category.map((item) => (
               <button
                 key={item.value}

@@ -40,7 +40,7 @@ const BlogCard = ({ blog, className, profile, refetch }) => {
           <img
             src={blog.coverPicture}
             alt="Image"
-            className="w-full h-60 rounded-lg"
+            className="w-full h-60 rounded-lg border-b-2"
           />
         </Link>
         {profile && (
@@ -56,8 +56,8 @@ const BlogCard = ({ blog, className, profile, refetch }) => {
       </div>
       <Link to={`/blog/${blog._id}`}>
         <div className="py-2 px-4">
-          <h2 className="font-roboto font-bold text-xl text-dark-soft md:text-2xl lg:text-[28px]">
-            {blog.title.substring(0, 26)}
+          <h2 className="font-roboto font-bold text-xl text-dark md:text-[25px]">
+            {blog.title.substring(0, 30)}
           </h2>
           <div className="flex justify-between flex-nowrap items-center mt-2">
             <div className="flex items-center gap-x-2 md:gap-x-2.5">
