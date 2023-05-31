@@ -1,4 +1,4 @@
-import { BlogRow, BlogCard, PopularTags } from "../components";
+import { BlogRow, BlogCard, PopularTags, AdSlider } from "../components";
 import { useAllBlogsQuery } from "../redux/blogSlice";
 import { FaArrowRight } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -85,7 +85,7 @@ const Home = () => {
           />
         </div>
       </section>
-      <section className="flex flex-col container mx-auto px-5 py-5">
+      <section className="flex flex-col container mx-auto px-5 py-1">
         <h1 className="text-2xl pb-4 font-bold">
           In the Spotlight: Partnerships
         </h1>
@@ -103,6 +103,7 @@ const Home = () => {
           <FaArrowRight className="w-3 h-3" />
         </button> */}
       </section>
+      <AdSlider />
 
       <BlogRow title="Trending Now" blogs={blogs} />
       <BlogRow title="Cockroach" blogs={blogs} />
