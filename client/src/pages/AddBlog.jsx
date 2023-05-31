@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
-import ReactQuill from "react-quill";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import {
   useAllCategoriesQuery,
   useCreateBlogMutation,
   useGetSingleBlogQuery,
   useUpdateBlogMutation,
+  useUploadBlogImageMutation,
 } from "../redux/blogSlice";
 import { toast } from "react-toastify";
 import { AiOutlineCloudUpload } from "react-icons/ai";
@@ -18,6 +19,8 @@ import { setNewBlog } from "../redux/authSlice";
 const AddBlog = () => {
   const [value, setValue] = useState("");
   const [postBlog, { isLoading: postBlogLoading }] = useCreateBlogMutation();
+  const [uploadBlogImage, { isLoading: blogImageLoading }] =
+    useUploadBlogImageMutation();
   const [updateBlog, { isLoading: updateBlogLoading }] =
     useUpdateBlogMutation();
   const { newBlog, user } = useSelector((store) => store.auth);
@@ -31,10 +34,12 @@ const AddBlog = () => {
   });
   const [selectedOption, setSelectedOption] = useState([]);
   const navigate = useNavigate();
+  const ref = useRef();
 
   const { data: blog, error } = useGetSingleBlogQuery(newBlog.blogId, {
     skip: newBlog.status,
   });
+
 
   useEffect(() => {
     if (!newBlog.status && blog) {
@@ -59,15 +64,42 @@ const AddBlog = () => {
     }
   }, [categories]);
 
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, false] }],
-      ["bold", "italic", "underline", "blockquote"],
-      [{ list: "bullet" }],
-      [{ align: [] }],
-      [("link", "image")],
-    ],
+  const imageUpload = () => {
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
+    input.click();
+    input.onchange = async () => {
+      const form = new FormData();
+      form.append("image", input.files[0]);
+      try {
+        const res = await uploadBlogImage(form).unwrap();
+        const range = ref.current.getEditor().getSelection();
+        ref.current.getEditor().insertEmbed(range.index, "image", res);
+      } catch (error) {
+        console.log(error);
+        toast.error(error?.data?.msg || error.error);
+      }
+    };
   };
+
+  const modules = useMemo(
+    () => ({
+      toolbar: {
+        container: [
+          [{ header: [1, 2, false] }],
+          ["bold", "italic", "underline", "blockquote"],
+          [{ list: "bullet" }],
+          [{ align: [] }],
+          [("link", "image")],
+        ],
+        handlers: {
+          image: imageUpload,
+        },
+      },
+    }),
+    []
+  );
 
   const formats = [
     "header",
@@ -84,7 +116,7 @@ const AddBlog = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!value || !blogValues.title || !blogValues.file)
+    if (!value || !blogValues.title || !blogValues.file || !selectedOption)
       return toast.error("Please provide all values");
 
     const form = new FormData();
@@ -195,6 +227,7 @@ const AddBlog = () => {
         </div>
         <ReactQuill
           theme="snow"
+          ref={ref}
           value={value}
           onChange={setValue}
           modules={modules}
