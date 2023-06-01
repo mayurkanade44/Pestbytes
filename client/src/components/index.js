@@ -14,7 +14,7 @@ import BlogCard from "./BlogCard";
 import Modal from "./Modal";
 import PopularTags from "./PopularTags";
 import AdSlider from "./AdSlider";
-
+import DeleteModal from "./DeleteModal";
 
 export {
   Navbar,
@@ -33,4 +33,5 @@ export {
   Modal,
   PopularTags,
   AdSlider,
+  DeleteModal,
 };
