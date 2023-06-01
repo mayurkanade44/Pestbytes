@@ -19,7 +19,7 @@ const AllBlogs = () => {
     { name: search.name },
   ];
 
-  const { data, isLoading, refetch } = useSearchBlogsQuery({
+  const { data, isLoading } = useSearchBlogsQuery({
     search: search.title,
     category: search.category,
     page: page,
@@ -48,6 +48,7 @@ const AllBlogs = () => {
       setTempSearch(e.target.value);
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
+        r;
         dispatch(
           setSearch({
             title: e.target.value,
@@ -63,7 +64,6 @@ const AllBlogs = () => {
   const optimizedDebounce = useMemo(() => debounce(), []);
 
   const pages = Array.from({ length: data?.pages }, (_, index) => index + 1);
-
 
   return (
     <div className="container my-5 px-6 mx-auto">
@@ -136,7 +136,9 @@ const AllBlogs = () => {
                     {blog.title}
                   </h5>
                   <div className="mb-1 md:mb-3 text-red-600 font-medium text-sm flex items-center justify-center md:justify-start">
-                    {blog?.category.map((c) => `#${c.label} `)}
+                    {blog?.category.map(
+                      (c) => `#${c.label.replaceAll(" ", "")} `
+                    )}
                   </div>
                   <p className="text-gray-500 mb-2">
                     <small>
@@ -165,7 +167,6 @@ const AllBlogs = () => {
               </div>
             ))}
           </section>
-
           {pages.length > 1 && (
             <nav aria-label="Page navigation example">
               <ul className="list-style-none flex justify-center">
