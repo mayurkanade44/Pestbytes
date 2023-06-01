@@ -33,7 +33,9 @@ export const blogSlice = apiSlice.injectEndpoints({
         url: `/api/blog/singleBlog/like/${id}`,
         method: "PATCH",
       }),
+      invalidatesTags: ["User"],
     }),
+
     allBlogs: builder.query({
       query: () => ({
         url: "/api/blog",
