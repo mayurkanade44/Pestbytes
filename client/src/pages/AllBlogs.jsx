@@ -64,6 +64,7 @@ const AllBlogs = () => {
 
   const pages = Array.from({ length: data?.pages }, (_, index) => index + 1);
 
+
   return (
     <div className="container my-5 px-6 mx-auto">
       <div className="md:ml-28 mb-2">
@@ -164,18 +165,14 @@ const AllBlogs = () => {
               </div>
             ))}
           </section>
+
           {pages.length > 1 && (
             <nav aria-label="Page navigation example">
               <ul className="list-style-none flex justify-center">
-                <li className="pr-1">
-                  <button className="relative block rounded bg-transparent px-3 py-1.5 text-sm transition-all duration-30 bg-neutral-700 text-white hover:bg-blue-400">
-                    Previous
-                  </button>
-                </li>
                 {pages.map((item) => (
                   <li className="pr-1" key={item}>
                     <button
-                      className={`relative block rounded bg-transparent px-3 py-1.5 text-sm transition-all duration-30  ${
+                      className={`relative block rounded px-3 py-1.5 text-sm transition-all duration-30  ${
                         page === item ? "bg-blue-400" : "bg-neutral-700"
                       } text-white hover:bg-blue-400`}
                       onClick={() => setPage(item)}
@@ -184,11 +181,6 @@ const AllBlogs = () => {
                     </button>
                   </li>
                 ))}
-                <li>
-                  <button className="relative block rounded bg-transparent px-3 py-1.5 text-sm transition-all duration-30 bg-neutral-700 text-white hover:bg-blue-400">
-                    Next
-                  </button>
-                </li>
               </ul>
             </nav>
           )}
