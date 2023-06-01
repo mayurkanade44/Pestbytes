@@ -257,10 +257,10 @@ export const searchBlogs = async (req, res) => {
       ])
       .select("title coverPicture body createdAt")
       .sort("-createdAt")
-      .limit(2)
-      .skip(2 * (page - 1));
+      .limit(5)
+      .skip(5 * (page - 1));
 
-    res.json({ blogs, pages: Math.ceil(count / 2) });
+    res.json({ blogs, pages: Math.ceil(count / 5) });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Server error, try again later." });
