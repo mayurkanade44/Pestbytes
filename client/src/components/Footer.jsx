@@ -12,8 +12,8 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <div>
-      <footer className=" bg-dark-hard p-5">
-        <div className="container mx-auto grid grid-cols-1 px-2 pb-5 gap-y-5 gap-x-5 md:grid-cols-2 lg:grid-cols-2 lg:gap-x-10">
+      <footer className=" bg-dark-hard p-6">
+        <div className="container mx-auto grid grid-cols-1 px-2 gap-y-5 gap-x-5 md:grid-cols-2 lg:grid-cols-2 lg:gap-x-10">
           <div className="md:order-first">
             <h3 className="text-white font-bold text-center md:text-start md:text-lg">
               About Pestbytes
