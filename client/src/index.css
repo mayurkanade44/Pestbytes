@@ -49,6 +49,11 @@
   font-weight: 500;
 }
 
+.quill a {
+  color: blue;
+  text-decoration: underline;
+}
+
 .loading {
   position: fixed;
   inset: 0;
