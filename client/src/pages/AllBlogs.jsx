@@ -19,7 +19,7 @@ const AllBlogs = () => {
     { name: search.name },
   ];
 
-  const { data, isLoading } = useSearchBlogsQuery({
+  const { data, isLoading, isFetching } = useSearchBlogsQuery({
     search: search.title,
     category: search.category,
     page: page,
@@ -48,7 +48,6 @@ const AllBlogs = () => {
       setTempSearch(e.target.value);
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
-        r;
         dispatch(
           setSearch({
             title: e.target.value,
@@ -107,7 +106,7 @@ const AllBlogs = () => {
           </div>
         </div>
       </div>
-      {isLoading ? (
+      {isLoading || isFetching ? (
         <SearchBlogSkeleton />
       ) : (
         <>
