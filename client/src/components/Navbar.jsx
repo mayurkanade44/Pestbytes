@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 
 const navItemsInfo = [
   { name: "Home", type: "link", href: "/" },
+  { name: "Add Blog", type: "link", href: "/add-blog" },
   { name: "About Us", type: "link", href: "/about-pestbytes" },
   { name: "Contact Us", type: "link", href: "/" },
 ];
@@ -58,7 +59,7 @@ const Navbar = () => {
   };
 
   const addBlog = () => {
-    dispatch(setNewBlog({ status: true, blogId: "" }));
+    dispatch(setNewBlog({ status: true, blogId: "", showCategory: true }));
     navVisibilityHandler();
     navigate("/add-blog");
   };
@@ -86,14 +87,25 @@ const Navbar = () => {
           } transition-all duration-300 mt-[56px] lg:mt-0 bg-dark-hard lg:bg-transparent z-[49] flex flex-col w-full lg:w-auto justify-center lg:justify-end lg:flex-row fixed top-0 bottom-0 lg:static gap-x-2 items-center`}
         >
           <ul className="text-white items-center gap-y-7 lg:text-dark-soft flex flex-col lg:flex-row gap-x-2 font-semibold">
-            {navItemsInfo.map((item) => (
-              <NavItems
-                key={item.name}
-                name={item.name}
-                href={item.href}
-                setNavIsVisible={navVisibilityHandler}
-              />
-            ))}
+            {navItemsInfo.map((item) =>
+              item.name === "Add Blog" ? (
+                user && (
+                  <NavItems
+                    key={item.name}
+                    name={item.name}
+                    href={item.href}
+                    setNavIsVisible={navVisibilityHandler}
+                  />
+                )
+              ) : (
+                <NavItems
+                  key={item.name}
+                  name={item.name}
+                  href={item.href}
+                  setNavIsVisible={navVisibilityHandler}
+                />
+              )
+            )}
           </ul>
           {user ? (
             <div className="text-white items-center gap-y-5 lg:text-dark-soft flex flex-col lg:flex-row gap-x-2 font-semibold">
