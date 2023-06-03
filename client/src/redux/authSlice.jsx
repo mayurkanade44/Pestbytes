@@ -12,6 +12,7 @@ const initialState = {
   newBlog: {
     status: true,
     blogId: "",
+    showCategory: true,
   },
 };
 
@@ -36,5 +37,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setCredentials, logout, setSearch, setNewBlog } = authSlice.actions;
+export const { setCredentials, logout, setSearch, setNewBlog } =
+  authSlice.actions;
 export default authSlice.reducer;

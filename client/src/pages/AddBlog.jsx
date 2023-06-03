@@ -50,8 +50,16 @@ const AddBlog = () => {
       });
       setValue(blog.body);
       setSelectedOption(blog.category);
+    } else {
+      setBlogValues({
+        title: "",
+        file: "",
+        openPreview: false,
+      });
+      setValue("");
+      setSelectedOption([]);
     }
-  }, [blog]);
+  }, [blog, newBlog.status]);
 
   useEffect(() => {
     if (categories) {
@@ -216,7 +224,7 @@ const AddBlog = () => {
               />
             </label>
           </div>
-          {newBlog.status && (
+          {newBlog.showCategory ? (
             <div className="md:w-3/5 mb-2">
               <Select
                 closeMenuOnSelect={false}
@@ -228,6 +236,22 @@ const AddBlog = () => {
                 required
               />
             </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() =>
+                dispatch(
+                  setNewBlog({
+                    status: false,
+                    blogId: newBlog.blogId,
+                    showCategory: true,
+                  })
+                )
+              }
+              className="bg-black text-white h-8 w-40 rounded-lg hover:bg-slate-700"
+            >
+              Modify Categories
+            </button>
           )}
         </div>
         <ReactQuill
