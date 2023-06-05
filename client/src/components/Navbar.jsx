@@ -5,7 +5,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useLogoutMutation } from "../redux/userSlice";
-import { logout, setNewBlog } from "../redux/authSlice";
+import { logout, setNewBlog, toggleModal } from "../redux/authSlice";
 import { toast } from "react-toastify";
 
 const navItemsInfo = [
@@ -158,13 +158,14 @@ const Navbar = () => {
               </div>
             </div>
           ) : (
-            <Link
-              to="/login"
-              onClick={navVisibilityHandler}
+            <button
+              onClick={() =>
+                dispatch(toggleModal({ register: false, login: true }))
+              }
               className="mt-8 lg:mt-0 border-2 border-blue-500 px-4 py-1 rounded-full text-blue-500 font-semibold hover:bg-blue-500 hover:text-white transition-all duration-300"
             >
               Log In
-            </Link>
+            </button>
           )}
         </div>
       </header>
