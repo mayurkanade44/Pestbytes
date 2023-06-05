@@ -68,7 +68,7 @@ const Navbar = () => {
       <header className="container mx-auto px-5 flex justify-between py-4 items-center">
         <div>
           <Link to="/">
-            <img src={logo} className="w-12" alt="logo" />
+            <img src={logo} className="w-12 logo" alt="logo" />
           </Link>
         </div>
         <div className="lg:hidden z-50">

@@ -8,7 +8,7 @@ import {
   createRoutesFromElements,
   RouterProvider,
 } from "react-router-dom";
-import { Footer, Navbar, ScrollToTop } from "./components";
+import { Footer, Navbar, ScrollToTop, ProtectedRoute } from "./components";
 import {
   Home,
   Login,
@@ -44,9 +44,23 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/verify-account" element={<VerifyAccount />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/add-blog" element={<AddBlog />} />
+        <Route
+          path="/add-blog"
+          element={
+            <ProtectedRoute>
+              <AddBlog />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/all-blogs" element={<AllBlogs />} />
-        <Route path="/profile/:id" element={<UserProfile />} />
+        <Route
+          path="/profile/:id"
+          element={
+            <ProtectedRoute>
+              <UserProfile />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/blog/:id" element={<SingleBlog />} />
       </Route>
     )
