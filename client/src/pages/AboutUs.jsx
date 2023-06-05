@@ -51,7 +51,7 @@ const AboutUs = () => {
           <h2 className="font-bold lg:text-4xl text-3xl lg:leading-9 leading-7 text-gray-800">
             Our Story
           </h2>
-          <p className="font-normal text-base leading-6 text-gray-600 mt-4">
+          <p className="font-normal text-base leading-6 text-gray-600 mt-4 mr-2">
             Personally I am a long-time champion of interdisciplinary research,
             proudly a 2nd generation entrepreneur, with over 2 decades of
             hands-on experience adding value to the different products used
@@ -121,7 +121,7 @@ const AboutUs = () => {
             src={pestbytes}
             alt="people discussing on board"
           />
-          <p className="font-normal text-base leading-6 text-gray-600 mt-4">
+          <p className="font-normal text-base leading-6 text-gray-600 mt-4 ml-1">
             Left triangle - It’s there tips (fact)(information)(skill)
             Knowledge: facts, information, and skills acquired through
             experience or education; the theoretical or practical understanding

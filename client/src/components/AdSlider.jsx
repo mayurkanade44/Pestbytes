@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import temp from "../assets/Temp.jpg";
-import temp1 from "../assets/temp2.jpg";
+import temp1 from "../assets/ad1.jpg";
 import ad from "../assets/eppl.jpg";
 
-const featuredProducts = [temp, ad, temp1];
+const featuredProducts = [ad, temp1];
 
 let count = 0;
 let slideInterval;

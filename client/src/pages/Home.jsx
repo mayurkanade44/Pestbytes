@@ -2,7 +2,6 @@ import { BlogRow, BlogCard, PopularTags, AdSlider } from "../components";
 import { useAllBlogsQuery } from "../redux/blogSlice";
 import { AiOutlineSearch } from "react-icons/ai";
 
-import hero from "../assets/hero.png";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";

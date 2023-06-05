@@ -5,7 +5,6 @@ import {
   SuggestedBlogs,
 } from "../components";
 import post from "../assets/post.jpg";
-import logo from "../assets/logo.jpg";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetSingleBlogQuery, useLikeBlogMutation } from "../redux/blogSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +14,7 @@ import { toast } from "react-toastify";
 import { SingleBlogSkeleton } from "../components/skeletons";
 import { useEffect } from "react";
 import { setSearch } from "../redux/authSlice";
+import ad from '../assets/verticalAd.jpg'
 
 const SingleBlog = () => {
   const { id } = useParams();
@@ -37,7 +37,7 @@ const SingleBlog = () => {
     },
     {
       _id: "2",
-      image: logo,
+      image: post,
       title: "Help children get better education",
       createdAt: "2023-02-28T15:35:53.607+0000",
     },
@@ -162,6 +162,7 @@ const SingleBlog = () => {
             posts={postsData}
             className="mt-8 lg:mt-0 lg:max-w-xs"
           />
+          <img src={ad} className="w-80 my-5 h-80" />
           <div className="mt-7">
             <h2 className="font-roboto font-medium text-dark-hard mb-4 md:text-xl">
               Share on:
