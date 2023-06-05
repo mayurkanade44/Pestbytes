@@ -199,6 +199,7 @@ const LoginModal = () => {
         body={openForgot ? forgotBody : loginBody}
         isOpen={isOpen.login}
         onClose={() => dispatch(toggleModal({ register: false, login: false }))}
+        itemCenter="items-center"
       />
     </div>
   );

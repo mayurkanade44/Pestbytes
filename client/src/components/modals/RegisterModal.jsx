@@ -209,6 +209,7 @@ const RegisterModal = () => {
         body={body}
         isOpen={isOpen.register}
         onClose={() => dispatch(toggleModal({ register: false, login: false }))}
+        itemCenter="items-center"
       />
     </div>
   );

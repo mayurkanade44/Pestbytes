@@ -10,7 +10,6 @@ import EditProfile from "./EditProfile";
 import CropEasy from "./CropEasy";
 import ForgotPassword from "./ForgotPassword";
 import BlogCard from "./BlogCard";
-import Modal from "./Modal";
 import PopularTags from "./PopularTags";
 import AdSlider from "./AdSlider";
 import DeleteModal from "./DeleteModal";
@@ -30,7 +29,6 @@ export {
   CropEasy,
   ForgotPassword,
   BlogCard,
-  Modal,
   PopularTags,
   AdSlider,
   DeleteModal,
