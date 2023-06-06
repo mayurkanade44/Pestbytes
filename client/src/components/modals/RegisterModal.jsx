@@ -202,7 +202,7 @@ const RegisterModal = () => {
     <div>
       <Modal
         disabled={isLoading || !isValid}
-        width="3/6"
+        width={false}
         title="Register"
         actionLabel="Register"
         onSubmit={handleSubmit(submitHandler)}

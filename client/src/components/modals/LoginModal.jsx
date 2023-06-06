@@ -192,7 +192,7 @@ const LoginModal = () => {
     <div>
       <Modal
         disabled={isLoading || forgotLoading || !isValid}
-        width="2/6"
+        width='w-2/6'
         title={openForgot ? "Forgot Password" : "Login"}
         actionLabel={openForgot ? "Get Reset Password Link" : "Login"}
         onSubmit={handleSubmit(submitHandler)}

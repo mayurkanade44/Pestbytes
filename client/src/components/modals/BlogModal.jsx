@@ -72,13 +72,14 @@ const BlogModal = ({
     <div>
       <Modal
         disabled={disabled}
-        width="3/6"
+        width={false}
         title="Blog Preview"
         actionLabel="Post"
         onSubmit={onSubmit}
         body={blogBody}
         isOpen={isOpen}
         onClose={onClose}
+        itemCenter=""
       />
     </div>
   );
