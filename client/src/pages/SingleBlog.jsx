@@ -13,8 +13,8 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { toast } from "react-toastify";
 import { SingleBlogSkeleton } from "../components/skeletons";
 import { useEffect } from "react";
-import { setSearch } from "../redux/authSlice";
-import ad from '../assets/verticalAd.jpg'
+import { setSearch, toggleModal } from "../redux/authSlice";
+import ad from "../assets/verticalAd.jpg";
 
 const SingleBlog = () => {
   const { id } = useParams();
@@ -56,7 +56,11 @@ const SingleBlog = () => {
   ];
 
   const handleLike = async () => {
-    if (!user) return toast.error("Please login to like the blog");
+    if (!user) {
+      toast.error("Please login to like the blog");
+      dispatch(toggleModal({ register: false, login: true }));
+      return;
+    }
 
     try {
       await likeBlog(id).unwrap();
