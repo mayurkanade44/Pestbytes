@@ -58,13 +58,13 @@ const AdSlider = () => {
     <>
       <div
         ref={slideRef}
-        className="w-full mt-4 mb-6 select-none px-5 md:px-16"
+        className="w-full my-8 select-none px-5 md:px-16"
       >
         <div className="aspect-w-16 aspect-h-9">
           {featuredProducts[currentIndex].link === "ad" ? (
-            <span onClick={() => setOpen(true)}>
+            <span className="hover:cursor-pointer" onClick={() => setOpen(true)}>
               <img
-                className="w-full h-40 md:h-80 border-2 border-gray-200"
+                className="w-full h-40 md:h-80 border-2 border-gray-400"
                 src={featuredProducts[currentIndex].image}
                 alt="ad-banner"
               />
@@ -76,7 +76,7 @@ const AdSlider = () => {
               rel="noreferrer"
             >
               <img
-                className="w-full h-40 md:h-80 object-fit border-2 border-gray-200"
+                className="w-full h-40 md:h-80 object-fit border-2 border-gray-400"
                 src={featuredProducts[currentIndex].image}
                 alt="ad-banner"
               />
