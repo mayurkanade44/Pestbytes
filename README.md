@@ -1,4 +1,4 @@
-# Pestbytes
+# Pestbytes  [![Build Status](https://img.shields.io/badge/Status-Beta-yellow)](https://pestbytes.com)
 
 Pestbytes is India's First Pest Blogging Community. Here you can find most interesting case studies on pest, product reviews and publications from academia and professional pest managers. It is your one stop solution for all your pest problems.
 
@@ -7,7 +7,7 @@ It is multi-user platform where one can create any blog related to pest with ima
 
 ## Demo
 
-Project in action: [Report Portal](https://pestbytes.com/)
+Project in action: [Pestbytes](https://pestbytes.com/)
 
 Video: [Youtube](https://youtu.com)
 
@@ -26,12 +26,14 @@ Video: [Youtube](https://youtu.com)
 
 **Hosting:** Render
 
+
 ## Features
 
 - Multilayer authentication which includes email verification
 - User can create a blog with multiple images/videos.
 - Like/Comment/Share blog.
 - User profile updation with profile pic upload.
+
 
 ## Screenshots
 
