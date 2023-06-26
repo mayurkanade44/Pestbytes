@@ -97,14 +97,17 @@ const Home = () => {
       </section> */}
       <BlogRow title="Trending Now" blogs={data?.blogs} />
       <AdSlider />
+      {data?.rodent?.length > 0 && (
+        <BlogRow title="Rodent" blogs={data?.rodent} />
+      )}
       {data?.cockroach?.length > 0 && (
         <BlogRow title="Cockroach" blogs={data?.cockroach} />
       )}
-      {data?.termite?.length > 0 && (
-        <BlogRow title="Termite" blogs={data?.termite} />
-      )}
       {data?.mosquito?.length > 0 && (
         <BlogRow title="Mosquito" blogs={data?.mosquito} />
+      )}
+      {data?.termite?.length > 0 && (
+        <BlogRow title="Termite" blogs={data?.termite} />
       )}
     </div>
   );
