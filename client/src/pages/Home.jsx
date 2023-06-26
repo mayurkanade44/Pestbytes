@@ -98,16 +98,32 @@ const Home = () => {
       <BlogRow title="Trending Now" blogs={data?.blogs} />
       <AdSlider />
       {data?.rodent?.length > 0 && (
-        <BlogRow title="Rodent" blogs={data?.rodent} />
+        <BlogRow
+          title="Rodent"
+          id="646c954d0053b184c58edec6"
+          blogs={data?.rodent}
+        />
       )}
       {data?.cockroach?.length > 0 && (
-        <BlogRow title="Cockroach" blogs={data?.cockroach} />
+        <BlogRow
+          title="Cockroach"
+          id="646b40162ce0bb21a57968fa"
+          blogs={data?.cockroach}
+        />
       )}
       {data?.mosquito?.length > 0 && (
-        <BlogRow title="Mosquito" blogs={data?.mosquito} />
+        <BlogRow
+          title="Mosquito"
+          id="646c95090053b184c58edebe"
+          blogs={data?.mosquito}
+        />
       )}
       {data?.termite?.length > 0 && (
-        <BlogRow title="Termite" blogs={data?.termite} />
+        <BlogRow
+          title="Termite"
+          id="646c95240053b184c58edec0"
+          blogs={data?.termite}
+        />
       )}
     </div>
   );
